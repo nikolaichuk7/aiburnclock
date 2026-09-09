@@ -1,0 +1,35 @@
+name: Daily release
+on:
+  schedule:
+    - cron: "5 0 * * *"   # 00:05 UTC, after the Treasury and USAspending nightly updates
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: Fetch sources and build the site
+        run: python3 build.py
+      - name: Render share images
+        run: |
+          npm init -y >/dev/null 2>&1 || true
+          npm install --no-save playwright@1.62.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          node render-cards.js
+      - name: Keep the daily snapshot for "since yesterday"
+        run: |
+          git config user.name "aiburnclock-bot"; git config user.email "bot@aiburnclock.org"
+          git add data/history || true
+          git commit -m "snapshot $(date -u +%F)" || echo "no snapshot change"
+          git push || true
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler@4 pages deploy site --project-name aiburnclock --branch main --commit-dirty=true

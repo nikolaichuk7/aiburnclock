@@ -5,6 +5,7 @@
 <title>AI Burn Clock · Technical note</title>
 <meta name="description" content="Technical note for the AI Burn Clock index: sources, the four-factor estimation method, reference parameters and their provenance, what the index does not claim, and the correction policy.">
 <link rel="canonical" href="https://aiburnclock.org/methodology.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
 :root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2}
@@ -35,6 +36,7 @@ footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <tr><th>Series</th><th>Source</th><th>Use in the release</th></tr>
 <tr><td>Total public debt outstanding</td><td><a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny">Treasury, Debt to the Penny</a>, API</td><td>Latest daily value. The on-screen figure advances at the mean change per second over the last 30 records. Shown for scale; not attributed to any cost in this index.</td></tr>
 <tr><td>Federal contract obligations naming AI</td><td><a href="https://www.usaspending.gov/">USAspending.gov</a>, API</td><td>Prime contract obligations (award types A–D) whose descriptions match any of: <code>artificial intelligence, machine learning, large language model, generative AI, LLM, AI-enabled, natural language processing</code>. FY2025 full year; FY2026 to date, by month, by state of performance, by awarding agency and by recipient. A floor by construction: AI work inside larger contracts is usually unlabelled; grants, internal spend and cloud consumption are excluded.</td></tr>
+<tr><td>State debt at end of fiscal year</td><td><a href="https://www.census.gov/programs-surveys/state.html">Census Bureau, Annual Survey of State Government Finances, FY2023</a></td><td>Table "Debt at end of fiscal year", in thousands of dollars, converted. Shown for scale on Table 3 and state releases.</td></tr>
 <tr><td>Resident population</td><td><a href="https://www.census.gov/programs-surveys/popest.html">Census Bureau, Vintage 2024</a></td><td>Per-resident figures on state releases.</td></tr>
 <tr><td>Worldwide AI spending, 2026</td><td><a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-19-gartner-forecasts-worldwide-ai-spending-to-grow-47-percent-in-2026">Gartner, May 2026</a></td><td>$2.59 trillion, +47 % year on year. Base of the world scenario and the first-year growth rate of Chart 1.</td></tr>
 </table>

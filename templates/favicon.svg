@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="AI Burn Clock emblem">
+<defs>
+  <path id="ringTop" d="M 100,100 m -74,0 a 74,74 0 1,1 148,0"/>
+  <path id="ringBottom" d="M 100,100 m 74,0 a 74,74 0 1,1 -148,0"/>
+</defs>
+<!-- outer seal rings -->
+<circle cx="100" cy="100" r="96" fill="#fcfcfb" stroke="#1a4480" stroke-width="3"/>
+<circle cx="100" cy="100" r="88" fill="none" stroke="#1a4480" stroke-width="1"/>
+<circle cx="100" cy="100" r="60" fill="none" stroke="#1a4480" stroke-width="1"/>
+<!-- ring text -->
+<text font-family="'Public Sans', Helvetica, Arial, sans-serif" font-size="9.2" font-weight="700" letter-spacing="2.2" fill="#1a4480">
+  <textPath href="#ringTop" startOffset="50%" text-anchor="middle">AI BURN CLOCK · INDEX OF RETRIEVAL COST</textPath>
+</text>
+<text font-family="'Public Sans', Helvetica, Arial, sans-serif" font-size="8" font-weight="600" letter-spacing="2.6" fill="#1a4480">
+  <textPath href="#ringBottom" startOffset="50%" text-anchor="middle">SERIES AIB · REVISED DAILY · OPEN METHOD</textPath>
+</text>
+<!-- stars separating the ring texts -->
+<circle cx="26" cy="100" r="2" fill="#1a4480"/><circle cx="174" cy="100" r="2" fill="#1a4480"/>
+<!-- dial: 60 ticks -->
+<g stroke="#1a4480" stroke-width="1">
+  <line x1="100" y1="44" x2="100" y2="50"/><line x1="156" y1="100" x2="150" y2="100"/><line x1="100" y1="156" x2="100" y2="150"/><line x1="44" y1="100" x2="50" y2="100"/>
+  <line x1="128" y1="51.5" x2="125" y2="56.7"/><line x1="148.5" y1="72" x2="143.3" y2="75"/><line x1="148.5" y1="128" x2="143.3" y2="125"/><line x1="128" y1="148.5" x2="125" y2="143.3"/>
+  <line x1="72" y1="148.5" x2="75" y2="143.3"/><line x1="51.5" y1="128" x2="56.7" y2="125"/><line x1="51.5" y1="72" x2="56.7" y2="75"/><line x1="72" y1="51.5" x2="75" y2="56.7"/>
+</g>
+<!-- ledger lines inside the dial: the "index" -->
+<g stroke="#1a4480" stroke-width="1.2" stroke-linecap="round">
+  <line x1="78" y1="118" x2="122" y2="118"/><line x1="78" y1="126" x2="114" y2="126"/><line x1="78" y1="134" x2="106" y2="134"/>
+</g>
+<!-- flame at the hour of cost -->
+<path d="M100 104 C92 94 93 86 98 79 C99 87 104 88 103 81 C110 88 110 96 100 104 Z" fill="#b50909"/>
+<path d="M100 102 C96 97 96.5 92 99 88 C99.5 93 102.5 94 102 90 C105.5 94 105 98 100 102 Z" fill="#fcfcfb"/>
+<!-- hands -->
+<line x1="100" y1="100" x2="100" y2="66" stroke="#1a4480" stroke-width="3" stroke-linecap="round"/>
+<line x1="100" y1="100" x2="126" y2="112" stroke="#1a4480" stroke-width="2" stroke-linecap="round"/>
+<circle cx="100" cy="100" r="3.2" fill="#1a4480"/>
+</svg>

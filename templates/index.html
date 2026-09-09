@@ -7,7 +7,8 @@
 <meta name="description" content="Statistical release: the estimated cost of retrieval by reading in AI systems, with reference figures from the Treasury, USAspending and the Census Bureau. Open method, revised daily.">
 <meta property="og:title" content="AI Burn Clock · Index of the cost of retrieval by reading">
 <meta property="og:description" content="Estimated annual cost of avoidable reading by AI agents, by team size, with the reference parameters and the sources. Revised daily.">
-<meta property="og:image" content="https://aiburnclock.org/og.svg">
+<meta property="og:image" content="https://aiburnclock.org/og/national.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://aiburnclock.org/">
@@ -91,7 +92,7 @@ footer p{max-width:90ch}
 <body>
 <div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · Revised daily at 00:00 UTC · Sources refreshed {{FETCHED}}</span></div></div>
 <header class="mast"><div class="wrap">
-  <div class="name">AI Burn Clock<small>Index of the cost of retrieval by reading in AI systems</small></div>
+  <div class="name" style="display:flex;align-items:center;gap:16px"><img src="/emblem.svg" alt="" width="72" height="72" style="flex:none"><span>AI Burn Clock<small>Index of the cost of retrieval by reading in AI systems</small></span></div>
   <div class="rel">RELEASE {{FETCHED}}<br>Method version 2026.1 · <a href="/methodology.html" style="color:#fff">Technical note</a><br>Data: <a href="/data.json" style="color:#fff">data.json</a> · <a href="/press.html" style="color:#fff">Press</a></div>
 </div></header>
 <div class="tape"><div class="wrap">
@@ -104,6 +105,7 @@ footer p{max-width:90ch}
 <div class="wrap">
 <h1 id="summary">AI agents read up to 47 times more than they use. This is the bill.</h1>
 <p class="summary">At the reference parameters, a team of <b id="sDevs">50</b> developers whose agents search by reading spends an estimated <b id="sRead">…</b> a year on that reading, of which <b id="sBurn">…</b> would not have been read at all had a local index answered "where is it" first. That is <b id="sMonth">…</b> a month, or the fully loaded cost of <b id="sHires">…</b> senior engineers a year, spent on reading nothing needed. Change any parameter below and this sentence is recomputed.</p>
+<p class="note" style="font-family:'Roboto Mono',monospace;color:var(--primary)">{{SINCE}}</p>
 <p class="note">Estimates, not accounts. The method is four multiplications with every factor on this page; the measured factor comes from a production codebase and from a published case study. Federal and Treasury figures further down are reference values shown as published, for scale, and are not attributed to this cost.</p>
 <div class="mine" id="mine">
   <div><label>Developers using AI agents</label><input id="mDevs" type="number" value="50" min="1"></div>
@@ -138,9 +140,9 @@ footer p{max-width:90ch}
 <p class="foot">Projection of the selected team's reading bill. Assumptions in Technical note, items A and B.</p>
 
 <h2 id="t3"><span class="no">Table 3</span>Federal contract obligations naming AI, by state of performance, FY2026 to date</h2>
-<p class="cap">Prime contracts whose descriptions name artificial intelligence, machine learning or language models. USAspending.gov, refreshed daily. A floor, not a total: AI work inside larger contracts is usually unlabelled. Each state has its own release page.</p>
+<p class="cap">Prime contracts whose descriptions name artificial intelligence, machine learning or language models. USAspending.gov, refreshed daily. A floor, not a total: AI work inside larger contracts is usually unlabelled. State debt at end of fiscal year 2023 from the Census Bureau's Annual Survey of State Government Finances, shown for scale. Each state has its own release page.</p>
 <div class="tablewrap"><table id="tab3">
-<thead><tr><th>#</th><th>State</th><th class="n">Obligations</th><th class="n">Per resident</th><th class="n">Share of US</th><th></th></tr></thead>
+<thead><tr><th>#</th><th>State</th><th class="n">Obligations</th><th class="n">Per resident</th><th class="n">Share of US</th><th class="n">State debt, FY2023</th><th></th></tr></thead>
 <tbody></tbody>
 </table></div>
 
@@ -172,6 +174,11 @@ footer p{max-width:90ch}
 </div>
 <div class="eqbox" id="eq"></div>
 <div class="params" id="sliders"></div>
+
+<h2 id="published"><span class="no">Table 6</span>Organisations that published their own figure</h2>
+<p class="cap">Measured with the session score card, not estimated. An organisation appears here only with its written permission and in the form it chooses: named, or described by sector and size. To be listed, send the card and the permission line to <a href="mailto:hello@aiburnclock.org?subject=Published%20figure">hello@aiburnclock.org</a>.</p>
+<div class="tablewrap"><table><thead><tr><th>Organisation</th><th>Sector</th><th class="n">Developers on agents</th><th class="n">Read via index</th><th class="n">Whole files behind it</th><th class="n">Ratio</th><th>Date</th></tr></thead>
+<tbody><tr><td colspan="7" style="color:var(--muted)">No organisation has published yet. The first entry will be dated.</td></tr></tbody></table></div>
 
 <h2 id="embed"><span class="no">Embed, data, and memos</span>For newsrooms, offices and teams</h2>
 <div class="two">
@@ -242,7 +249,7 @@ function proj(){
 }
 // table 3
 const usTotal=D.states.reduce((a,s)=>a+s.ai_fy2026,0); const tb3=$('#tab3 tbody');
-D.states.forEach((st,i)=>{ tb3.insertAdjacentHTML('beforeend',`<tr><td class="n">${i+1}</td><td>${st.name}</td><td class="n">${full(st.ai_fy2026)}</td><td class="n">${st.pop?'$'+(st.ai_fy2026/st.pop).toFixed(2):'—'}</td><td class="n">${(100*st.ai_fy2026/usTotal).toFixed(1)} %</td><td><a href="/state/${st.code.toLowerCase()}/">Release</a></td></tr>`); });
+D.states.forEach((st,i)=>{ tb3.insertAdjacentHTML('beforeend',`<tr><td class="n">${i+1}</td><td>${st.name}</td><td class="n">${full(st.ai_fy2026)}</td><td class="n">${st.pop?'$'+(st.ai_fy2026/st.pop).toFixed(2):'—'}</td><td class="n">${(100*st.ai_fy2026/usTotal).toFixed(1)} %</td><td class="n">${st.debt?fmt(st.debt.debt_fy2023,1):'—'}</td><td><a href="/state/${st.code.toLowerCase()}/">Release</a></td></tr>`); });
 for (const r of D.federal_ai.top_agencies) $('#agencies').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="n">${full(r.amount)}</td></tr>`);
 for (const r of D.federal_ai.top_recipients) $('#recipients').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="n">${full(r.amount)}</td></tr>`);
 // reference ticks

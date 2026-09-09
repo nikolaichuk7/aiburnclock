@@ -3,6 +3,8 @@
 <title>AI Burn Clock · Press</title>
 <meta name="description" content="Press page for the AI Burn Clock index: what it measures, figures that may be quoted with attribution, embed code, data access, and contact.">
 <link rel="canonical" href="https://aiburnclock.org/press.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:image" content="https://aiburnclock.org/og/national.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>:root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2}*{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;line-height:1.6}a{color:var(--primary2)}.wrap{max-width:860px;margin:0 auto;padding:0 20px 60px}.idbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);padding:6px 0}.idbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:0}.mast{background:var(--primary);color:#fff;padding:20px 0 16px}.mast .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:0}.mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.1}.mast .name a{color:#fff;text-decoration:none}.mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}.mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;margin:32px 0 6px;line-height:1.2}h2{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:20px;margin:34px 0 6px;padding-top:12px;border-top:3px solid var(--ink)}p,li{max-width:74ch}pre{background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;font-family:"Roboto Mono",monospace;font-size:13px}blockquote{border-left:4px solid var(--primary);margin:0;padding:6px 0 6px 14px;font-family:Merriweather,Georgia,serif}footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-size:13px;color:var(--muted)}</style></head>
 <body>
@@ -18,6 +20,11 @@
 <li>Federal contracts naming AI, FY2026 to date: {{FED_AI_FY26}}; FY2025: {{FED_AI_FY25}} (USAspending.gov; filter on the technical note). Every state has a release page, for example <code>aiburnclock.org/state/tx/</code>.</li>
 <li>Reference estimate, team of 50 developers: shown live in the Summary of the national release, with the parameters beside it.</li>
 </ul>
+<h2>Since the previous release</h2>
+<p style="font-family:'Roboto Mono',monospace;font-size:14px">{{SINCE}}</p>
+<h2>Story starters, one per state</h2>
+<p>Each line is a checkable sentence with its release page. Rankings and shares are recomputed daily.</p>
+<ol style="max-width:80ch;font-size:14.5px">{{STORY_STARTERS}}</ol>
 <h2>Embed and data</h2>
 <pre>&lt;script src="https://aiburnclock.org/embed.js" data-scope="world"&gt;&lt;/script&gt;
 &lt;script src="https://aiburnclock.org/embed.js" data-state="TX"&gt;&lt;/script&gt;</pre>

@@ -6,7 +6,8 @@
 <meta name="description" content="{{STATE_NAME}}: federal contract obligations naming AI performed in the state, FY2026 to date, with the reference cost of retrieval by reading. Sources and method attached.">
 <meta property="og:title" content="AI Burn Clock · {{STATE_NAME}} release">
 <meta property="og:description" content="{{STATE_AI}} in federal contracts naming AI performed in {{STATE_NAME}} this fiscal year. Reference figures, sources, and the estimated cost of retrieval by reading.">
-<meta property="og:image" content="https://aiburnclock.org/og.svg">
+<meta property="og:image" content="https://aiburnclock.org/og/state-{{STATE_LOWER}}.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="canonical" href="https://aiburnclock.org/state/{{STATE_CODE}}/">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
@@ -33,7 +34,7 @@ footer{margin:56px 0 40px;padding-top:14px;border-top:3px solid var(--ink);font-
 </style></head>
 <body>
 <div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · State release · Sources refreshed {{FETCHED}}</span></div></div>
-<header class="mast"><div class="wrap"><div class="name"><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></div><div class="rel">STATE RELEASE {{FETCHED}}<br>{{STATE_NAME}} ({{STATE_CODE}})<br><a href="/methodology.html" style="color:#fff">Technical note</a> · <a href="/data.json" style="color:#fff">data.json</a></div></div></header>
+<header class="mast"><div class="wrap"><div class="name" style="display:flex;align-items:center;gap:14px"><img src="/emblem.svg" alt="" width="60" height="60"><span><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></span></div><div class="rel">STATE RELEASE {{FETCHED}}<br>{{STATE_NAME}} ({{STATE_CODE}})<br><a href="/methodology.html" style="color:#fff">Technical note</a> · <a href="/data.json" style="color:#fff">data.json</a></div></div></header>
 <div class="wrap">
 <p class="kicker">Release for {{STATE_NAME}}</p>
 <h1>Federal contract obligations naming AI performed in {{STATE_NAME}}, and the reference cost of retrieval by reading</h1>
@@ -42,6 +43,7 @@ footer{margin:56px 0 40px;padding-top:14px;border-top:3px solid var(--ink);font-
 <table><thead><tr><th>Series</th><th class="n">Value</th><th>Source and note</th></tr></thead><tbody>
 <tr><td>Federal contracts naming AI, FY2026 to date, place of performance</td><td class="n">{{STATE_AI}}</td><td>USAspending.gov, keyword filter in the Technical note; a floor.</td></tr>
 <tr><td>Resident population, 2024</td><td class="n" id="pop">…</td><td>Census Bureau, Vintage 2024 estimates.</td></tr>
+<tr><td>State debt at end of fiscal year 2023</td><td class="n" id="sdebt">…</td><td>Census Bureau, Annual Survey of State Government Finances. Shown for scale; not attributed to any cost in this index.</td></tr>
 <tr><td>Avoidable reading, scenario, per year</td><td class="n burn" id="burn2">…</td><td>Reference factors B1–B3 of the national release.</td></tr>
 </tbody></table>
 <h2><span class="no">Note for offices</span>What a retrieval-first pilot looks like</h2>
@@ -59,7 +61,7 @@ const D=JSON.parse(document.getElementById('data').textContent); const S={{PAGE_
 const full=n=>'$'+Math.round(n).toLocaleString('en-US');
 const yr=S.ai_fy2026*P.inference_share*P.agent_share*P.overhead;
 document.getElementById('burn').textContent=full(yr); document.getElementById('burn2').textContent=full(yr); document.getElementById('perDay').textContent=full(yr/365.25);
-document.getElementById('pc').textContent=S.pop?('$'+(S.ai_fy2026/S.pop).toFixed(2)):'n/a'; document.getElementById('pop').textContent=S.pop?S.pop.toLocaleString('en-US'):'n/a';
+document.getElementById('pc').textContent=S.pop?('$'+(S.ai_fy2026/S.pop).toFixed(2)):'n/a'; document.getElementById('pop').textContent=S.pop?S.pop.toLocaleString('en-US'):'n/a'; document.getElementById('sdebt').textContent=S.debt?full(S.debt.debt_fy2023):'n/a';
 document.getElementById('askCio').href='mailto:?subject='+encodeURIComponent('{{STATE_NAME}}: federal AI contracts and the cost of retrieval by reading')+'&body='+encodeURIComponent('Federal prime contracts naming AI performed in {{STATE_NAME}}, FY2026 to date: {{STATE_AI}} (USAspending.gov). At the reference factors of the AI Burn Clock index, avoidable reading on that figure is '+full(yr)+' a year. Retrieval-first indexing is open source and runs inside the state environment; a pilot fits on one laptop with no procurement.\n\nRelease and sources: https://aiburnclock.org/state/{{STATE_CODE}}/\nMethod: https://aiburnclock.org/methodology.html');
 </script>
 </body></html>

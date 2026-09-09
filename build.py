@@ -58,6 +58,9 @@ def fetch():
     ai["top_agencies_FY2026"] = [{"name": r.get("name") or r.get("code") or "?", "amount": float(r["amount"])} for r in post("https://api.usaspending.gov/api/v2/search/spending_by_category/awarding_agency/", {"filters": f, "limit": 10, "page": 1})["results"]]
     out["usaspending"] = ai
     (DATA / "fetched.json").write_text(json.dumps(out, indent=1))
+    hist = DATA / "history"; hist.mkdir(exist_ok=True)
+    (hist / (out["fetched_utc"][:10] + ".json")).write_text(json.dumps({"debt": out["debt"][0], "ai_fy2026": out["usaspending"]["FY2026"]["total"],
+        "by_state": out["usaspending"]["by_state_FY2026"]}))
     return out
 
 def population():
@@ -92,7 +95,18 @@ def assemble(raw):
         states.append({"code": code, "name": name, "ai_fy2026": amt, "pop": pop.get(code), "ai_per_capita": (amt / pop[code]) if pop.get(code) else None,
                        "debt": state_debt.get(code)})
     states.sort(key=lambda s: -s["ai_fy2026"])
+    # since the previous release
+    hist = sorted((DATA / "history").glob("*.json")) if (DATA / "history").exists() else []
+    prev = None
+    for h in reversed(hist):
+        if h.stem < raw["fetched_utc"][:10]:
+            prev = json.loads(h.read_text()); prev["date"] = h.stem; break
+    since = None
+    if prev:
+        since = {"date": prev["date"], "debt_delta": latest["total"] - prev["debt"]["total"], "ai_delta": fy26 - prev["ai_fy2026"],
+                 "states_up": sorted(((c, ai["by_state_FY2026"].get(c, 0) - prev["by_state"].get(c, 0)) for c in STATES), key=lambda x: -x[1])[:3]}
     return {
+        "since": since,
         "fetched_utc": raw["fetched_utc"],
         "debt": {"date": latest["date"], "total": latest["total"], "held_by_public": latest["public"], "per_second": per_sec},
         "federal_ai": {"fy2025": fy25, "fy2026_to_date": fy26, "fy2026_annualised": fy26_annualised, "keywords": KW,
@@ -112,14 +126,26 @@ def render(data):
     tpl = (HERE / "templates" / "index.html").read_text()
     common = {"DATA_JSON": json.dumps(data), "FETCHED": data["fetched_utc"][:10], "DEBT_TOTAL": money(data["debt"]["total"], 3),
               "FED_AI_FY26": money(data["federal_ai"]["fy2026_to_date"]), "FED_AI_FY25": money(data["federal_ai"]["fy2025"])}
+    # story starters, one line per state, for the press page
+    ranked = data["states"]; us = sum(x["ai_fy2026"] for x in ranked) or 1
+    lines = []
+    for i, st in enumerate(ranked):
+        if st["ai_fy2026"] <= 0: continue
+        pc = f"${st['ai_fy2026']/st['pop']:.2f} per resident" if st.get("pop") else ""
+        lines.append(f"<li><b>{st['name']}</b>: {money(st['ai_fy2026'])} in federal contracts naming AI performed in the state this fiscal year, ranked {i+1} of 51, {100*st['ai_fy2026']/us:.1f} % of the US total{', ' + pc if pc else ''}"
+                     + (f"; state debt at end of FY2023 {money(st['debt']['debt_fy2023'])} (Census)" if st.get("debt") else "") + f". <a href=\"/state/{st['code'].lower()}/\">Release</a></li>")
+    common["STORY_STARTERS"] = "\n".join(lines)
+    common["SINCE"] = (f"Since the previous release ({data['since']['date']}): total public debt {'+' if data['since']['debt_delta']>=0 else ''}{money(data['since']['debt_delta'])}; "
+                       f"federal contracts naming AI {'+' if data['since']['ai_delta']>=0 else ''}{money(data['since']['ai_delta'])}; largest state increases: "
+                       + ", ".join(f"{c} {'+' if d>=0 else ''}{money(d)}" for c, d in data['since']['states_up'])) if data.get("since") else "First release of this series; the change line begins with the next one."
     (SITE / "index.html").write_text(fill(tpl, {**common, "PAGE_STATE": "null", "TITLE": "AI Burn Clock"}))
     stpl = (HERE / "templates" / "state.html").read_text()
     for s in data["states"]:
         d = SITE / "state" / s["code"].lower(); d.mkdir(exist_ok=True)
-        (d / "index.html").write_text(fill(stpl, {**common, "PAGE_STATE": json.dumps(s), "STATE_NAME": s["name"], "STATE_CODE": s["code"],
+        (d / "index.html").write_text(fill(stpl, {**common, "PAGE_STATE": json.dumps(s), "STATE_NAME": s["name"], "STATE_CODE": s["code"], "STATE_LOWER": s["code"].lower(),
                                                   "STATE_AI": money(s["ai_fy2026"]), "TITLE": f"AI Burn Clock · {s['name']}"}))
     (SITE / "data.json").write_text(json.dumps(data))
-    for f in ("widget.html", "embed.js", "methodology.html", "press.html", "robots.txt", "og.svg"):
+    for f in ("widget.html", "embed.js", "methodology.html", "press.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg"):
         p = HERE / "templates" / f
         if p.exists(): (SITE / f).write_text(fill(p.read_text(), common))
     # sitemap
