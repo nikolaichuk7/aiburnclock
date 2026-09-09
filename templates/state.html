@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{STATE_NAME}}: federal AI contracts performed in the state, what a retrieval-first approach would keep, and the sources. Live from USAspending and Treasury.">
+<meta property="og:title" content="AI Burn Clock · {{STATE_NAME}}">
+<meta property="og:description" content="{{STATE_AI}} of federal AI contracts performed in {{STATE_NAME}} this fiscal year. How much of it burns on reading files nobody needed?">
+<meta property="og:image" content="https://aiburnclock.org/og.svg">
+<link rel="canonical" href="https://aiburnclock.org/state/{{STATE_CODE}}/">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{--bg:#0B0D10;--panel:#14181D;--ink:#E8E6E1;--muted:#9AA3AD;--line:#262C33;--ember:#FF6A00;--ember2:#FFB020;--keep:#2ED37A}
+*{box-sizing:border-box}html{color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.5}
+a{color:var(--ember2)}.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.brand{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;text-decoration:none;color:var(--ink)}.brand span{color:var(--ember)}
+h1{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:clamp(34px,6vw,64px);text-transform:uppercase;margin:36px 0 8px;line-height:1}
+.lead{color:var(--muted);max-width:64ch;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.box{background:var(--panel);border:1px solid var(--line);padding:16px}
+.k{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.v{font-family:"IBM Plex Mono",monospace;font-size:clamp(22px,3.2vw,36px);font-weight:600;margin:8px 0 2px;font-variant-numeric:tabular-nums}
+.burn .v{color:var(--ember)}.keep .v{color:var(--keep)}
+.s{font-size:13px;color:var(--muted)}
+h2{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;margin:40px 0 8px}
+p{max-width:70ch}pre{background:var(--panel);border:1px solid var(--line);padding:12px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:13px}
+.btn{display:inline-block;background:var(--ember);color:#111;font-weight:600;padding:10px 16px;text-decoration:none}
+footer{margin:56px 0 40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}footer a{color:var(--muted)}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<header><a class="brand" href="/">AI Burn <span>Clock</span></a><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">sources refreshed {{FETCHED}}</span></header>
+<h1>{{STATE_NAME}}</h1>
+<p class="lead">Federal contracts performed in {{STATE_NAME}} this fiscal year whose descriptions name artificial intelligence, machine learning or language models, and what a retrieval-first approach would keep. Official sources, open formula.</p>
+<div class="grid">
+  <div class="box"><div class="k">Federal AI contracts · FY2026 to date · place of performance</div><div class="v">{{STATE_AI}}</div><div class="s">USAspending.gov, live. The floor: AI inside larger contracts is mostly unlabelled.</div></div>
+  <div class="box burn"><div class="k">Burning on avoidable reading · this year, at the site's default knobs</div><div class="v" id="burn">…</div><div class="s"><span id="perSec"></span> per second, <span id="perDay"></span> per day</div></div>
+  <div class="box keep"><div class="k">Per resident</div><div class="v" id="pc">…</div><div class="s">of federal AI contracting in the state, per person, Census 2024 estimate</div></div>
+</div>
+<h2>What this means for a state office</h2>
+<p>Agents that read whole files to find one passage are billed for every file. A local index answers "where is it" first and the agent reads only that passage. The savings are not theoretical: measured 2.7x fewer tokens on real coding tasks, and 16 to 47 times less read on one production codebase. The software is open source and runs inside your own environment; nothing leaves the building.</p>
+<p>We prepare a one-page memo for {{STATE_NAME}} with these numbers, their sources, and a pilot that runs on one laptop with no procurement. Write to <a href="mailto:hello@aiburnclock.org?subject={{STATE_NAME}}">hello@aiburnclock.org</a> with the state in the subject.</p>
+<h2>Embed this state's live figure</h2>
+<pre>&lt;script src="https://aiburnclock.org/embed.js" data-state="{{STATE_CODE}}"&gt;&lt;/script&gt;</pre>
+<a class="btn" href="/">Back to the national clock</a>
+<footer>Sources: <a href="https://www.usaspending.gov/">USAspending.gov</a> (place of performance, keywords listed on the <a href="/methodology.html">methodology page</a>) · <a href="https://www.census.gov/programs-surveys/popest.html">Census population estimates 2024</a> · knobs and formula on the <a href="/">national page</a>. Built by the XERJ community. Not affiliated with any government agency.</footer>
+</div>
+<script id="data" type="application/json">{{DATA_JSON}}</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent); const S={{PAGE_STATE}}; const P={}; for(const k in D.params)P[k]=D.params[k].default;
+const fmt=(n,d=0)=>{const a=Math.abs(n);for(const [v,s] of [[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']]) if(a>=v) return '$'+(n/v).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:Math.max(d,2)})+s; return '$'+n.toLocaleString(undefined,{maximumFractionDigits:d});};
+const yr=S.ai_fy2026*P.inference_share*P.agent_share*P.overhead; document.getElementById('burn').textContent=fmt(yr,2);
+document.getElementById('perSec').textContent=fmt(yr/31557600,4); document.getElementById('perDay').textContent=fmt(yr/365.25,2);
+document.getElementById('pc').textContent=S.pop?('$'+(S.ai_fy2026/S.pop).toFixed(2)):'n/a';
+</script>
+</body></html>
