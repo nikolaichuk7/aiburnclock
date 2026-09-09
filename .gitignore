@@ -3,3 +3,5 @@ site/
 data/fetched.json
 data/raw-*.json
 .claude/
+data/indexnow.key
+templates/*.txt
