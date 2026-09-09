@@ -5,3 +5,6 @@ data/raw-*.json
 .claude/
 data/indexnow.key
 templates/*.txt
+data/press-list.json
+data/press-log.jsonl
+data/press-preview.json

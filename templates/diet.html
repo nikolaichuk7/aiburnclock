@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Burn Clock · The seven-day token diet</title>
+<meta name="description" content="Seven days, one habit: retrieve before you read. Install the plugin, post your score card, and the lowest read-to-used ratio of the week is published here.">
+<link rel="canonical" href="https://aiburnclock.org/diet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="The seven-day token diet"><meta property="og:description" content="Install the plugin, work as usual for seven days, post the score card. Lowest read-to-used ratio wins."><meta property="og:image" content="https://aiburnclock.org/og/national.png">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>{{SHELL_CSS}}
+main.narrow{margin-top:22px}
+</style>
+</head>
+<body>
+{{HEADER}}
+<div class="wrap">
+<p class="crumbs"><a href="/">AI Burn Clock</a> › Programmes › The seven-day token diet</p>
+<p class="eyebrow">Programme · Series AIB-1 · #TokenDiet</p>
+<h1>The seven-day token diet</h1>
+<p class="lead">Seven days, one habit: retrieve before you read. Install the plugin, work as you normally do, and post the score card it prints at the end of each session. The lowest read-to-used ratio of the week is published on this page and in the weekly digest.</p>
+<div class="meta"><span>Week 1 <b>{{FETCHED}} to {{DIET_END}}</b></span><span>Entry <b>free</b></span><span>Data leaving your machine <b>none</b></span><span>Cards <b><a href="mailto:hello@aiburnclock.org?subject=TokenDiet%20card">hello@aiburnclock.org</a> or #TokenDiet</b></span></div>
+<main class="narrow">
+<h2><span class="no">1</span>Rules</h2>
+<ol>
+<li><b>Install the plugin</b> in Claude Code. It adds a local search engine (<a href="https://github.com/xerj-org/xerj">XERJ</a>, open source, one binary on your machine) as memory and teaches the agent to ask "where is it" before it opens a file.
+<pre>/plugin marketplace add nikolaichuk7/xerj-plugins
+/plugin install xerj-memory@xerj-plugins</pre></li>
+<li><b>Work as usual for seven days.</b> No special prompts. The plugin counts bytes read through the index and the whole files behind those answers.</li>
+<li><b>Post the card.</b> At the end of a session the plugin prints a score card and writes a PNG. Post it with <b>#TokenDiet</b>, or send it to <a href="mailto:hello@aiburnclock.org?subject=TokenDiet%20card">hello@aiburnclock.org</a>. Your name and codebase appear only as you write them; organisations appear only with written permission.</li>
+<li><b>Ranking.</b> By the read-to-used ratio over the week (whole files behind the answers divided by bytes actually read). Ties go to the larger number of bytes saved. Cards are checkable: the plugin's ledger file is on your machine, and the method is on the <a href="/methodology">technical note</a>.</li>
+</ol>
+<h2><span class="no">2</span>Leaderboard, week 1</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>#</th><th>Participant</th><th>Codebase</th><th class="n">Ratio</th><th class="n">Bytes saved</th><th>Date</th><th>Card</th></tr></thead>
+<tbody>
+<tr><td class="n">–</td><td>Reference measurement (Serhii Nikolaichuk)</td><td>Production Next.js application, three questions</td><td class="n">16× to 47×</td><td class="n">570,627 B</td><td>Sept 2026</td><td><a href="/#t2">Table 2</a></td></tr>
+</tbody></table></div>
+<p class="src">Cards arrive by email and by hashtag and are added within a day, with the date and the participant's own description. The reference row is not ranked; it is the measurement the index is built on.</p>
+<h2><span class="no">3</span>What the card shows</h2>
+<p>Three counters per session: bytes read through the index, the whole files behind those answers (what a grep-and-read agent would have loaded), and the ratio. Nothing else. The plugin does not record prompts, file names or content, and sends nothing anywhere. The ledger lives in your home directory and can be deleted at any time.</p>
+<h2><span class="no">4</span>Why a week</h2>
+<p>A single answer can look good by luck. A week of ordinary work, dozens of sessions, is a habit, and the habit is what costs money: on published coding tasks, retrieval-first cuts tokens 2.7 times end to end; on the three measured questions, 16 to 47 times per answer. The winner's card goes on the front page of the weekly digest with the ratio and nothing else.</p>
+<div class="acts"><a class="btn" href="https://github.com/nikolaichuk7/xerj-plugins">Install the plugin</a><a class="btn ghost" href="/remedy">How the remedy works</a><a class="btn ghost" href="/press">Press</a></div>
+</main>
+</div>
+{{FOOTER}}
+</body></html>

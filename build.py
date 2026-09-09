@@ -244,7 +244,7 @@ def render(data):
                        + ", ".join(f"{c} {'+' if d>=0 else ''}{money(d)}" for c, d in data['since']['states_up'])) if data.get("since") else "First release of this series; the change line begins with the next one."
     d0 = datetime.date.fromisoformat(data["fetched_utc"][:10])
     common["SHELL_CSS"] = (HERE / "templates" / "_shell.css").read_text()
-    common["FETCHED_LONG"] = d0.strftime("%B %-d, %Y"); common["NEXT"] = (d0 + datetime.timedelta(days=1)).isoformat()
+    common["FETCHED_LONG"] = d0.strftime("%B %-d, %Y"); common["NEXT"] = (d0 + datetime.timedelta(days=1)).isoformat(); common["DIET_END"] = (d0 + datetime.timedelta(days=7)).isoformat()
     opts = "".join(f'<option value="{s["code"].lower()}">{s["name"]}</option>' for s in sorted(data["states"], key=lambda s: s["name"]))
     common["HEADER"] = fill((HERE / "templates" / "_header.html").read_text(), {"FETCHED": common["FETCHED"], "STATE_OPTIONS": opts})
     common["FOOTER"] = (HERE / "templates" / "_footer.html").read_text()
@@ -265,10 +265,10 @@ def render(data):
     (SITE / "state" / "index.html").write_text(fill((HERE / "templates" / "states.html").read_text(), {**common, "STATE_ROWS": "\n".join(rows)}))
     key = (DATA / "indexnow.key").read_text().strip() if (DATA / "indexnow.key").exists() else None
     if key: (SITE / f"{key}.txt").write_text(key)
-    for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg", "404.html"):
+    for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "diet.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg", "404.html"):
         p = HERE / "templates" / f
         if p.exists(): (SITE / f).write_text(fill(p.read_text(), common))
-    urls = ["https://aiburnclock.org/", "https://aiburnclock.org/state/", "https://aiburnclock.org/remedy", "https://aiburnclock.org/methodology", "https://aiburnclock.org/press"] \
+    urls = ["https://aiburnclock.org/", "https://aiburnclock.org/state/", "https://aiburnclock.org/remedy", "https://aiburnclock.org/methodology", "https://aiburnclock.org/press", "https://aiburnclock.org/diet"] \
          + [f"https://aiburnclock.org/state/{s['code'].lower()}/" for s in data["states"]] + [r["url"] for r in releases]
     today = data["fetched_utc"][:10]
     (SITE / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
