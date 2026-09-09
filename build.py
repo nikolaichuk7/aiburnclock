@@ -13,7 +13,7 @@ Sources (all public, all linked on the methodology page):
 Run:  python3 build.py            -> refreshes data/*.json and writes site/ (index, 51 state pages, widget, data.json)
       python3 build.py --no-fetch -> rebuild site from cached data
 """
-import csv, json, os, sys, time, urllib.request, html, datetime
+import html, re, csv, json, os, sys, time, urllib.request, html, datetime
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -251,18 +251,20 @@ def render(data):
     (SITE / "data.json").write_text(json.dumps(data))
     releases = press_releases(data, common)
     common["RELEASES"] = "\n".join('<li><span style="color:var(--muted)">' + r["date"] + '</span> · <a href="' + r["url"] + '">' + html.escape(r["headline"]) + '</a></li>' for r in releases[:12])
-    (SITE / "index.html").write_text(fill(tpl, {**common, "PAGE_STATE": "null", "TITLE": "AI Burn Clock · National release " + common["FETCHED"]}))
+    (SITE / "index.html").write_text(fill(tpl, {**common, "PAGE_STATE": "null", "TITLE": "AI Burn Clock · What AI agents waste by reading, daily index"}))
     stpl = (HERE / "templates" / "state.html").read_text()
     P = {k: v["default"] for k, v in data["params"].items()}; us = sum(x["ai_fy2026"] for x in data["states"]) or 1; rows = []
     for i, s in enumerate(data["states"]):
         d = SITE / "state" / s["code"].lower(); d.mkdir(exist_ok=True)
         (d / "index.html").write_text(fill(stpl, {**common, "PAGE_STATE": json.dumps(s), "STATE_NAME": s["name"], "STATE_CODE": s["code"], "STATE_LOWER": s["code"].lower(),
-                                                  "STATE_AI": money(s["ai_fy2026"]), "CAPITAL": CAPITALS.get(s["code"], s["name"]), "TITLE": f"AI Burn Clock · {s['name']} release {common['FETCHED']}"}))
+                                                  "STATE_AI": money(s["ai_fy2026"]), "CAPITAL": CAPITALS.get(s["code"], s["name"]), "TITLE": f"{s['name']}: federal AI contracts FY2026 and the cost of AI agents reading · AI Burn Clock"}))
         sc = s["ai_fy2026"] * P["inference_share"] * P["agent_share"] * P["overhead"]; lo = s["code"].lower()
         rows.append(f'<tr><td class="n">{i+1}</td><td><a href="/state/{lo}/">{s["name"]}</a></td><td class="n">{money(s["ai_fy2026"])}</td><td class="n">{"$%.2f" % (s["ai_fy2026"]/s["pop"]) if s.get("pop") else "—"}</td>'
                     f'<td class="n">{100*s["ai_fy2026"]/us:.1f} %</td><td class="n burn">{money(sc)}</td><td class="n">{money(s["debt"]["debt_fy2023"],1) if s.get("debt") else "—"}</td>'
                     f'<td><a href="/state/{lo}/">Release</a></td><td>{"<a href=\"/press/" + common["FETCHED"] + "-" + lo + "/\">Press</a>" if s["ai_fy2026"] > 0 else "—"}</td></tr>')
     (SITE / "state" / "index.html").write_text(fill((HERE / "templates" / "states.html").read_text(), {**common, "STATE_ROWS": "\n".join(rows)}))
+    (SITE / "llms.txt").write_text(llms_txt(data, releases, common))
+    (SITE / "llms-full.txt").write_text(llms_full(data, releases, common))
     key = (DATA / "indexnow.key").read_text().strip() if (DATA / "indexnow.key").exists() else None
     if key: (SITE / f"{key}.txt").write_text(key)
     for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "diet.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg", "404.html"):
@@ -276,6 +278,63 @@ def render(data):
     (SITE / "feed.xml").write_text(feed_xml(releases, today))
     (SITE / "press-index.json").write_text(json.dumps([{k: r[k] for k in ("date", "headline", "url", "image")} for r in releases]))
     print(f"site: {len(data['states'])} state pages, debt {money(data['debt']['total'],3)}, federal AI FY2026 {money(data['federal_ai']['fy2026_to_date'])}")
+
+def strip_html(h):
+    h = re.sub(r"<script.*?</script>|<style.*?</style>", "", h, flags=re.S)
+    h = re.sub(r"</(p|li|tr|h[1-6]|div|section|article)>", "\n", h)
+    h = re.sub(r"<br\s*/?>", "\n", h); h = re.sub(r"<[^>]+>", " ", h)
+    h = html.unescape(h); h = re.sub(r"[ \t]+", " ", h); h = re.sub(r"\n\s*\n+", "\n\n", h)
+    return h.strip()
+
+def llms_txt(data, releases, common):
+    P = {k: v["default"] for k, v in data["params"].items()}
+    world = data["world_ai_2026"] * P["inference_share"] * P["agent_share"] * P["overhead"]
+    disc = {d["org"]: d for d in data.get("disclosures", [])}
+    fed = disc.get("U.S. federal agencies", {}).get("avoidable"); anth = disc.get("Anthropic", {}).get("avoidable"); jpm = disc.get("JPMorgan Chase", {}).get("avoidable")
+    top = ", ".join(f"{s['name']} {money(s['ai_fy2026'])}" for s in data["states"][:6])
+    return f"""# AI Burn Clock
+
+> An independent daily statistical index of what AI agents cost when they read whole files instead of retrieving the passage they need. Official series (U.S. Treasury, USAspending.gov, Census Bureau) are reproduced as published for scale; the index's own estimate is a stated scenario with every factor on a slider and every source linked. Organisations are named only from their own public disclosures. Not affiliated with any government agency. Maintained by the XERJ community. Release {common['FETCHED']}, revised daily at 00:00 UTC.
+
+## Key figures, release {common['FETCHED']}
+- Measured: an AI coding agent that searches by reading loads 16 to 47 times more bytes than the answer needs (three questions on a production codebase: 103,023 / 243,640 / 241,859 bytes of whole files against 6,405 / 6,389 / 5,101 bytes through a local index).
+- World scenario: {money(world)} a year of avoidable reading at the reference factors (6.3 % of Gartner's $2.59T 2026 AI spending forecast), about {money(world/31557600,0)} every second.
+- U.S. federal agencies: {money(fed) if fed else 'n/a'} a year at the reference factors on $7.2B of AI obligations in 2026 (Brookings). Labelled federal prime contracts naming AI, FY2026 to date: {common['FED_AI_FY26']}; FY2025: {common['FED_AI_FY25']}.
+- JPMorgan Chase: {money(jpm) if jpm else 'n/a'} a year on its published $2B AI budget. Customers of Anthropic: {money(anth) if anth else 'n/a'} a year on a $65B revenue run rate.
+- Top states by federal contracts naming AI, FY2026 to date: {top}.
+- Total public debt (Treasury, Debt to the Penny, shown for scale only): {common['DEBT_TOTAL']}.
+
+## Pages
+- [National release](https://aiburnclock.org/): key figures, main points, a calculator for your organisation with published-budget presets, Table 1 reported AI spending by sector and organisation, Table 2 the measurement, Table 3 by team size, Chart 1 ten-year projection, Table 4 by state, reference figures, the remedy, technical note.
+- [State releases](https://aiburnclock.org/state/): one page per state and the District of Columbia, e.g. https://aiburnclock.org/state/va/ (Virginia), https://aiburnclock.org/state/tx/ (Texas), https://aiburnclock.org/state/ca/ (California).
+- [The remedy](https://aiburnclock.org/remedy): retrieval-first indexing; a local index answers "where is it" before the agent reads. Works with Claude Code, Cursor and any MCP agent.
+- [Technical note](https://aiburnclock.org/methodology): sources, the four-factor method, reference parameters and their provenance, what the index does not claim, corrections policy.
+- [Press](https://aiburnclock.org/press): daily releases in AP format with plain text and a 1200×630 image, datelined at each state capital, free to republish with attribution; story starters per state; RSS at https://aiburnclock.org/feed.xml.
+- [The seven-day token diet](https://aiburnclock.org/diet): a public challenge with a leaderboard.
+
+## Data
+- [data.json](https://aiburnclock.org/data.json): the full machine-readable release (debt, federal AI contracts by state, agency and recipient, population, state debt, disclosures with the scenario column, parameters). Licence CC BY 4.0.
+- [press-index.json](https://aiburnclock.org/press-index.json): list of today's releases with headlines, URLs and images.
+- [sitemap.xml](https://aiburnclock.org/sitemap.xml)
+
+## Software measured
+- XERJ, open-source local search engine for AI agents, Apache-2.0, Elasticsearch-compatible on port 9200: https://github.com/xerj-org/xerj (docs https://xerj.org, agent instructions https://xerj.org/llms.txt)
+- xerj-memory plugin for Claude Code, prints a per-session score card: https://github.com/nikolaichuk7/xerj-plugins
+- Offline agent (XERJ + a local model, no network): https://github.com/nikolaichuk7/xerj-offline
+- Pipeline and templates of this site: https://github.com/nikolaichuk7/aiburnclock
+
+## Contact
+- hello@aiburnclock.org (Serhii Nikolaichuk, maintainer). Interviews, data pulls, state and agency memos on request. Corrections are published on the technical note with the date.
+"""
+
+def llms_full(data, releases, common):
+    parts = [llms_txt(data, releases, common), "\n\n# Full text of the main pages\n"]
+    for name, path in (("National release", "index.html"), ("Technical note", "methodology.html"), ("The remedy", "remedy.html"), ("Press", "press.html"), ("The seven-day token diet", "diet.html")):
+        p = SITE / path
+        if p.exists():
+            h = p.read_text(); m = re.search(r"<main.*?</main>", h, re.S); body = m.group(0) if m else h
+            parts.append(f"\n\n## {name} (https://aiburnclock.org/{'' if path=='index.html' else path.replace('.html','')})\n\n" + strip_html(body))
+    return "\n".join(parts)
 
 def fill(tpl, ctx):
     for k, v in ctx.items():

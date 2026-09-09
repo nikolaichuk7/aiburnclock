@@ -8,3 +8,6 @@ templates/*.txt
 data/press-list.json
 data/press-log.jsonl
 data/press-preview.json
+data/press-bounced.json
+data/letters-out.json
+data/letters-log.jsonl
