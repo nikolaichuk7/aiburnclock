@@ -158,7 +158,7 @@ def press_releases(data, common):
 <p>The remedy is open source. XERJ, a local search engine for AI agents published under the Apache-2.0 license at github.com/xerj-org/xerj, indexes a folder in one command so that an agent retrieves the passage it needs instead of reading the file. A plugin for Claude Code (github.com/nikolaichuk7/xerj-plugins) adds it as local memory and prints a per-session score card. Details: aiburnclock.org/remedy.html.</p>
 <h2>Figures in this release</h2>
 <table><tr><th>Series</th><th class="n">Value</th><th>Source</th></tr>
-<tr><td>Avoidable reading, agency of 2,000 developers, reference parameters</td><td class="n">{money(burn,0)} / year</td><td>AI Burn Clock, Table 1</td></tr>
+<tr><td>Avoidable reading, agency of 2,000 developers, reference parameters</td><td class="n">{money(burn,0)} / year</td><td>AI Burn Clock, Table 3</td></tr>
 <tr><td>Ratio read to used, three measured questions</td><td class="n">16×, 38×, 47×</td><td>AI Burn Clock, Table 2</td></tr>
 <tr><td>Total public debt</td><td class="n">{money(data['debt']['total'],3)}</td><td>Treasury, Debt to the Penny</td></tr>
 <tr><td>Federal contracts naming AI, FY2026 to date</td><td class="n">{money(fed['fy2026_to_date'],1)}</td><td>USAspending.gov</td></tr>
@@ -197,7 +197,7 @@ Media contact: hello@aiburnclock.org (Serhii Nikolaichuk, maintainer)"""
 <h2>Figures in this release</h2>
 <table><tr><th>Series</th><th class="n">Value</th><th>Source</th></tr>
 <tr><td>Federal contracts naming AI, FY2026 to date, performed in {st['name']}</td><td class="n">{money(st['ai_fy2026'],1)}</td><td>USAspending.gov</td></tr>
-<tr><td>Rank among 51</td><td class="n">{i+1}</td><td>AI Burn Clock, Table 3</td></tr>
+<tr><td>Rank among 51</td><td class="n">{i+1}</td><td>AI Burn Clock, Table 4</td></tr>
 <tr><td>Per resident</td><td class="n">{pc or 'n/a'}</td><td>Census Bureau, Vintage 2024</td></tr>
 {'<tr><td>State debt, end of FY2023</td><td class="n">' + money(st['debt']['debt_fy2023'],1) + '</td><td>Census Bureau, ASFIN</td></tr>' if st.get('debt') else ''}
 <tr><td>Avoidable reading, scenario</td><td class="n">{money(yr,0)} / year</td><td>AI Burn Clock, reference factors</td></tr></table>"""
@@ -242,25 +242,37 @@ def render(data):
     common["SINCE"] = (f"Since the previous release ({data['since']['date']}): total public debt {'+' if data['since']['debt_delta']>=0 else ''}{money(data['since']['debt_delta'])}; "
                        f"federal contracts naming AI {'+' if data['since']['ai_delta']>=0 else ''}{money(data['since']['ai_delta'])}; largest state increases: "
                        + ", ".join(f"{c} {'+' if d>=0 else ''}{money(d)}" for c, d in data['since']['states_up'])) if data.get("since") else "First release of this series; the change line begins with the next one."
-    (SITE / "index.html").write_text(fill(tpl, {**common, "PAGE_STATE": "null", "TITLE": "AI Burn Clock"}))
-    stpl = (HERE / "templates" / "state.html").read_text()
-    for s in data["states"]:
-        d = SITE / "state" / s["code"].lower(); d.mkdir(exist_ok=True)
-        (d / "index.html").write_text(fill(stpl, {**common, "PAGE_STATE": json.dumps(s), "STATE_NAME": s["name"], "STATE_CODE": s["code"], "STATE_LOWER": s["code"].lower(),
-                                                  "STATE_AI": money(s["ai_fy2026"]), "TITLE": f"AI Burn Clock · {s['name']}"}))
+    d0 = datetime.date.fromisoformat(data["fetched_utc"][:10])
+    common["SHELL_CSS"] = (HERE / "templates" / "_shell.css").read_text()
+    common["FETCHED_LONG"] = d0.strftime("%B %-d, %Y"); common["NEXT"] = (d0 + datetime.timedelta(days=1)).isoformat()
+    opts = "".join(f'<option value="{s["code"].lower()}">{s["name"]}</option>' for s in sorted(data["states"], key=lambda s: s["name"]))
+    common["HEADER"] = fill((HERE / "templates" / "_header.html").read_text(), {"FETCHED": common["FETCHED"], "STATE_OPTIONS": opts})
+    common["FOOTER"] = (HERE / "templates" / "_footer.html").read_text()
     (SITE / "data.json").write_text(json.dumps(data))
     releases = press_releases(data, common)
-    common["RELEASES"] = "\n".join('<li><span style="font-family:Roboto Mono,monospace;color:var(--muted)">' + r["date"] + '</span> · <a href="' + r["url"] + '">' + html.escape(r["headline"]) + '</a></li>' for r in releases[:12])
+    common["RELEASES"] = "\n".join('<li><span style="color:var(--muted)">' + r["date"] + '</span> · <a href="' + r["url"] + '">' + html.escape(r["headline"]) + '</a></li>' for r in releases[:12])
+    (SITE / "index.html").write_text(fill(tpl, {**common, "PAGE_STATE": "null", "TITLE": "AI Burn Clock · National release " + common["FETCHED"]}))
+    stpl = (HERE / "templates" / "state.html").read_text()
+    P = {k: v["default"] for k, v in data["params"].items()}; us = sum(x["ai_fy2026"] for x in data["states"]) or 1; rows = []
+    for i, s in enumerate(data["states"]):
+        d = SITE / "state" / s["code"].lower(); d.mkdir(exist_ok=True)
+        (d / "index.html").write_text(fill(stpl, {**common, "PAGE_STATE": json.dumps(s), "STATE_NAME": s["name"], "STATE_CODE": s["code"], "STATE_LOWER": s["code"].lower(),
+                                                  "STATE_AI": money(s["ai_fy2026"]), "CAPITAL": CAPITALS.get(s["code"], s["name"]), "TITLE": f"AI Burn Clock · {s['name']} release {common['FETCHED']}"}))
+        sc = s["ai_fy2026"] * P["inference_share"] * P["agent_share"] * P["overhead"]; lo = s["code"].lower()
+        rows.append(f'<tr><td class="n">{i+1}</td><td><a href="/state/{lo}/">{s["name"]}</a></td><td class="n">{money(s["ai_fy2026"])}</td><td class="n">{"$%.2f" % (s["ai_fy2026"]/s["pop"]) if s.get("pop") else "—"}</td>'
+                    f'<td class="n">{100*s["ai_fy2026"]/us:.1f} %</td><td class="n burn">{money(sc)}</td><td class="n">{money(s["debt"]["debt_fy2023"],1) if s.get("debt") else "—"}</td>'
+                    f'<td><a href="/state/{lo}/">Release</a></td><td>{"<a href=\"/press/" + common["FETCHED"] + "-" + lo + "/\">Press</a>" if s["ai_fy2026"] > 0 else "—"}</td></tr>')
+    (SITE / "state" / "index.html").write_text(fill((HERE / "templates" / "states.html").read_text(), {**common, "STATE_ROWS": "\n".join(rows)}))
     key = (DATA / "indexnow.key").read_text().strip() if (DATA / "indexnow.key").exists() else None
     if key: (SITE / f"{key}.txt").write_text(key)
     for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg", "404.html"):
         p = HERE / "templates" / f
         if p.exists(): (SITE / f).write_text(fill(p.read_text(), common))
-    urls = ["https://aiburnclock.org/", "https://aiburnclock.org/remedy", "https://aiburnclock.org/methodology", "https://aiburnclock.org/press"] \
+    urls = ["https://aiburnclock.org/", "https://aiburnclock.org/state/", "https://aiburnclock.org/remedy", "https://aiburnclock.org/methodology", "https://aiburnclock.org/press"] \
          + [f"https://aiburnclock.org/state/{s['code'].lower()}/" for s in data["states"]] + [r["url"] for r in releases]
     today = data["fetched_utc"][:10]
     (SITE / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
-        + "".join(f"<url><loc>{u}</loc><lastmod>{today}</lastmod><changefreq>daily</changefreq>" + (f"<image:image><image:loc>https://aiburnclock.org/og/{'national' if '/state/' not in u and '/press/' not in u else ('state-' + u.rstrip('/').split('/')[-1] if '/state/' in u else 'national')}.png</image:loc></image:image>" if u.endswith('/') else "") + "</url>" for u in urls) + "</urlset>")
+        + "".join(f"<url><loc>{u}</loc><lastmod>{today}</lastmod><changefreq>daily</changefreq>" + (f"<image:image><image:loc>https://aiburnclock.org/og/{'national' if '/state/' not in u and '/press/' not in u else ('state-' + u.rstrip('/').split('/')[-1] if '/state/' in u and not u.endswith('/state/') else 'national')}.png</image:loc></image:image>" if u.endswith('/') else "") + "</url>" for u in urls) + "</urlset>")
     (SITE / "feed.xml").write_text(feed_xml(releases, today))
     (SITE / "press-index.json").write_text(json.dumps([{k: r[k] for k in ("date", "headline", "url", "image")} for r in releases]))
     print(f"site: {len(data['states'])} state pages, debt {money(data['debt']['total'],3)}, federal AI FY2026 {money(data['federal_ai']['fy2026_to_date'])}")

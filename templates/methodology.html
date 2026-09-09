@@ -7,27 +7,13 @@
 <link rel="canonical" href="https://aiburnclock.org/methodology">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
-<style>
-:root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2}
-*{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;line-height:1.6}
-a{color:var(--primary2)}.wrap{max-width:860px;margin:0 auto;padding:0 20px 60px}
-.idbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);padding:6px 0}.idbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:0}
-.mast{background:var(--primary);color:#fff;padding:20px 0 16px}.mast .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:0}
-.mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.1}.mast .name a{color:#fff;text-decoration:none}
-.mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}
-.mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}
-h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;margin:32px 0 6px;line-height:1.2}
-h2{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:20px;margin:36px 0 6px;padding-top:12px;border-top:3px solid var(--ink)}
-h2 .no{font-family:"Roboto Mono",monospace;font-weight:400;font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
-p,li{max-width:74ch}code,pre{font-family:"Roboto Mono",monospace}pre{background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;font-size:13px}
-table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line)}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#fafafa}
-footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-size:13px;color:var(--muted)}
+<style>{{SHELL_CSS}}
+main.narrow{margin-top:22px}
 </style></head>
 <body>
-<div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · Technical note · Method version 2026.1</span></div></div>
-<header class="mast"><div class="wrap"><div class="name"><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></div><div class="rel">TECHNICAL NOTE<br>Sources refreshed {{FETCHED}}<br><a href="/data.json" style="color:#fff">data.json</a> · <a href="/press" style="color:#fff">Press</a></div></div></header>
+{{HEADER}}
 <div class="wrap">
+<main class="narrow">
 <h1>Technical note</h1>
 <p>This note exists so that anyone can check the index, reproduce it, or disagree with a specific factor rather than with the whole. Three kinds of figures appear in the release: official series reproduced as published; one estimate built from stated parameters by four multiplications, each parameter a control on the page; and measurements from working systems.</p>
 
@@ -36,13 +22,13 @@ footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <tr><th>Series</th><th>Source</th><th>Use in the release</th></tr>
 <tr><td>Total public debt outstanding</td><td><a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny">Treasury, Debt to the Penny</a>, API</td><td>Latest daily value. The on-screen figure advances at the mean change per second over the last 30 records. Shown for scale; not attributed to any cost in this index.</td></tr>
 <tr><td>Federal contract obligations naming AI</td><td><a href="https://www.usaspending.gov/">USAspending.gov</a>, API</td><td>Prime contract obligations (award types A–D) whose descriptions match any of: <code>artificial intelligence, machine learning, large language model, generative AI, LLM, AI-enabled, natural language processing</code>. FY2025 full year; FY2026 to date, by month, by state of performance, by awarding agency and by recipient. A floor by construction: AI work inside larger contracts is usually unlabelled; grants, internal spend and cloud consumption are excluded.</td></tr>
-<tr><td>State debt at end of fiscal year</td><td><a href="https://www.census.gov/programs-surveys/state.html">Census Bureau, Annual Survey of State Government Finances, FY2023</a></td><td>Table "Debt at end of fiscal year", in thousands of dollars, converted. Shown for scale on Table 3 and state releases.</td></tr>
+<tr><td>State debt at end of fiscal year</td><td><a href="https://www.census.gov/programs-surveys/state.html">Census Bureau, Annual Survey of State Government Finances, FY2023</a></td><td>Table "Debt at end of fiscal year", in thousands of dollars, converted. Shown for scale on Table 4 and state releases.</td></tr>
 <tr><td>Resident population</td><td><a href="https://www.census.gov/programs-surveys/popest.html">Census Bureau, Vintage 2024</a></td><td>Per-resident figures on state releases.</td></tr>
 <tr><td>Worldwide AI spending, 2026</td><td><a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-19-gartner-forecasts-worldwide-ai-spending-to-grow-47-percent-in-2026">Gartner, May 2026</a></td><td>$2.59 trillion, +47 % year on year. Base of the world scenario and the first-year growth rate of Chart 1.</td></tr>
-<tr><td>Reported AI spending and usage, by sector and organisation (Table 6)</td><td>Gartner, IDC, Brookings, U.S. Department of Defense, GSA, CNBC, Bloomberg, Fortune, GeekWire, Dealroom; each row links to its source</td><td>Reported figure, what it measures, date and link, reproduced as published. The index applies its reference factors to each row (B1·B2·B3 for a general AI budget, B2·B3 for vendor token revenue, B3 for a coding-agent product) and labels the result a scenario. Rows are added from public disclosures only; the list in <a href="https://github.com/nikolaichuk7/aiburnclock/blob/main/data/disclosures.json">data/disclosures.json</a> is public and corrections are welcome.</td></tr>
+<tr><td>Reported AI spending and usage, by sector and organisation (Table 1)</td><td>Gartner, IDC, Brookings, U.S. Department of Defense, GSA, CNBC, Bloomberg, Fortune, GeekWire, Dealroom; each row links to its source</td><td>Reported figure, what it measures, date and link, reproduced as published. The index applies its reference factors to each row (B1·B2·B3 for a general AI budget, B2·B3 for vendor token revenue, B3 for a coding-agent product) and labels the result a scenario. Rows are added from public disclosures only; the list in <a href="https://github.com/nikolaichuk7/aiburnclock/blob/main/data/disclosures.json">data/disclosures.json</a> is public and corrections are welcome.</td></tr>
 </table>
 
-<h2><span class="no">2</span>Item A: the team estimate (Table 1, Chart 1)</h2>
+<h2><span class="no">2</span>Item A: the team estimate (Table 3, Chart 1)</h2>
 <pre>reading bill  = developers × requests per day × working days × tokens read per request × price per million tokens
 avoidable     = reading bill × avoidable share
 per second    = avoidable / 31,557,600</pre>
@@ -75,11 +61,14 @@ per second    = avoidable / 31,557,600</pre>
 <li>It does not claim that AI causes public debt. The Treasury figure is scale, not cause, and no cost on the page is attributed to it.</li>
 <li>It does not claim the federal figure is total federal AI spending. It is the labelled floor of contract obligations.</li>
 <li>It does not claim the world scenario is a measurement. It is a forecast multiplied by three stated shares.</li>
-<li>It names organisations only from their own public disclosures or from published reporting, each linked to its source in Table 6. The avoidable column beside each row is the index's scenario at the reference factors, not the organisation's figure. Measured score cards appear only with written permission.</li>
+<li>It names organisations only from their own public disclosures or from published reporting, each linked to its source in Table 1. The avoidable column beside each row is the index's scenario at the reference factors, not the organisation's figure. Measured score cards appear only with written permission.</li>
 </ul>
 
-<h2><span class="no">6</span>Revision and correction policy</h2>
+<h2 id="corrections"><span class="no">6</span>Revision and correction policy</h2>
 <p>Source series are refreshed daily at 00:00 UTC; the release date at the top of every page is the refresh date. Method changes are versioned (currently 2026.1) and listed here with the date. Corrections: <a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a> or an issue on the <a href="https://github.com/nikolaichuk7/aiburnclock">public pipeline</a>. Corrections are published on this page with the date.</p>
-<table><tr><th>Date</th><th>Change</th></tr><tr><td>2026-09-09</td><td>Method version 2026.1. First release.</td></tr><tr><td>2026-09-09</td><td>Table 6 added: reported AI spending and usage by sector and organisation, from public disclosures, with the scenario column. State releases datelined at the state capital; the national release carries no city.</td></tr></table>
-<footer>An independent statistical observatory maintained by the XERJ community. Not affiliated with any government agency.</footer>
-</div></body></html>
+<table><tr><th>Date</th><th>Change</th></tr><tr><td>2026-09-09</td><td>Method version 2026.1. First release.</td></tr><tr><td>2026-09-09</td><td>Table of reported AI spending (Table 1 since the release of the same day) added: reported AI spending and usage by sector and organisation, from public disclosures, with the scenario column. State releases datelined at the state capital; the national release carries no city.</td></tr></table>
+
+</main>
+</div>
+{{FOOTER}}
+</body></html>

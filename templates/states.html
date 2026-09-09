@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Burn Clock · State releases</title>
+<meta name="description" content="Daily state releases: federal contract obligations naming AI performed in each state, per resident, share of the U.S. total, state debt for scale, and the index's reference estimate. Fifty states and the District of Columbia.">
+<link rel="canonical" href="https://aiburnclock.org/state/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:image" content="https://aiburnclock.org/og/national.png">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>{{SHELL_CSS}}</style>
+</head>
+<body>
+{{HEADER}}
+<div class="wrap">
+<p class="crumbs"><a href="/">AI Burn Clock</a> › State releases</p>
+<p class="eyebrow">Statistical release · Series AIB-1 · States</p>
+<h1>State releases, {{FETCHED_LONG}}</h1>
+<p class="lead">One dated release for each state and the District of Columbia: federal prime contracts naming AI performed in the state, per resident, share of the U.S. total, and the index's reference estimate. Each has a press release datelined at the state capital.</p>
+<div class="meta"><span>Released <b>{{FETCHED}} 00:00 UTC</b></span><span>Next release <b>{{NEXT}}</b></span><span>U.S. total, FY2026 to date <b>{{FED_AI_FY26}}</b></span><span>FY2025 <b>{{FED_AI_FY25}}</b></span></div>
+<main style="margin-top:24px">
+<h2><span class="no">Table 1</span>Federal contract obligations naming AI, by state of performance, FY2026 to date</h2>
+<p class="cap">Prime contracts whose descriptions name artificial intelligence, machine learning or language models (USAspending.gov, refreshed daily). A floor, not a total: AI work inside larger contracts is usually unlabelled. State debt at end of fiscal year 2023 from the Census Bureau, shown for scale.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>#</th><th>State</th><th class="n">Obligations</th><th class="n">Per resident</th><th class="n">Share of US</th><th class="n">Avoidable reading, scenario / yr</th><th class="n">State debt, FY2023</th><th>Release</th><th>Press</th></tr></thead>
+<tbody>{{STATE_ROWS}}</tbody></table></div>
+<p class="src">Per resident uses Census Bureau Vintage 2024 population estimates. The scenario column applies factors B1–B3 of the national release to the state's figure; it is a scenario computed from a published floor, not an account of the state's spending.</p>
+</main>
+</div>
+{{FOOTER}}
+</body></html>
