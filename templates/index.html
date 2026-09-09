@@ -196,7 +196,7 @@ footer p{max-width:90ch}
 const D = JSON.parse(document.getElementById('data').textContent);
 const $ = s => document.querySelector(s);
 const P = {}; for (const k in D.params) P[k] = D.params[k].default;
-let devs = 50; const T = {req:40, bytes:150, price:3, days:250};
+let devs = 2000; const T = {req:40, bytes:150, price:3, days:250};
 const SEC_YEAR = 365.25*86400; const SALARY = 185000; // fully loaded senior engineer, US, reference value
 const fmt = (n, d=0) => { const a=Math.abs(n); const u=[[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']]; for (const [v,s] of u) if (a>=v) return '$'+(n/v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:Math.max(d,2)})+s; return '$'+n.toLocaleString('en-US',{maximumFractionDigits:d}); };
 const full = n => '$'+Math.round(n).toLocaleString('en-US');
