@@ -1,24 +1,31 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Burn Clock · Press</title>
-<meta name="description" content="Press kit for aiburnclock.org: what it is, the numbers, the sources, embeds, and who to contact.">
+<meta name="description" content="Press page for the AI Burn Clock index: what it measures, figures that may be quoted with attribution, embed code, data access, and contact.">
 <link rel="canonical" href="https://aiburnclock.org/press.html">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
-<style>:root{--bg:#0B0D10;--panel:#14181D;--ink:#E8E6E1;--muted:#9AA3AD;--line:#262C33;--ember:#FF6A00;--ember2:#FFB020}*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.55}a{color:var(--ember2)}.wrap{max-width:820px;margin:0 auto;padding:0 20px 60px}header{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.brand{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;text-decoration:none;color:var(--ink)}.brand span{color:var(--ember)}h1{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:48px;text-transform:uppercase;margin:36px 0 8px;line-height:1}h2{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:26px;text-transform:uppercase;margin:32px 0 8px}pre{background:var(--panel);border:1px solid var(--line);padding:12px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:13px}p{max-width:70ch}blockquote{border-left:3px solid var(--ember);margin:0;padding:6px 0 6px 14px;color:var(--ink)}</style></head>
-<body><div class="wrap">
-<header><a class="brand" href="/">AI Burn <span>Clock</span></a><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">sources refreshed {{FETCHED}}</span></header>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>:root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2}*{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;line-height:1.6}a{color:var(--primary2)}.wrap{max-width:860px;margin:0 auto;padding:0 20px 60px}.idbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);padding:6px 0}.idbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:0}.mast{background:var(--primary);color:#fff;padding:20px 0 16px}.mast .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:0}.mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.1}.mast .name a{color:#fff;text-decoration:none}.mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}.mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;margin:32px 0 6px;line-height:1.2}h2{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:20px;margin:34px 0 6px;padding-top:12px;border-top:3px solid var(--ink)}p,li{max-width:74ch}pre{background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;font-family:"Roboto Mono",monospace;font-size:13px}blockquote{border-left:4px solid var(--primary);margin:0;padding:6px 0 6px 14px;font-family:Merriweather,Georgia,serif}footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-size:13px;color:var(--muted)}</style></head>
+<body>
+<div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · Press</span></div></div>
+<header class="mast"><div class="wrap"><div class="name"><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></div><div class="rel">PRESS<br>Sources refreshed {{FETCHED}}<br><a href="/methodology.html" style="color:#fff">Technical note</a> · <a href="/data.json" style="color:#fff">data.json</a></div></div></header>
+<div class="wrap">
 <h1>Press</h1>
-<p><b>What it is.</b> A live estimate of how much money is burning in AI on reading files nobody needed, built from official sources (Treasury, USAspending, Census, Gartner) with a four-factor formula whose every factor is a slider on the page.</p>
-<p><b>Why now.</b> AI agents that search by reading pay for every file they open. On real coding tasks an index that returns the passage instead cuts tokens by 2.7x; on one production codebase we measured 16 to 47 times less read. Worldwide AI spending is forecast at $2.59 trillion in 2026, up 47 %. The habit scales with the spend.</p>
-<h2>Numbers you can quote today</h2>
-<p>US total public debt: {{DEBT_TOTAL}} (Treasury, Debt to the Penny). Federal contracts naming AI, FY2026 to date: {{FED_AI_FY26}}; FY2025: {{FED_AI_FY25}} (USAspending, keywords on the <a href="/methodology.html">methodology page</a>). Every state has its own page: <code>aiburnclock.org/state/tx/</code> and so on.</p>
-<h2>Embed</h2>
+<p><b>What the index measures.</b> The estimated cost of AI agents finding information by reading whole files rather than retrieving the passage they need, priced from public model prices and measured ratios, with every parameter on the page. Official series from the Treasury, USAspending and the Census Bureau are reproduced for scale and are not attributed to that cost.</p>
+<p><b>Why it matters.</b> On one production codebase, an agent read 16 to 47 times less per answer when a local index answered first; on published coding tasks, 2.7 times fewer tokens end to end. Worldwide AI spending is forecast at $2.59 trillion in 2026, up 47 %. The habit scales with the spend.</p>
+<h2>Figures that may be quoted, with attribution to the AI Burn Clock and the underlying source</h2>
+<ul>
+<li>US total public debt: {{DEBT_TOTAL}} (Treasury, Debt to the Penny).</li>
+<li>Federal contracts naming AI, FY2026 to date: {{FED_AI_FY26}}; FY2025: {{FED_AI_FY25}} (USAspending.gov; filter on the technical note). Every state has a release page, for example <code>aiburnclock.org/state/tx/</code>.</li>
+<li>Reference estimate, team of 50 developers: shown live in the Summary of the national release, with the parameters beside it.</li>
+</ul>
+<h2>Embed and data</h2>
 <pre>&lt;script src="https://aiburnclock.org/embed.js" data-scope="world"&gt;&lt;/script&gt;
 &lt;script src="https://aiburnclock.org/embed.js" data-state="TX"&gt;&lt;/script&gt;</pre>
-<p>Open data: <a href="/data.json">/data.json</a>, refreshed daily. Source and pipeline: <a href="https://github.com/nikolaichuk7/aiburnclock">GitHub</a>.</p>
-<h2>A quote you can use</h2>
-<blockquote>"The agent is not thinking when it reads a whole file to find one function. It is paying. The clock shows the bill, the sources, and the knobs. Move a knob and argue with a factor, not with us."</blockquote>
-<p>Attribution: Serhii Nikolaichuk, Austin, Texas; co-author of an IETF draft on attestation results; builder of the AI Burn Clock.</p>
+<p>Machine-readable release: <a href="/data.json">/data.json</a>, refreshed daily at 00:00 UTC. Pipeline and templates: <a href="https://github.com/nikolaichuk7/aiburnclock">GitHub</a>.</p>
+<h2>Statement</h2>
+<blockquote>"An agent that reads a whole file to find one function is not thinking. It is paying. The index shows the bill, the sources, and the controls. Move a control and argue with a factor, not with us."</blockquote>
+<p>Attribution: Serhii Nikolaichuk, Austin, Texas; co-author of an IETF draft on attestation results; maintainer of the AI Burn Clock.</p>
 <h2>Contact</h2>
-<p><a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a>. Built by the XERJ community. Not affiliated with any government agency.</p>
+<p><a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a>. Interviews and state or agency memos on request.</p>
+<footer>An independent statistical observatory maintained by the XERJ community. Not affiliated with any government agency.</footer>
 </div></body></html>

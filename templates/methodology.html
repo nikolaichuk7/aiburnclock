@@ -2,55 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Burn Clock · Methodology</title>
-<meta name="description" content="Every number on aiburnclock.org, where it comes from, and the four-factor formula with its defaults and their sources.">
+<title>AI Burn Clock · Technical note</title>
+<meta name="description" content="Technical note for the AI Burn Clock index: sources, the four-factor estimation method, reference parameters and their provenance, what the index does not claim, and the correction policy.">
 <link rel="canonical" href="https://aiburnclock.org/methodology.html">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
-:root{--bg:#0B0D10;--panel:#14181D;--ink:#E8E6E1;--muted:#9AA3AD;--line:#262C33;--ember:#FF6A00;--ember2:#FFB020}
-*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.55}
-a{color:var(--ember2)}.wrap{max-width:820px;margin:0 auto;padding:0 20px 60px}
-header{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
-.brand{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;text-decoration:none;color:var(--ink)}.brand span{color:var(--ember)}
-h1{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:48px;text-transform:uppercase;margin:36px 0 8px;line-height:1}
-h2{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:26px;text-transform:uppercase;margin:36px 0 8px}
-code,pre{font-family:"IBM Plex Mono",monospace}pre{background:var(--panel);border:1px solid var(--line);padding:12px;overflow-x:auto;font-size:13px}
-table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
-p{max-width:70ch}
+:root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2}
+*{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;line-height:1.6}
+a{color:var(--primary2)}.wrap{max-width:860px;margin:0 auto;padding:0 20px 60px}
+.idbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);padding:6px 0}.idbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:0}
+.mast{background:var(--primary);color:#fff;padding:20px 0 16px}.mast .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:0}
+.mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.1}.mast .name a{color:#fff;text-decoration:none}
+.mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}
+.mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}
+h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;margin:32px 0 6px;line-height:1.2}
+h2{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:20px;margin:36px 0 6px;padding-top:12px;border-top:3px solid var(--ink)}
+h2 .no{font-family:"Roboto Mono",monospace;font-weight:400;font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
+p,li{max-width:74ch}code,pre{font-family:"Roboto Mono",monospace}pre{background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line)}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#fafafa}
+footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-size:13px;color:var(--muted)}
 </style></head>
-<body><div class="wrap">
-<header><a class="brand" href="/">AI Burn <span>Clock</span></a><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">sources refreshed {{FETCHED}}</span></header>
-<h1>Methodology</h1>
-<p>This page exists so that anyone can check us, reproduce us, or disagree with a specific knob rather than with the whole clock. Three kinds of numbers appear on the site: official figures shown as they are, one estimate built from them with a four-factor formula whose every factor is a slider, and measurements from real systems.</p>
+<body>
+<div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · Technical note · Method version 2026.1</span></div></div>
+<header class="mast"><div class="wrap"><div class="name"><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></div><div class="rel">TECHNICAL NOTE<br>Sources refreshed {{FETCHED}}<br><a href="/data.json" style="color:#fff">data.json</a> · <a href="/press.html" style="color:#fff">Press</a></div></div></header>
+<div class="wrap">
+<h1>Technical note</h1>
+<p>This note exists so that anyone can check the index, reproduce it, or disagree with a specific factor rather than with the whole. Three kinds of figures appear in the release: official series reproduced as published; one estimate built from stated parameters by four multiplications, each parameter a control on the page; and measurements from working systems.</p>
 
-<h2>Official figures, shown as published</h2>
+<h2><span class="no">1</span>Official series, reproduced as published</h2>
 <table>
-<tr><th>Number</th><th>Source</th><th>How we use it</th></tr>
-<tr><td>US total public debt</td><td><a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny">Treasury, Debt to the Penny</a>, API</td><td>Latest daily value; the on-screen tick uses the average change per second over the last 30 records.</td></tr>
-<tr><td>Federal AI contracts</td><td><a href="https://www.usaspending.gov/">USAspending.gov</a>, API</td><td>Prime contract obligations (award types A–D) whose descriptions match any of: <code>artificial intelligence, machine learning, large language model, generative AI, LLM, AI-enabled, natural language processing</code>. FY2025 full year and FY2026 to date, by month, by state of performance, by awarding agency and by recipient. This is a <b>floor</b>: AI work inside larger contracts is usually not labelled, and it excludes grants, internal spend and cloud consumption.</td></tr>
-<tr><td>State population</td><td><a href="https://www.census.gov/programs-surveys/popest.html">Census Vintage 2024 estimates</a></td><td>Per-resident figures.</td></tr>
-<tr><td>World AI spending 2026</td><td><a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-19-gartner-forecasts-worldwide-ai-spending-to-grow-47-percent-in-2026">Gartner, May 2026</a></td><td>$2.59 trillion, +47 % year on year; used as the base of the "world" scope and as the first-year growth rate.</td></tr>
+<tr><th>Series</th><th>Source</th><th>Use in the release</th></tr>
+<tr><td>Total public debt outstanding</td><td><a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny">Treasury, Debt to the Penny</a>, API</td><td>Latest daily value. The on-screen figure advances at the mean change per second over the last 30 records. Shown for scale; not attributed to any cost in this index.</td></tr>
+<tr><td>Federal contract obligations naming AI</td><td><a href="https://www.usaspending.gov/">USAspending.gov</a>, API</td><td>Prime contract obligations (award types A–D) whose descriptions match any of: <code>artificial intelligence, machine learning, large language model, generative AI, LLM, AI-enabled, natural language processing</code>. FY2025 full year; FY2026 to date, by month, by state of performance, by awarding agency and by recipient. A floor by construction: AI work inside larger contracts is usually unlabelled; grants, internal spend and cloud consumption are excluded.</td></tr>
+<tr><td>Resident population</td><td><a href="https://www.census.gov/programs-surveys/popest.html">Census Bureau, Vintage 2024</a></td><td>Per-resident figures on state releases.</td></tr>
+<tr><td>Worldwide AI spending, 2026</td><td><a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-19-gartner-forecasts-worldwide-ai-spending-to-grow-47-percent-in-2026">Gartner, May 2026</a></td><td>$2.59 trillion, +47 % year on year. Base of the world scenario and the first-year growth rate of Chart 1.</td></tr>
 </table>
 
-<h2>The estimate: four factors</h2>
-<pre>burn per year = base spend × inference share × agent share × avoidable share
-burn per second = burn per year / 31,557,600</pre>
+<h2><span class="no">2</span>Item A: the team estimate (Table 1, Chart 1)</h2>
+<pre>reading bill  = developers × requests per day × working days × tokens read per request × price per million tokens
+avoidable     = reading bill × avoidable share
+per second    = avoidable / 31,557,600</pre>
 <table>
-<tr><th>Factor</th><th>Default</th><th>Why that default</th></tr>
-<tr><td>base spend</td><td>world: $2.59T (Gartner); federal: this FY's labelled AI contracts, annualised</td><td>Two scopes, toggled on the page. The federal scope is a floor by construction.</td></tr>
-<tr><td>inference share</td><td>25 %</td><td>Gartner puts AI infrastructure above 45 % of spend and models and platforms as the fastest-growing slice; inference is a part of the remainder. 25 % is a middle estimate; the slider runs 5–60 %.</td></tr>
-<tr><td>agent share</td><td>40 %</td><td>The share of inference done by agents that read files and documents: coding agents, document assistants, retrieval pipelines. No public census exists; 40 % is an estimate; the slider runs 10–90 %.</td></tr>
-<tr><td>avoidable share</td><td>63 %</td><td>1 − 1/2.7, from the measured 2.7x fewer output tokens on real coding tasks in the <a href="https://xerj.org/case-studies/reference-coding.html">XERJ reference-coding case study</a>. On one production Next.js codebase we measured 16x, 38x and 47x less read on three ordinary questions (94–98 %); we use the conservative figure.</td></tr>
-<tr><td>growth</td><td>47 % in year one, tapering to 20 % by year five</td><td>Gartner's 2026 rate; the taper is an assumption and a slider.</td></tr>
+<tr><th>Parameter</th><th>Reference value</th><th>Provenance</th></tr>
+<tr><td>A1 requests per developer per working day</td><td>40</td><td>An agent working through a task issues dozens of tool calls; an ordinary day. Control range 5–200.</td></tr>
+<tr><td>A2 bytes read per request, the old way</td><td>150 KB</td><td>Table 2 measured 103,023, 243,640 and 241,859 bytes of whole files behind three answers on one production codebase. Tokens ≈ bytes / 4. Range 20–600 KB.</td></tr>
+<tr><td>A3 price per million input tokens</td><td>$3.00</td><td>2026 list prices run from under a dollar for small models to fifteen for frontier models. Range $0.25–15.</td></tr>
+<tr><td>A4 working days a year</td><td>250</td><td>Unattended agents push this to 365. Range 100–365.</td></tr>
+<tr><td>B3 avoidable share (shared with item B)</td><td>63 %</td><td>1 − 1/2.7, from the 2.7× fewer output tokens reported on real coding tasks in the <a href="https://xerj.org/case-studies/reference-coding.html">reference-coding case study</a>. Table 2's own ratios (16×, 38×, 47×) would give 94–98 %; the release uses the conservative figure.</td></tr>
 </table>
-<p>Multiply the defaults and the world scope gives about 6.3 % of AI spend, roughly $163 billion a year, burning on reading that an index would have avoided. Move any slider and the page recomputes. We would rather you argue with a factor than with the clock.</p>
 
-<h2>What "retrieval-first" means</h2>
-<p>An agent that needs one function today typically searches by reading: it greps the tree, opens files, and pays for every byte it loads into its context window. Retrieval-first means a local index answers "where is it" first and the agent reads only the passage. The software that does this is open source; <a href="https://xerj.org">XERJ</a> is one implementation and the one we measured. The clock is not a product page: any index that returns passages instead of files produces the same effect.</p>
+<h2><span class="no">3</span>Item B: the world scenario (Reference figures)</h2>
+<pre>avoidable per year = base spend × inference share × agent share × avoidable share</pre>
+<table>
+<tr><th>Parameter</th><th>Reference value</th><th>Provenance</th></tr>
+<tr><td>base spend</td><td>$2.59T</td><td>Gartner, 2026 forecast.</td></tr>
+<tr><td>B1 inference share</td><td>25 %</td><td>Gartner puts AI infrastructure above 45 % of spend and models and platforms as the fastest-growing slice; inference is part of the remainder. A middle estimate; range 5–60 %.</td></tr>
+<tr><td>B2 agent share</td><td>40 %</td><td>Share of inference done by agents that read files and documents: coding agents, document assistants, retrieval pipelines. No public census exists; an estimate; range 10–90 %.</td></tr>
+<tr><td>B3 avoidable share</td><td>63 %</td><td>As above.</td></tr>
+<tr><td>B4, B5 growth</td><td>47 % in year one, tapering to 20 % by year five</td><td>Gartner's 2026 rate; the taper is an assumption.</td></tr>
+</table>
+<p>At the reference values the world scenario gives about 6.3 % of AI spend, on the order of $163 billion a year, as avoidable reading. The figure is a scenario: three of its four factors are estimates by construction, which is why each is a control on the page.</p>
 
-<h2>What the clock does not claim</h2>
-<p>It does not claim that AI causes public debt; the debt figure is context and scale. It does not claim the federal figure is total federal AI spending; it is the labelled floor. It does not claim the world figure is precise; it is a Gartner forecast multiplied by three stated shares. Everything is reproducible from <a href="/data.json">/data.json</a> and the <a href="https://github.com/nikolaichuk7/aiburnclock">open pipeline</a>.</p>
+<h2><span class="no">4</span>Measurements (Table 2)</h2>
+<p>Three questions were put to an agent on one production Next.js codebase in September 2026, once with the agent reading whole files and once with a local index returning pointers and passages. The whole files behind the answers measured 103,023, 243,640 and 241,859 bytes; the index path read 6,405, 6,389 and 5,101 bytes. The index used was <a href="https://xerj.org">XERJ</a>; any index that returns passages instead of files produces the same effect. The measurement script and its output are published with the pipeline.</p>
 
-<h2>Corrections</h2>
-<p>If a number is wrong, write to <a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a> or open an issue. Corrections are published on this page with the date.</p>
+<h2><span class="no">5</span>What the index does not claim</h2>
+<ul>
+<li>It does not claim that AI causes public debt. The Treasury figure is scale, not cause, and no cost on the page is attributed to it.</li>
+<li>It does not claim the federal figure is total federal AI spending. It is the labelled floor of contract obligations.</li>
+<li>It does not claim the world scenario is a measurement. It is a forecast multiplied by three stated shares.</li>
+<li>It does not name organisations. Organisations appear only with their permission.</li>
+</ul>
+
+<h2><span class="no">6</span>Revision and correction policy</h2>
+<p>Source series are refreshed daily at 00:00 UTC; the release date at the top of every page is the refresh date. Method changes are versioned (currently 2026.1) and listed here with the date. Corrections: <a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a> or an issue on the <a href="https://github.com/nikolaichuk7/aiburnclock">public pipeline</a>. Corrections are published on this page with the date.</p>
+<table><tr><th>Date</th><th>Change</th></tr><tr><td>2026-09-09</td><td>Method version 2026.1. First release.</td></tr></table>
+<footer>An independent statistical observatory maintained by the XERJ community. Not affiliated with any government agency.</footer>
 </div></body></html>

@@ -4,277 +4,229 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{TITLE}}</title>
-<meta name="description" content="A live estimate of public and corporate money burning in AI on reading files it never needed. Official sources, open formula, every number linked.">
-<meta property="og:title" content="AI Burn Clock">
-<meta property="og:description" content="How much money is burning in AI right now, and how much a search index would keep. Live, sourced, open formula.">
+<meta name="description" content="Statistical release: the estimated cost of retrieval by reading in AI systems, with reference figures from the Treasury, USAspending and the Census Bureau. Open method, revised daily.">
+<meta property="og:title" content="AI Burn Clock · Index of the cost of retrieval by reading">
+<meta property="og:description" content="Estimated annual cost of avoidable reading by AI agents, by team size, with the reference parameters and the sources. Revised daily.">
 <meta property="og:image" content="https://aiburnclock.org/og.svg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://aiburnclock.org/">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
-:root{--bg:#0B0D10;--panel:#14181D;--panel2:#1B2027;--ink:#E8E6E1;--muted:#9AA3AD;--line:#262C33;--ember:#FF6A00;--ember2:#FFB020;--keep:#2ED37A;--keep2:#178A4B;--danger:#FF3B3B}
+:root{--paper:#fcfcfb;--panel:#f0f0f0;--panel2:#e6e6e6;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--rule:#a9aeb1;--primary:#1a4480;--primary2:#005ea2;--burn:#b50909;--keep:#2e8540;--warm:#ffbe2e}
 *{box-sizing:border-box}
-html{color-scheme:dark}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;line-height:1.5}
-a{color:var(--ember2)}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-header.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
-.brand{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:26px;letter-spacing:.02em;text-transform:uppercase}
-.brand span{color:var(--ember)}
-.live{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.live b{color:var(--keep);font-weight:500}
-.live b::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--keep);margin-right:6px;animation:blink 1.6s infinite}
-@keyframes blink{50%{opacity:.25}}
-h1{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:clamp(34px,5.4vw,66px);line-height:1;margin:40px 0 10px;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
-.lead{max-width:62ch;color:var(--muted);font-size:18px;margin:0 0 28px}
-.clocks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.clock{background:var(--panel);border:1px solid var(--line);padding:18px 18px 14px;position:relative}
-.clock .k{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.clock .v{font-family:"IBM Plex Mono",monospace;font-size:clamp(24px,3.4vw,40px);font-weight:600;font-variant-numeric:tabular-nums;margin:8px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.clock .s{font-size:13px;color:var(--muted)}
-.clock.burn .v{color:var(--ember)}
-.clock.keep .v{color:var(--keep)}
-.machines{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.machine{background:var(--panel);border:1px solid var(--line);padding:18px;display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
-.machine h3{font-family:"Barlow Condensed",Impact,sans-serif;font-size:24px;margin:0 0 6px;text-transform:uppercase;letter-spacing:.02em}
-.machine .rate{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
-.machine.old .rate{color:var(--ember)}
-.machine.new .rate{color:var(--keep)}
-.machine p{margin:6px 0 0;color:var(--muted);font-size:14px}
-.furnace{width:150px;height:150px}
-.flame{transform-origin:75px 118px;animation:flicker .7s infinite alternate}
-@keyframes flicker{from{transform:scaleY(1) scaleX(1)}to{transform:scaleY(1.08) scaleX(.94)}}
-.toggle{display:inline-flex;border:1px solid var(--line);margin:18px 0 0}
-.toggle button{background:transparent;color:var(--muted);border:0;padding:8px 14px;font:inherit;cursor:pointer}
-.toggle button[aria-pressed="true"]{background:var(--panel2);color:var(--ink)}
-section{margin-top:56px}
-h2{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:800;font-size:34px;text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px}
-.sub{color:var(--muted);margin:0 0 18px;max-width:70ch}
-.formula{background:var(--panel);border:1px solid var(--line);padding:18px}
-.formula .eq{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink);padding:10px 12px;background:var(--bg);border:1px solid var(--line);overflow-x:auto;white-space:nowrap}
-.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 22px;margin-top:14px}
-.slider label{display:block;font-size:14px}
-.slider output{font-family:"IBM Plex Mono",monospace;color:var(--ember2);float:right}
-.slider input{width:100%;accent-color:var(--ember)}
-.slider small{display:block;color:var(--muted);font-size:12px;line-height:1.4}
-.chart{background:var(--panel);border:1px solid var(--line);padding:14px}
+html{color-scheme:light}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.55}
+a{color:var(--primary2)}
+.idbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);padding:6px 0}
+.idbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.mast{background:var(--primary);color:#fff;padding:22px 0 18px}
+.mast .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:30px;letter-spacing:.01em;line-height:1.1}
+.mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}
+.mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}
+nav.toc{border-bottom:1px solid var(--line);background:#fff}
+nav.toc .wrap{display:flex;gap:22px;overflow-x:auto;padding-top:10px;padding-bottom:10px;font-size:14px}
+nav.toc a{color:var(--ink);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px}
+nav.toc a:hover{border-color:var(--primary2)}
+h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.2;margin:34px 0 10px;text-wrap:balance}
+.summary{font-size:18px;line-height:1.6;max-width:74ch;font-family:Merriweather,Georgia,serif;margin:0 0 8px}
+.summary b{font-family:"Roboto Mono",monospace;font-weight:500;font-variant-numeric:tabular-nums}
+.note{font-size:13px;color:var(--muted);max-width:74ch;margin:8px 0 0}
+h2{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:22px;margin:44px 0 4px;padding-top:14px;border-top:3px solid var(--ink)}
+h2 .no{font-family:"Roboto Mono",monospace;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
+.cap{font-size:14px;color:var(--muted);max-width:76ch;margin:0 0 14px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:#fff;border:1px solid var(--line)}
+caption{text-align:left;font-weight:700;font-family:Merriweather,Georgia,serif;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-bottom:0;font-size:15px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;background:#fafafa}
+td.n,th.n{text-align:right;font-family:"Roboto Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.burn{color:var(--burn);font-weight:500}
+td.keep{color:var(--keep);font-weight:500}
+tr.sel td{background:#eef4fb}
+tr.pick{cursor:pointer}
+tr.pick:hover td{background:#f3f7fc}
+.tick{font-family:"Roboto Mono",monospace;font-variant-numeric:tabular-nums}
+.foot{font-size:12.5px;color:var(--muted);margin:8px 0 0;max-width:80ch}
+.params{background:var(--panel);border:1px solid var(--line);padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px 24px;margin-top:14px}
+.p label{display:flex;justify-content:space-between;font-size:13.5px;gap:10px}
+.p output{font-family:"Roboto Mono",monospace;color:var(--primary);font-weight:500}
+.p input[type=range]{width:100%;accent-color:var(--primary2);margin:4px 0 2px}
+.p small{display:block;color:var(--muted);font-size:12px;line-height:1.4}
+.eqbox{font-family:"Roboto Mono",monospace;font-size:13px;background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;white-space:nowrap;margin-top:12px}
+.chart{background:#fff;border:1px solid var(--line);padding:12px}
 .chart svg{width:100%;height:auto;display:block}
-.states{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
-.state{background:var(--panel);border:1px solid var(--line);padding:12px 14px;text-decoration:none;color:var(--ink);display:block}
-.state:hover{border-color:var(--ember)}
-.state .n{font-family:"Barlow Condensed",Impact,sans-serif;font-size:20px;text-transform:uppercase;letter-spacing:.02em}
-.state .a{font-family:"IBM Plex Mono",monospace;color:var(--ember);font-size:15px;margin-top:4px}
-.state .c{font-size:12px;color:var(--muted)}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
-td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;border:1px solid var(--rule);margin:12px 0 0;background:#fff}
+.seg button{background:transparent;border:0;border-right:1px solid var(--line);padding:7px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--primary);color:#fff}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.calc{background:var(--panel);border:1px solid var(--line);padding:18px}
-.calc label{display:block;font-size:14px;margin-top:10px}
-.calc input{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:8px 10px;font:inherit;font-family:"IBM Plex Mono",monospace}
-.calc .out{font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--keep);margin-top:14px}
-pre{background:var(--bg);border:1px solid var(--line);padding:12px;overflow-x:auto;font-size:13px;font-family:"IBM Plex Mono",monospace}
-.btn{display:inline-block;background:var(--ember);color:#111;font-weight:600;padding:10px 16px;text-decoration:none;border:0;font:inherit;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
-footer a{color:var(--muted)}
-.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border:1px solid var(--line);color:var(--muted);margin-left:8px;vertical-align:middle}
-@media (max-width:820px){.clocks,.machines,.two{grid-template-columns:1fr}.machine{grid-template-columns:110px 1fr}.furnace{width:110px;height:110px}}
-@media (prefers-reduced-motion:reduce){.flame,.live b::before{animation:none}}
+.box{background:var(--panel);border:1px solid var(--line);padding:16px 18px}
+.box h3{font-family:Merriweather,Georgia,serif;font-size:17px;margin:0 0 8px}
+.box label{display:block;font-size:13.5px;margin-top:8px}
+.box input[type=number]{width:100%;border:1px solid var(--rule);padding:7px 9px;font:inherit;font-family:"Roboto Mono",monospace;background:#fff}
+.box .out{font-family:"Roboto Mono",monospace;font-size:18px;color:var(--keep);margin-top:12px}
+pre{background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;font-family:"Roboto Mono",monospace;font-size:13px}
+.btn{display:inline-block;background:var(--primary2);color:#fff;padding:9px 14px;text-decoration:none;font-weight:600;font-size:14px}
+.tablewrap{overflow-x:auto}
+footer{margin:60px 0 40px;padding-top:16px;border-top:3px solid var(--ink);font-size:13px;color:var(--muted)}
+footer p{max-width:90ch}
+@media (max-width:820px){.two{grid-template-columns:1fr}.mast .rel{text-align:left}}
 </style>
 </head>
 <body>
+<div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · Revised daily at 00:00 UTC · Sources refreshed {{FETCHED}}</span></div></div>
+<header class="mast"><div class="wrap">
+  <div class="name">AI Burn Clock<small>Index of the cost of retrieval by reading in AI systems</small></div>
+  <div class="rel">RELEASE {{FETCHED}}<br>Method version 2026.1 · <a href="/methodology.html" style="color:#fff">Technical note</a><br>Data: <a href="/data.json" style="color:#fff">data.json</a> · <a href="/press.html" style="color:#fff">Press</a></div>
+</div></header>
+<nav class="toc"><div class="wrap"><a href="#summary">Summary</a><a href="#t1">Table 1 · By team size</a><a href="#t2">Table 2 · One answer</a><a href="#c1">Chart 1 · Ten years</a><a href="#t3">Table 3 · By state</a><a href="#t4">Tables 4–5 · Agencies, recipients</a><a href="#ref">Reference figures</a><a href="#method">Technical note</a><a href="#embed">Embed and data</a></div></nav>
+
 <div class="wrap">
-<header class="top">
-  <div class="brand">AI Burn <span>Clock</span></div>
-  <div class="live"><b>live</b> · sources refreshed {{FETCHED}}</div>
-</header>
+<h1 id="summary">The cost of finding one function by reading whole files, priced for a team like yours</h1>
+<p class="summary">At the reference parameters, a team of <b id="sDevs">50</b> developers whose agents search by reading spends an estimated <b id="sRead">…</b> a year on that reading, of which <b id="sBurn">…</b> would not have been read at all had a local index answered "where is it" first. That is <b id="sSec">…</b> every second, around the clock. Change any parameter below and this sentence is recomputed.</p>
+<p class="note">Estimates, not accounts. The method is four multiplications with every factor on this page; the measured factor comes from a production codebase and from a published case study. Federal and Treasury figures further down are reference values shown as published, for scale, and are not attributed to this cost.</p>
 
-<h1>AI works like 2026. It searches like 1975. The bill runs every second.</h1>
-<p class="lead">An agent that needs one function opens whole files to find it, and pays for every byte it loads. This furnace prices that habit for a team like yours, from public model prices and measured ratios, with every knob on the table. The national figures below are scale, not cause.</p>
+<h2 id="t1"><span class="no">Table 1</span>Estimated annual cost of retrieval by reading, by team size</h2>
+<p class="cap">Select a row to set the summary. Reading bill = developers × requests per day × working days × tokens read per request × price per million tokens. Avoidable = reading bill × avoidable share.</p>
+<div class="tablewrap"><table id="tab1">
+<thead><tr><th>Team</th><th class="n">Tokens read per year</th><th class="n">Reading bill</th><th class="n">Avoidable</th><th class="n">Kept with an index</th><th class="n">Per second</th></tr></thead>
+<tbody></tbody>
+</table></div>
+<p class="foot">Reference parameters: <span id="refline"></span>. Adjust under Technical note, item A.</p>
 
-<div class="toggle" role="group" aria-label="team size" id="teamBar">
-  <button data-devs="10" aria-pressed="false">Team of 10</button>
-  <button data-devs="50" aria-pressed="true">Team of 50</button>
-  <button data-devs="200" aria-pressed="false">200 developers</button>
-  <button data-devs="2000" aria-pressed="false">An agency of 2,000</button>
-</div>
-<div class="clocks" style="margin-top:14px">
-  <div class="clock burn"><div class="k">This team burns on reading it never needed</div><div class="v" id="teamBurn">$0</div><div class="s">per year at the knobs below · <span id="teamRate"></span> per second</div></div>
-  <div class="clock"><div class="k">The whole reading bill, as it runs today</div><div class="v" id="teamRead">$0</div><div class="s">agents searching by reading: <span id="teamTokens"></span> tokens a year</div></div>
-  <div class="clock keep"><div class="k">Kept, retrieval-first</div><div class="v" id="teamKeep">$0</div><div class="s">index answers "where is it"; the agent reads the passage</div></div>
-</div>
-<h2 style="margin-top:44px">For scale</h2>
-<p class="sub">Official numbers, shown as published. Context for the size of the habit, not its cause.</p>
-<div class="clocks">
-  <div class="clock"><div class="k">US total public debt · Treasury, Debt to the Penny</div><div class="v" id="debt">{{DEBT_TOTAL}}</div><div class="s">as of <span id="debtDate"></span>, ticking at the last 30-day rate</div></div>
-  <div class="clock burn"><div class="k">Avoidable reading, scenario · <span id="scopeLabel">world AI spend</span></div><div class="v" id="burn">$0</div><div class="s">since you opened this page · <span id="burnRate"></span> per second · four-factor estimate, knobs below</div></div>
-  <div class="clock keep"><div class="k">Kept with retrieval-first · same scenario</div><div class="v" id="keep">$0</div><div class="s">what stays with the payer when the agent reads the passage, not the file</div></div>
-</div>
+<h2 id="t2"><span class="no">Table 2</span>Cost of one answer, by retrieval method, measured</h2>
+<p class="cap">Three ordinary questions put to an agent on one production Next.js codebase, September 2026. "Read" is the size of the whole files behind the answer, which a grep-and-read agent loads into its context; "Index" is what the same agent read when a local index answered first.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Question</th><th class="n">Read, whole files</th><th class="n">Read, via index</th><th class="n">Ratio</th><th class="n">Cost at $3 / M tokens, old way</th></tr></thead>
+<tbody>
+<tr><td>Where is the payment webhook signature verified?</td><td class="n">103,023 B</td><td class="n">6,405 B</td><td class="n">16×</td><td class="n burn">$0.077</td></tr>
+<tr><td>How does an owner cancel a subscription?</td><td class="n">243,640 B</td><td class="n">6,389 B</td><td class="n">38×</td><td class="n burn">$0.183</td></tr>
+<tr><td>What happens when a dish photo is uploaded?</td><td class="n">241,859 B</td><td class="n">5,101 B</td><td class="n">47×</td><td class="n burn">$0.181</td></tr>
+</tbody></table></div>
+<p class="foot">Tokens ≈ bytes / 4. A published case study on real coding tasks reports 2.7× fewer output tokens end to end; this release uses the conservative 1 − 1/2.7 = 63 % as the avoidable share, not the 94–98 % above.</p>
 
-<div class="machines">
-  <div class="machine old">
-    <svg class="furnace" viewBox="0 0 150 150" aria-hidden="true"><rect x="20" y="60" width="110" height="80" fill="#1B2027" stroke="#262C33"/><rect x="45" y="80" width="60" height="45" fill="#0B0D10"/><g class="flame" id="flameOld"><path d="M75 118 C60 100 62 88 70 76 C72 90 80 92 78 80 C90 92 92 104 75 118Z" fill="#FF6A00"/><path d="M75 116 C68 106 69 98 73 90 C74 98 79 100 78 93 C84 100 84 108 75 116Z" fill="#FFB020"/></g><rect x="30" y="40" width="90" height="22" fill="#1B2027" stroke="#262C33"/><text x="75" y="55" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#9AA3AD">GREP · READ · REPEAT</text></svg>
-    <div><h3>The machine as it runs today</h3><div class="rate"><span id="rateOld">$0</span><small style="font-size:14px;color:var(--muted)"> / second</small></div><p>The agent searches by reading. Every file it opens to find one function is billed in full. Rate for the team selected above.</p></div>
-  </div>
-  <div class="machine new">
-    <svg class="furnace" viewBox="0 0 150 150" aria-hidden="true"><rect x="20" y="60" width="110" height="80" fill="#1B2027" stroke="#262C33"/><rect x="45" y="80" width="60" height="45" fill="#0B0D10"/><g class="flame" id="flameNew"><path d="M75 118 C60 100 62 88 70 76 C72 90 80 92 78 80 C90 92 92 104 75 118Z" fill="#FF6A00"/><path d="M75 116 C68 106 69 98 73 90 C74 98 79 100 78 93 C84 100 84 108 75 116Z" fill="#FFB020"/></g><rect x="30" y="40" width="90" height="22" fill="#1B2027" stroke="#262C33"/><text x="75" y="55" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#9AA3AD">INDEX · RETRIEVE · READ</text></svg>
-    <div><h3>The same machine, retrieval-first</h3><div class="rate"><span id="rateNew">$0</span><small style="font-size:14px;color:var(--muted)"> / second</small></div><p>A local index answers "where is it" first. The agent reads the passage it needs. Open source does this today; XERJ is one example.</p></div>
-  </div>
-</div>
+<h2 id="c1"><span class="no">Chart 1</span>Ten-year projection of the reading bill, two methods</h2>
+<p class="cap">Growth starts at the Gartner 2026 rate for worldwide AI spending and tapers to the long-run parameter. The shaded area is the gap: what is read and paid for without being needed.</p>
+<div class="chart"><svg id="proj" viewBox="0 0 960 360" role="img" aria-label="ten-year projection"></svg></div>
+<p class="foot">Projection of the selected team's reading bill. Assumptions in Technical note, items A and B.</p>
 
-<div class="toggle" role="group" aria-label="scope">
-  <button aria-pressed="true" data-scope="world">World AI spend, Gartner 2026</button>
-  <button aria-pressed="false" data-scope="federal">US federal contracts that name AI, USAspending</button>
+<h2 id="t3"><span class="no">Table 3</span>Federal contract obligations naming AI, by state of performance, FY2026 to date</h2>
+<p class="cap">Prime contracts whose descriptions name artificial intelligence, machine learning or language models. USAspending.gov, refreshed daily. A floor, not a total: AI work inside larger contracts is usually unlabelled. Each state has its own release page.</p>
+<div class="tablewrap"><table id="tab3">
+<thead><tr><th>#</th><th>State</th><th class="n">Obligations</th><th class="n">Per resident</th><th class="n">Share of US</th><th></th></tr></thead>
+<tbody></tbody>
+</table></div>
+
+<h2 id="t4"><span class="no">Tables 4 and 5</span>Awarding agencies and recipients, same filter</h2>
+<div class="two">
+  <div class="tablewrap"><table><caption>Table 4. Awarding agencies, FY2026 to date</caption><thead><tr><th>Agency</th><th class="n">Obligated</th></tr></thead><tbody id="agencies"></tbody></table></div>
+  <div class="tablewrap"><table><caption>Table 5. Recipients, FY2026 to date</caption><thead><tr><th>Recipient</th><th class="n">Obligated</th></tr></thead><tbody id="recipients"></tbody></table></div>
 </div>
 
-<section id="formula">
-  <h2>The formula, with the knobs</h2>
-  <p class="sub">No hidden model. Four numbers multiply. Every default has a source; every knob is yours. Set them where you believe they belong and the clock recomputes.</p>
-  <div class="formula" style="margin-bottom:14px">
-    <div class="eq" id="teamEq"></div>
-    <div class="sliders">
-      <div class="slider"><label>agent requests per developer per working day<output id="o_req">40</output></label><input type="range" min="5" max="200" value="40" id="k_req"><small>A coding agent working through a task issues dozens of tool calls; 40 is an ordinary day. Move it.</small></div>
-      <div class="slider"><label>bytes read to answer one request, the old way<output id="o_bytes">150 KB</output></label><input type="range" min="20" max="600" value="150" id="k_bytes"><small>Measured on a Next.js codebase: the whole files behind one answer were 103 KB, 242 KB and 244 KB. Tokens ≈ bytes / 4.</small></div>
-      <div class="slider"><label>price per million input tokens, $<output id="o_price">$3.00</output></label><input type="range" min="0.25" max="15" step="0.25" value="3" id="k_price"><small>Public list prices in 2026 run from under a dollar for small models to fifteen for frontier models. Set yours.</small></div>
-      <div class="slider"><label>working days a year<output id="o_days">250</output></label><input type="range" min="100" max="365" value="250" id="k_days"><small>Agents that run unattended overnight push this to 365.</small></div>
-    </div>
-  </div>
-  <div class="formula">
-    <div class="eq" id="eq"></div>
-    <div class="sliders" id="sliders"></div>
-  </div>
-</section>
+<h2 id="ref"><span class="no">Reference figures</span>Shown as published, for scale</h2>
+<p class="cap">These are official series reproduced without adjustment. They size the environment in which the cost above is incurred; nothing on this page attributes them to it.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Series</th><th class="n">Value</th><th>Source and note</th></tr></thead>
+<tbody>
+<tr><td>Total public debt outstanding</td><td class="n tick" id="debt">{{DEBT_TOTAL}}</td><td>Treasury, Debt to the Penny, as of <span id="debtDate"></span>; on-screen figure advances at the mean rate of the last 30 records.</td></tr>
+<tr><td>Federal contracts naming AI, FY2026 to date</td><td class="n">{{FED_AI_FY26}}</td><td>USAspending.gov; keyword filter listed in the Technical note. FY2025 full year: {{FED_AI_FY25}}.</td></tr>
+<tr><td>Worldwide AI spending, 2026 forecast</td><td class="n">$2.59T</td><td>Gartner, May 2026; +47 % year on year. Used as the base of the world scenario and as the first-year growth rate.</td></tr>
+<tr><td>World scenario, avoidable reading</td><td class="n burn tick" id="burn">…</td><td>Since this page was opened; <span id="burnRate"></span> per second at the reference factors (Technical note, item B). Scenario, not a measurement.</td></tr>
+</tbody></table></div>
 
-<section id="projection">
-  <h2>One year, five years, ten years</h2>
-  <p class="sub">Two curves. Do nothing, or read the passage instead of the file. The gap is the story. Growth starts at the Gartner 2026 rate and tapers to the second knob.</p>
-  <div class="chart"><svg id="proj" viewBox="0 0 960 360" role="img" aria-label="ten-year projection"></svg></div>
-</section>
+<h2 id="method"><span class="no">Technical note</span>Estimation method and parameters</h2>
+<p class="cap">Item A sets the team estimate (Table 1, Chart 1). Item B sets the world scenario (Reference figures). Every default carries its source; every control is yours. The full note, with what the index does not claim, is on the <a href="/methodology.html">methodology page</a>.</p>
+<div class="eqbox" id="teamEq"></div>
+<div class="params">
+  <div class="p"><label>A1. Agent requests per developer per working day<output id="o_req">40</output></label><input type="range" min="5" max="200" value="40" id="k_req"><small>An agent working through a task issues dozens of tool calls; 40 is an ordinary day.</small></div>
+  <div class="p"><label>A2. Bytes read to answer one request, the old way<output id="o_bytes">150 KB</output></label><input type="range" min="20" max="600" value="150" id="k_bytes"><small>Table 2 measured 103–244 KB per answer. Tokens ≈ bytes / 4.</small></div>
+  <div class="p"><label>A3. Price per million input tokens<output id="o_price">$3.00</output></label><input type="range" min="0.25" max="15" step="0.25" value="3" id="k_price"><small>2026 list prices run from under a dollar for small models to fifteen for frontier models.</small></div>
+  <div class="p"><label>A4. Working days a year<output id="o_days">250</output></label><input type="range" min="100" max="365" value="250" id="k_days"><small>Unattended overnight agents push this to 365.</small></div>
+</div>
+<div class="eqbox" id="eq"></div>
+<div class="params" id="sliders"></div>
 
-<section id="states">
-  <h2>Federal AI contracts by state</h2>
-  <p class="sub">Place of performance, FY2026 to date, contracts whose descriptions name artificial intelligence, machine learning or language models. USAspending.gov, live. This is the floor: most AI inside larger contracts is not labelled.</p>
-  <div class="states" id="stateGrid"></div>
-</section>
-
-<section id="receipts">
-  <h2>Receipts</h2>
-  <p class="sub">Who is awarding and who is receiving, FY2026 to date. Same filter, same source.</p>
-  <div class="two">
-    <div><table><thead><tr><th>Awarding agency</th><th class="num">Obligated</th></tr></thead><tbody id="agencies"></tbody></table></div>
-    <div><table><thead><tr><th>Recipient</th><th class="num">Obligated</th></tr></thead><tbody id="recipients"></tbody></table></div>
-  </div>
-</section>
-
-<section id="corporate">
-  <h2>Your company</h2>
-  <p class="sub">Teams tell us the same thing in different words: the monthly limit melts in days, and most of it went to the agent reading the tree. Put your numbers in. Names appear here only with permission.</p>
-  <div class="two">
-    <div class="calc">
-      <label>Developers using AI agents <input id="cDevs" type="number" value="50" min="1"></label>
-      <label>Monthly AI spend per developer, $ <input id="cSpend" type="number" value="200" min="0"></label>
-      <label>Share of that spend that is agents reading files, % <input id="cAgent" type="number" value="40" min="0" max="100"></label>
-      <div class="out" id="cOut"></div>
-      <p style="color:var(--muted);font-size:13px">Avoided share uses the overhead knob above. Post your card with the plugin and we will add your number, anonymised, to the corporate ledger.</p>
-    </div>
-    <div class="calc">
-      <h3 style="margin:0 0 8px;font-family:'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;font-size:22px">Measure yours in one session</h3>
-      <p style="color:var(--muted);font-size:14px">Claude Code plugin: local index on port 9200, retrieval before reading, a score card at the end of every session. Nothing leaves your machine.</p>
-      <pre>/plugin marketplace add nikolaichuk7/xerj-plugins
-/plugin install xerj-memory@xerj-plugins</pre>
-      <a class="btn ghost" href="https://github.com/nikolaichuk7/xerj-plugins">The plugin</a>
-    </div>
-  </div>
-</section>
-
-<section id="media">
-  <h2>For newsrooms and offices</h2>
-  <p class="sub">Embed the live clock in one line. Pull the numbers from the open endpoint. Cite the methodology page. Ask for a state memo.</p>
-  <div class="two">
-    <div><pre>&lt;script src="https://aiburnclock.org/embed.js" data-scope="world"&gt;&lt;/script&gt;</pre>
-      <p style="color:var(--muted);font-size:14px">Renders a 300×120 live counter with a link back. Data: <a href="/data.json">/data.json</a>, refreshed daily. Method: <a href="/methodology.html">/methodology.html</a>. Press kit: <a href="/press.html">/press.html</a>.</p></div>
-    <div><p style="color:var(--muted);font-size:14px">For a state CIO or budget office we prepare a one-page memo with your state's numbers, the sources, and a pilot that runs on one laptop with no procurement. Write to <a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a> with the state in the subject line.</p></div>
-  </div>
-</section>
+<h2 id="embed"><span class="no">Embed, data, and memos</span>For newsrooms, offices and teams</h2>
+<div class="two">
+  <div class="box"><h3>Embed the live figure</h3><pre>&lt;script src="https://aiburnclock.org/embed.js" data-scope="world"&gt;&lt;/script&gt;</pre><p style="font-size:13.5px;color:var(--muted)">A 300 × 120 counter with a link back. Machine-readable release: <a href="/data.json">/data.json</a>. Method: <a href="/methodology.html">/methodology.html</a>. Press: <a href="/press.html">/press.html</a>.</p></div>
+  <div class="box"><h3>Your organisation</h3>
+    <label>Developers using AI agents <input id="cDevs" type="number" value="50" min="1"></label>
+    <label>Monthly AI spend per developer, $ <input id="cSpend" type="number" value="200" min="0"></label>
+    <label>Share of that spend that is agents reading files, % <input id="cAgent" type="number" value="40" min="0" max="100"></label>
+    <div class="out" id="cOut"></div>
+    <p style="font-size:13px;color:var(--muted)">Avoidable share per item B3. Measure your own figure in one session with the Claude Code plugin (<a href="https://github.com/nikolaichuk7/xerj-plugins">xerj-memory</a>); organisations appear in future releases only with permission.</p></div>
+</div>
+<p class="note" style="margin-top:14px">State and agency offices: a one-page memo with your figures, their sources, and a pilot that runs on one laptop with no procurement is available on request at <a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a>. Put the state or agency in the subject line.</p>
 
 <footer>
-  <p>Sources: <a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny">Treasury, Debt to the Penny</a> · <a href="https://www.usaspending.gov/">USAspending.gov</a> · <a href="https://www.census.gov/programs-surveys/popest.html">Census population estimates</a> · <a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-19-gartner-forecasts-worldwide-ai-spending-to-grow-47-percent-in-2026">Gartner, May 2026</a> · <a href="https://xerj.org/case-studies/reference-coding.html">XERJ reference-coding case study</a>. Everything above the sources line is an estimate built from them; the formula and knobs are on this page and nowhere else.</p>
-  <p>Built by the XERJ community. Not affiliated with any government agency. <a href="https://github.com/nikolaichuk7/aiburnclock">Source and data pipeline on GitHub</a>.</p>
+<p><b>Sources.</b> <a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny">Treasury, Debt to the Penny</a> · <a href="https://www.usaspending.gov/">USAspending.gov</a> · <a href="https://www.census.gov/programs-surveys/popest.html">Census Bureau, Vintage 2024 population estimates</a> · <a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-19-gartner-forecasts-worldwide-ai-spending-to-grow-47-percent-in-2026">Gartner, May 2026</a> · <a href="https://xerj.org/case-studies/reference-coding.html">Reference-coding case study</a>. Retrieval-first indexing as measured here is open source; XERJ is the implementation used for Table 2.</p>
+<p><b>Status.</b> An independent statistical observatory maintained by the XERJ community. Not affiliated with any government agency. Corrections are published on the methodology page with the date. Pipeline and templates: <a href="https://github.com/nikolaichuk7/aiburnclock">GitHub</a>.</p>
 </footer>
 </div>
 
 <script id="data" type="application/json">{{DATA_JSON}}</script>
 <script>
 const D = JSON.parse(document.getElementById('data').textContent);
-const PAGE_STATE = {{PAGE_STATE}};
 const $ = s => document.querySelector(s);
 const P = {}; for (const k in D.params) P[k] = D.params[k].default;
-let scope = 'world'; let devs = 50; const T = {req:40, bytes:150, price:3, days:250};
+let devs = 50; const T = {req:40, bytes:150, price:3, days:250};
 const SEC_YEAR = 365.25*86400;
-const fmt = (n, d=0) => { const a=Math.abs(n); const u=[[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']]; for (const [v,s] of u) if (a>=v) return '$'+(n/v).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:Math.max(d,2)})+s; return '$'+n.toLocaleString(undefined,{maximumFractionDigits:d}); };
-function base() { return scope==='world' ? D.world_ai_2026 : D.federal_ai.fy2026_annualised; }
-function burnPerSec() { return base()*P.inference_share*P.agent_share*P.overhead/SEC_YEAR; }
-function teamTokensYear(){ return devs*T.req*T.days*(T.bytes*1024/4); }
-function teamReadYear(){ return teamTokensYear()/1e6*T.price; }
-function teamBurnYear(){ return teamReadYear()*P.overhead; }
-function teamEq(){ $('#teamEq').textContent = `${devs} developers × ${T.req} requests/day × ${T.days} days × ${Math.round(T.bytes*1024/4).toLocaleString()} tokens read × $${T.price.toFixed(2)}/M  =  ${fmt(teamReadYear(),0)} / year reading  ×  ${Math.round(P.overhead*100)} % avoidable  =  ${fmt(teamBurnYear(),0)} / year`;
-  $('#teamBurn').textContent = fmt(teamBurnYear(),0); $('#teamRead').textContent = fmt(teamReadYear(),0); $('#teamKeep').textContent = fmt(teamBurnYear(),0);
-  $('#teamTokens').textContent = (teamTokensYear()/1e9).toFixed(1)+'B'; $('#teamRate').textContent = fmt(teamBurnYear()/SEC_YEAR,4);
-  $('#rateOld').textContent = fmt(teamReadYear()/SEC_YEAR,4); $('#rateNew').textContent = fmt((teamReadYear()-teamBurnYear())/SEC_YEAR,4); }
-function readPerSec() { return base()*P.inference_share*P.agent_share/SEC_YEAR; }
-// clocks
-const t0 = Date.now();
-const debtBase = D.debt.total, debtRate = D.debt.per_second;
-const fetchedMs = Date.parse(D.debt.date+'T00:00:00Z');
-$('#debtDate').textContent = D.debt.date;
-function tick(){
-  const s=(Date.now()-t0)/1000;
-  $('#debt').textContent = '$'+Math.round(debtBase + debtRate*((Date.now()-fetchedMs)/1000)).toLocaleString();
-  const b=burnPerSec(); $('#burn').textContent = fmt(b*s,2); $('#keep').textContent = fmt(b*s,2);
-  $('#burnRate').textContent = fmt(b,2);
-  const k = Math.max(0.15, 1-P.overhead); $('#flameNew').style.transform = `scale(${k})`; $('#flameNew').style.transformOrigin='75px 118px';
-  requestAnimationFrame(tick);
+const fmt = (n, d=0) => { const a=Math.abs(n); const u=[[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']]; for (const [v,s] of u) if (a>=v) return '$'+(n/v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:Math.max(d,2)})+s; return '$'+n.toLocaleString('en-US',{maximumFractionDigits:d}); };
+const full = n => '$'+Math.round(n).toLocaleString('en-US');
+const tokensYear = d => d*T.req*T.days*(T.bytes*1024/4);
+const readYear = d => tokensYear(d)/1e6*T.price;
+const burnYear = d => readYear(d)*P.overhead;
+function base(){ return D.world_ai_2026; }
+function burnPerSec(){ return base()*P.inference_share*P.agent_share*P.overhead/SEC_YEAR; }
+function table1(){
+  const tb=$('#tab1 tbody'); tb.innerHTML='';
+  for (const d of [10,50,200,2000]) { const tr=document.createElement('tr'); tr.className='pick'+(d===devs?' sel':''); tr.dataset.devs=d;
+    tr.innerHTML=`<td>${d===2000?'An agency of 2,000':'Team of '+d}</td><td class="n">${(tokensYear(d)/1e9).toFixed(1)} B</td><td class="n">${full(readYear(d))}</td><td class="n burn">${full(burnYear(d))}</td><td class="n keep">${full(burnYear(d))}</td><td class="n">${fmt(burnYear(d)/SEC_YEAR,4)}</td>`; tb.appendChild(tr); }
+  $('#sDevs').textContent=devs.toLocaleString('en-US'); $('#sRead').textContent=full(readYear(devs)); $('#sBurn').textContent=full(burnYear(devs)); $('#sSec').textContent=fmt(burnYear(devs)/SEC_YEAR,4);
+  $('#refline').textContent=`${T.req} requests per developer per day, ${T.bytes} KB read per request (≈ ${Math.round(T.bytes*1024/4).toLocaleString('en-US')} tokens), $${T.price.toFixed(2)} per million tokens, ${T.days} working days, ${Math.round(P.overhead*100)} % avoidable`;
+  $('#teamEq').textContent=`Item A · ${devs} developers × ${T.req} requests/day × ${T.days} days × ${Math.round(T.bytes*1024/4).toLocaleString('en-US')} tokens × $${T.price.toFixed(2)}/M = ${full(readYear(devs))} per year reading; × ${Math.round(P.overhead*100)} % avoidable = ${full(burnYear(devs))} per year`;
 }
-// sliders
-const sl = $('#sliders');
-for (const k in D.params) { const p=D.params[k]; const pct = k.startsWith('growth')||true; const div=document.createElement('div'); div.className='slider';
-  div.innerHTML = `<label>${p.label}<output id="o_${k}">${Math.round(P[k]*100)} %</output></label><input type="range" min="${p.min*100}" max="${p.max*100}" value="${P[k]*100}" data-k="${k}"><small>${p.note}</small>`; sl.appendChild(div); }
-sl.addEventListener('input', e => { if (e.target.dataset.k) { P[e.target.dataset.k]=e.target.value/100; $('#o_'+e.target.dataset.k).textContent = Math.round(e.target.value)+' %'; eq(); teamEq(); proj(); calc(); } });
-document.querySelectorAll('#teamBar button').forEach(b=>b.addEventListener('click',()=>{ devs=+b.dataset.devs; document.querySelectorAll('#teamBar button').forEach(x=>x.setAttribute('aria-pressed',x===b)); teamEq(); }));
-$('#k_req').addEventListener('input',e=>{T.req=+e.target.value;$('#o_req').textContent=T.req;teamEq();});
-$('#k_bytes').addEventListener('input',e=>{T.bytes=+e.target.value;$('#o_bytes').textContent=T.bytes+' KB';teamEq();});
-$('#k_price').addEventListener('input',e=>{T.price=+e.target.value;$('#o_price').textContent='$'+T.price.toFixed(2);teamEq();});
-$('#k_days').addEventListener('input',e=>{T.days=+e.target.value;$('#o_days').textContent=T.days;teamEq();});
-function eq(){ $('#eq').textContent = `${fmt(base(),2)} / year  ×  ${Math.round(P.inference_share*100)} % inference  ×  ${Math.round(P.agent_share*100)} % agents reading files  ×  ${Math.round(P.overhead*100)} % avoidable  =  ${fmt(burnPerSec()*SEC_YEAR,2)} / year  =  ${fmt(burnPerSec(),2)} / second`; }
-// projection
+$('#tab1').addEventListener('click',e=>{ const tr=e.target.closest('tr.pick'); if(!tr) return; devs=+tr.dataset.devs; table1(); proj(); });
+function eq(){ $('#eq').textContent=`Item B · world scenario: ${fmt(base(),2)} per year × ${Math.round(P.inference_share*100)} % inference × ${Math.round(P.agent_share*100)} % agents reading files × ${Math.round(P.overhead*100)} % avoidable = ${fmt(burnPerSec()*SEC_YEAR,2)} per year = ${fmt(burnPerSec(),2)} per second`; }
+// world sliders
+const sl=$('#sliders'); const labels={inference_share:'B1',agent_share:'B2',overhead:'B3',growth_y1:'B4',growth_taper:'B5'};
+for (const k in D.params){ const p=D.params[k]; const div=document.createElement('div'); div.className='p';
+  div.innerHTML=`<label>${labels[k]||''}. ${p.label}<output id="o_${k}">${Math.round(P[k]*100)} %</output></label><input type="range" min="${p.min*100}" max="${p.max*100}" value="${P[k]*100}" data-k="${k}"><small>${p.note}</small>`; sl.appendChild(div); }
+sl.addEventListener('input',e=>{ if(e.target.dataset.k){ P[e.target.dataset.k]=e.target.value/100; $('#o_'+e.target.dataset.k).textContent=Math.round(e.target.value)+' %'; eq(); table1(); proj(); calc(); }});
+$('#k_req').addEventListener('input',e=>{T.req=+e.target.value;$('#o_req').textContent=T.req;table1();proj();});
+$('#k_bytes').addEventListener('input',e=>{T.bytes=+e.target.value;$('#o_bytes').textContent=T.bytes+' KB';table1();proj();});
+$('#k_price').addEventListener('input',e=>{T.price=+e.target.value;$('#o_price').textContent='$'+T.price.toFixed(2);table1();proj();});
+$('#k_days').addEventListener('input',e=>{T.days=+e.target.value;$('#o_days').textContent=T.days;table1();proj();});
+// projection of the selected team's reading bill
 function proj(){
-  const yrs=10, W=960,H=360,L=70,R=20,T=20,B=40; let g=P.growth_y1; const taper=P.growth_taper; const cur=[],alt=[]; let spend=base();
-  for(let y=0;y<=yrs;y++){ const readCost=spend*P.inference_share*P.agent_share; cur.push(readCost); alt.push(readCost*(1-P.overhead)); g = g + (taper-g)/Math.max(1,5-y>0?5-y:1); if(y>=4) g=taper; spend*=1+g; }
-  const max=Math.max(...cur)*1.05; const x=i=>L+(W-L-R)*i/yrs, yv=v=>T+(H-T-B)*(1-v/max);
+  const yrs=10,W=960,H=360,L=80,R=20,T0=24,B=40; let g=P.growth_y1; const taper=P.growth_taper; const cur=[],alt=[]; let bill=readYear(devs);
+  for(let y=0;y<=yrs;y++){ cur.push(bill); alt.push(bill*(1-P.overhead)); if(y>=4) g=taper; else g=g+(taper-g)/(5-y); bill*=1+g; }
+  const max=Math.max(...cur)*1.06; const x=i=>L+(W-L-R)*i/yrs, yv=v=>T0+(H-T0-B)*(1-v/max);
   const path=a=>a.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+yv(v).toFixed(1)).join(' ');
-  const area=`${path(cur)} L${x(yrs)} ${yv(alt[yrs])} ${alt.map((v,i)=>'L'+x(yrs-i)+' '+yv(alt[yrs-i])).join(' ')} Z`;
-  let s=`<path d="${area}" fill="rgba(255,106,0,.18)"/>`;
-  s+=`<path d="${path(cur)}" fill="none" stroke="#FF6A00" stroke-width="3"/><path d="${path(alt)}" fill="none" stroke="#2ED37A" stroke-width="3"/>`;
-  for(let i=0;i<=yrs;i++){ s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9AA3AD">${2026+i}</text>`; }
-  for(const f of [0,.25,.5,.75,1]){ s+=`<line x1="${L}" x2="${W-R}" y1="${yv(max*f)}" y2="${yv(max*f)}" stroke="#262C33"/><text x="${L-8}" y="${yv(max*f)+4}" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9AA3AD">${fmt(max*f)}</text>`; }
+  const area=`${path(cur)} ${alt.map((v,i)=>'L'+x(yrs-i)+' '+yv(alt[yrs-i])).join(' ')} Z`;
+  let s='';
+  for(const f of [0,.25,.5,.75,1]){ s+=`<line x1="${L}" x2="${W-R}" y1="${yv(max*f)}" y2="${yv(max*f)}" stroke="#dfe1e2"/><text x="${L-8}" y="${yv(max*f)+4}" text-anchor="end" font-family="Roboto Mono,monospace" font-size="12" fill="#565c65">${fmt(max*f)}</text>`; }
+  s+=`<path d="${area}" fill="rgba(181,9,9,.10)"/><path d="${path(cur)}" fill="none" stroke="#b50909" stroke-width="2.5"/><path d="${path(alt)}" fill="none" stroke="#1a4480" stroke-width="2.5"/>`;
+  for(let i=0;i<=yrs;i++){ s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-family="Roboto Mono,monospace" font-size="12" fill="#565c65">${2026+i}</text>`; }
   const gap=cur.reduce((a,v,i)=>a+v-alt[i],0);
-  s+=`<text x="${W-R}" y="${T+16}" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E6E1">ten-year gap: ${fmt(gap,2)}</text>`;
-  s+=`<text x="${L+10}" y="${T+16}" font-family="IBM Plex Mono,monospace" font-size="12" fill="#FF6A00">■ as it runs today</text><text x="${L+10}" y="${T+34}" font-family="IBM Plex Mono,monospace" font-size="12" fill="#2ED37A">■ retrieval-first</text>`;
+  s+=`<text x="${W-R}" y="${T0+14}" text-anchor="end" font-family="Roboto Mono,monospace" font-size="13" fill="#1b1b1b">Ten-year gap, team of ${devs.toLocaleString('en-US')}: ${full(gap)}</text>`;
+  s+=`<text x="${L+10}" y="${T0+14}" font-family="Public Sans,sans-serif" font-size="12" fill="#b50909">— reading whole files</text><text x="${L+10}" y="${T0+32}" font-family="Public Sans,sans-serif" font-size="12" fill="#1a4480">— retrieval-first</text>`;
   $('#proj').innerHTML=s;
 }
-// states
-const grid=$('#stateGrid');
-for (const st of D.states) { const a=document.createElement('a'); a.className='state'; a.href=`/state/${st.code.toLowerCase()}/`;
-  a.innerHTML=`<div class="n">${st.name}</div><div class="a">${fmt(st.ai_fy2026,1)}</div><div class="c">${st.pop?('$'+(st.ai_fy2026/st.pop).toFixed(2)+' per resident'):''}</div>`; grid.appendChild(a); }
-for (const r of D.federal_ai.top_agencies) $('#agencies').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="num">${fmt(r.amount,1)}</td></tr>`);
-for (const r of D.federal_ai.top_recipients) $('#recipients').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="num">${fmt(r.amount,1)}</td></tr>`);
+// table 3
+const usTotal=D.states.reduce((a,s)=>a+s.ai_fy2026,0); const tb3=$('#tab3 tbody');
+D.states.forEach((st,i)=>{ tb3.insertAdjacentHTML('beforeend',`<tr><td class="n">${i+1}</td><td>${st.name}</td><td class="n">${full(st.ai_fy2026)}</td><td class="n">${st.pop?'$'+(st.ai_fy2026/st.pop).toFixed(2):'—'}</td><td class="n">${(100*st.ai_fy2026/usTotal).toFixed(1)} %</td><td><a href="/state/${st.code.toLowerCase()}/">Release</a></td></tr>`); });
+for (const r of D.federal_ai.top_agencies) $('#agencies').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="n">${full(r.amount)}</td></tr>`);
+for (const r of D.federal_ai.top_recipients) $('#recipients').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="n">${full(r.amount)}</td></tr>`);
+// reference ticks
+const t0=Date.now(), fetchedMs=Date.parse(D.debt.date+'T00:00:00Z'); $('#debtDate').textContent=D.debt.date;
+function tick(){ const s=(Date.now()-t0)/1000; $('#debt').textContent='$'+Math.round(D.debt.total+D.debt.per_second*((Date.now()-fetchedMs)/1000)).toLocaleString('en-US'); $('#burn').textContent=fmt(burnPerSec()*s,2); $('#burnRate').textContent=fmt(burnPerSec(),2); requestAnimationFrame(tick); }
 // calculator
-function calc(){ const devs=+$('#cDevs').value||0, sp=+$('#cSpend').value||0, ag=(+$('#cAgent').value||0)/100; const yr=devs*sp*12*ag; $('#cOut').textContent = `${fmt(yr*P.overhead,0)} / year avoidable of ${fmt(yr,0)} spent on agents reading`; }
+function calc(){ const d=+$('#cDevs').value||0, sp=+$('#cSpend').value||0, ag=(+$('#cAgent').value||0)/100; const yr=d*sp*12*ag; $('#cOut').textContent=`${full(yr*P.overhead)} per year avoidable, of ${full(yr)} spent on agents reading`; }
 document.querySelectorAll('#cDevs,#cSpend,#cAgent').forEach(i=>i.addEventListener('input',calc));
-document.querySelectorAll('.toggle button').forEach(b=>b.addEventListener('click',()=>{ scope=b.dataset.scope; document.querySelectorAll('.toggle button').forEach(x=>x.setAttribute('aria-pressed',x===b)); $('#scopeLabel').textContent = scope==='world'?'world AI spend':'US federal AI contracts'; eq(); proj(); }));
-eq(); teamEq(); proj(); calc(); tick();
+table1(); eq(); proj(); calc(); tick();
 </script>
 </body>
 </html>
