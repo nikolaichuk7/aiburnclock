@@ -1,8 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-<rect width="1200" height="630" fill="#0B0D10"/>
-<text x="70" y="120" font-family="Menlo, monospace" font-size="24" fill="#9AA3AD" letter-spacing="4">AI BURN CLOCK · LIVE</text>
-<text x="70" y="260" font-family="Impact, 'Arial Narrow', sans-serif" font-size="96" fill="#E8E6E1">HOW MUCH MONEY IS BURNING</text>
-<text x="70" y="360" font-family="Impact, 'Arial Narrow', sans-serif" font-size="96" fill="#FF6A00">IN AI RIGHT NOW?</text>
-<text x="70" y="450" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#9AA3AD">Treasury · USAspending · Census · Gartner · open formula, every knob on the page</text>
-<text x="70" y="560" font-family="Menlo, monospace" font-size="28" fill="#2ED37A">aiburnclock.org</text>
+<rect width="1200" height="630" fill="#fcfcfb"/>
+<rect x="0" y="0" width="1200" height="150" fill="#1a4480"/>
+<text x="70" y="78" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="44" fill="#ffffff">AI Burn Clock</text>
+<text x="70" y="114" font-family="Helvetica, Arial, sans-serif" font-size="18" letter-spacing="4" fill="#ffffff" opacity="0.85">INDEX OF THE COST OF RETRIEVAL BY READING IN AI SYSTEMS</text>
+<text x="70" y="250" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="46" fill="#1b1b1b">The cost of finding one function</text>
+<text x="70" y="306" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="46" fill="#1b1b1b">by reading whole files, priced for a team like yours.</text>
+<line x1="70" y1="350" x2="1130" y2="350" stroke="#1b1b1b" stroke-width="3"/>
+<text x="70" y="400" font-family="Menlo, monospace" font-size="20" fill="#565c65">SERIES AIB-1 · REVISED DAILY · TREASURY · USASPENDING · CENSUS · GARTNER</text>
+<text x="70" y="450" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1b1b1b">Table 1 · By team size    Table 2 · One answer, measured    Chart 1 · Ten years    Table 3 · By state</text>
+<text x="70" y="560" font-family="Menlo, monospace" font-size="26" fill="#1a4480">aiburnclock.org</text>
 </svg>
