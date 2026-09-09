@@ -47,6 +47,7 @@ footer{margin:56px 0 40px;padding-top:14px;border-top:3px solid var(--ink);font-
 <h2><span class="no">Note for offices</span>What a retrieval-first pilot looks like</h2>
 <p>Agents that read whole files to find one passage are billed for every file. A local index answers "where is it" first and the agent reads only that passage. Measured on a production codebase: 16 to 47 times less read per answer; on published coding tasks: 2.7 times fewer tokens end to end. The software is open source and runs inside your own environment; nothing leaves the building.</p>
 <p>A one-page memo for {{STATE_NAME}} with these figures, their sources, and a pilot that runs on one laptop with no procurement is available on request: <a href="mailto:hello@aiburnclock.org?subject={{STATE_NAME}}">hello@aiburnclock.org</a>.</p>
+<p><a class="btn" id="askCio" href="#">Send this release to your state CIO</a> <span style="font-size:13px;color:var(--muted)">Opens a prefilled email with the figures and the sources; add the address.</span></p>
 <h2><span class="no">Embed</span>This state's live figure</h2>
 <pre>&lt;script src="https://aiburnclock.org/embed.js" data-state="{{STATE_CODE}}"&gt;&lt;/script&gt;</pre>
 <a class="btn" href="/">National release</a>
@@ -59,5 +60,6 @@ const full=n=>'$'+Math.round(n).toLocaleString('en-US');
 const yr=S.ai_fy2026*P.inference_share*P.agent_share*P.overhead;
 document.getElementById('burn').textContent=full(yr); document.getElementById('burn2').textContent=full(yr); document.getElementById('perDay').textContent=full(yr/365.25);
 document.getElementById('pc').textContent=S.pop?('$'+(S.ai_fy2026/S.pop).toFixed(2)):'n/a'; document.getElementById('pop').textContent=S.pop?S.pop.toLocaleString('en-US'):'n/a';
+document.getElementById('askCio').href='mailto:?subject='+encodeURIComponent('{{STATE_NAME}}: federal AI contracts and the cost of retrieval by reading')+'&body='+encodeURIComponent('Federal prime contracts naming AI performed in {{STATE_NAME}}, FY2026 to date: {{STATE_AI}} (USAspending.gov). At the reference factors of the AI Burn Clock index, avoidable reading on that figure is '+full(yr)+' a year. Retrieval-first indexing is open source and runs inside the state environment; a pilot fits on one laptop with no procurement.\n\nRelease and sources: https://aiburnclock.org/state/{{STATE_CODE}}/\nMethod: https://aiburnclock.org/methodology.html');
 </script>
 </body></html>

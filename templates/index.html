@@ -26,6 +26,19 @@ a{color:var(--primary2)}
 .mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:30px;letter-spacing:.01em;line-height:1.1}
 .mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}
 .mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}
+.tape{background:#0f2a52;color:#fff;border-bottom:1px solid #0b1f3d}
+.tape .wrap{display:flex;gap:28px;overflow-x:auto;padding-top:9px;padding-bottom:9px;white-space:nowrap}
+.tk{display:inline-flex;flex-direction:column;gap:1px}
+.tk .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.tk b{font-family:"Roboto Mono",monospace;font-weight:500;font-size:19px;font-variant-numeric:tabular-nums}
+#tapeBurn{color:#ffbe2e}#tapeMine{color:#7fd39a}
+.mine{background:#fff;border:1px solid var(--rule);padding:14px 18px;margin:18px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 18px;align-items:end}
+.mine label{display:block;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.mine input{width:100%;border:0;border-bottom:2px solid var(--primary);padding:6px 0;font:inherit;font-family:"Roboto Mono",monospace;font-size:22px;background:transparent}
+.mine .res{grid-column:1/-1;font-family:Merriweather,Georgia,serif;font-size:17px;line-height:1.5}
+.mine .res b{font-family:"Roboto Mono",monospace;font-weight:500;color:var(--burn)}
+.mine .acts{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
+.btn.small{padding:7px 12px;font-size:13px}
 nav.toc{border-bottom:1px solid var(--line);background:#fff}
 nav.toc .wrap{display:flex;gap:22px;overflow-x:auto;padding-top:10px;padding-bottom:10px;font-size:14px}
 nav.toc a{color:var(--ink);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px}
@@ -81,20 +94,32 @@ footer p{max-width:90ch}
   <div class="name">AI Burn Clock<small>Index of the cost of retrieval by reading in AI systems</small></div>
   <div class="rel">RELEASE {{FETCHED}}<br>Method version 2026.1 · <a href="/methodology.html" style="color:#fff">Technical note</a><br>Data: <a href="/data.json" style="color:#fff">data.json</a> · <a href="/press.html" style="color:#fff">Press</a></div>
 </div></header>
+<div class="tape"><div class="wrap">
+  <span class="tk"><span class="k">Avoidable reading, world scenario, since you opened this page</span><b id="tapeBurn">$0</b></span>
+  <span class="tk"><span class="k">Your organisation, this month so far</span><b id="tapeMine">$0</b></span>
+  <span class="tk"><span class="k">Total public debt, Treasury</span><b id="tapeDebt">{{DEBT_TOTAL}}</b></span>
+</div></div>
 <nav class="toc"><div class="wrap"><a href="#summary">Summary</a><a href="#t1">Table 1 · By team size</a><a href="#t2">Table 2 · One answer</a><a href="#c1">Chart 1 · Ten years</a><a href="#t3">Table 3 · By state</a><a href="#t4">Tables 4–5 · Agencies, recipients</a><a href="#ref">Reference figures</a><a href="#method">Technical note</a><a href="#embed">Embed and data</a></div></nav>
 
 <div class="wrap">
-<h1 id="summary">The cost of finding one function by reading whole files, priced for a team like yours</h1>
-<p class="summary">At the reference parameters, a team of <b id="sDevs">50</b> developers whose agents search by reading spends an estimated <b id="sRead">…</b> a year on that reading, of which <b id="sBurn">…</b> would not have been read at all had a local index answered "where is it" first. That is <b id="sSec">…</b> every second, around the clock. Change any parameter below and this sentence is recomputed.</p>
+<h1 id="summary">AI agents read up to 47 times more than they use. This is the bill.</h1>
+<p class="summary">At the reference parameters, a team of <b id="sDevs">50</b> developers whose agents search by reading spends an estimated <b id="sRead">…</b> a year on that reading, of which <b id="sBurn">…</b> would not have been read at all had a local index answered "where is it" first. That is <b id="sMonth">…</b> a month, or the fully loaded cost of <b id="sHires">…</b> senior engineers a year, spent on reading nothing needed. Change any parameter below and this sentence is recomputed.</p>
 <p class="note">Estimates, not accounts. The method is four multiplications with every factor on this page; the measured factor comes from a production codebase and from a published case study. Federal and Treasury figures further down are reference values shown as published, for scale, and are not attributed to this cost.</p>
+<div class="mine" id="mine">
+  <div><label>Developers using AI agents</label><input id="mDevs" type="number" value="50" min="1"></div>
+  <div><label>Monthly AI spend per developer, $</label><input id="mSpend" type="number" value="200" min="0"></div>
+  <div><label>Share that is agents reading files, %</label><input id="mAgent" type="number" value="40" min="0" max="100"></div>
+  <div class="res" id="mRes"></div>
+  <div class="acts"><button class="btn small" id="mCard">Download the figure as an image</button><a class="btn small" id="mMail" href="#">Send to your CTO</a><a class="btn small" id="mPost" href="#" target="_blank" rel="noopener">Post it</a></div>
+</div>
 
 <h2 id="t1"><span class="no">Table 1</span>Estimated annual cost of retrieval by reading, by team size</h2>
 <p class="cap">Select a row to set the summary. Reading bill = developers × requests per day × working days × tokens read per request × price per million tokens. Avoidable = reading bill × avoidable share.</p>
 <div class="tablewrap"><table id="tab1">
-<thead><tr><th>Team</th><th class="n">Tokens read per year</th><th class="n">Reading bill</th><th class="n">Avoidable</th><th class="n">Kept with an index</th><th class="n">Per second</th></tr></thead>
+<thead><tr><th>Team</th><th class="n">Tokens read per year</th><th class="n">Reading bill, year</th><th class="n">Avoidable, year</th><th class="n">Avoidable, month</th><th class="n">Senior engineers it would pay</th></tr></thead>
 <tbody></tbody>
 </table></div>
-<p class="foot">Reference parameters: <span id="refline"></span>. Adjust under Technical note, item A.</p>
+<p class="foot">Reference parameters: <span id="refline"></span>. Adjust under Technical note, item A. Last column: avoidable cost divided by $185,000, a reference fully loaded cost of one senior engineer in the United States.</p>
 
 <h2 id="t2"><span class="no">Table 2</span>Cost of one answer, by retrieval method, measured</h2>
 <p class="cap">Three ordinary questions put to an agent on one production Next.js codebase, September 2026. "Read" is the size of the whole files behind the answer, which a grep-and-read agent loads into its context; "Index" is what the same agent read when a local index answered first.</p>
@@ -172,7 +197,7 @@ const D = JSON.parse(document.getElementById('data').textContent);
 const $ = s => document.querySelector(s);
 const P = {}; for (const k in D.params) P[k] = D.params[k].default;
 let devs = 50; const T = {req:40, bytes:150, price:3, days:250};
-const SEC_YEAR = 365.25*86400;
+const SEC_YEAR = 365.25*86400; const SALARY = 185000; // fully loaded senior engineer, US, reference value
 const fmt = (n, d=0) => { const a=Math.abs(n); const u=[[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']]; for (const [v,s] of u) if (a>=v) return '$'+(n/v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:Math.max(d,2)})+s; return '$'+n.toLocaleString('en-US',{maximumFractionDigits:d}); };
 const full = n => '$'+Math.round(n).toLocaleString('en-US');
 const tokensYear = d => d*T.req*T.days*(T.bytes*1024/4);
@@ -183,8 +208,8 @@ function burnPerSec(){ return base()*P.inference_share*P.agent_share*P.overhead/
 function table1(){
   const tb=$('#tab1 tbody'); tb.innerHTML='';
   for (const d of [10,50,200,2000]) { const tr=document.createElement('tr'); tr.className='pick'+(d===devs?' sel':''); tr.dataset.devs=d;
-    tr.innerHTML=`<td>${d===2000?'An agency of 2,000':'Team of '+d}</td><td class="n">${(tokensYear(d)/1e9).toFixed(1)} B</td><td class="n">${full(readYear(d))}</td><td class="n burn">${full(burnYear(d))}</td><td class="n keep">${full(burnYear(d))}</td><td class="n">${fmt(burnYear(d)/SEC_YEAR,4)}</td>`; tb.appendChild(tr); }
-  $('#sDevs').textContent=devs.toLocaleString('en-US'); $('#sRead').textContent=full(readYear(devs)); $('#sBurn').textContent=full(burnYear(devs)); $('#sSec').textContent=fmt(burnYear(devs)/SEC_YEAR,4);
+    tr.innerHTML=`<td>${d===2000?'An agency of 2,000':'Team of '+d}</td><td class="n">${(tokensYear(d)/1e9).toFixed(1)} B</td><td class="n">${full(readYear(d))}</td><td class="n burn">${full(burnYear(d))}</td><td class="n burn">${full(burnYear(d)/12)}</td><td class="n keep">${(burnYear(d)/SALARY).toFixed(1)}</td>`; tb.appendChild(tr); }
+  $('#sDevs').textContent=devs.toLocaleString('en-US'); $('#sRead').textContent=full(readYear(devs)); $('#sBurn').textContent=full(burnYear(devs)); $('#sMonth').textContent=full(burnYear(devs)/12); $('#sHires').textContent=(burnYear(devs)/SALARY).toFixed(1);
   $('#refline').textContent=`${T.req} requests per developer per day, ${T.bytes} KB read per request (≈ ${Math.round(T.bytes*1024/4).toLocaleString('en-US')} tokens), $${T.price.toFixed(2)} per million tokens, ${T.days} working days, ${Math.round(P.overhead*100)} % avoidable`;
   $('#teamEq').textContent=`Item A · ${devs} developers × ${T.req} requests/day × ${T.days} days × ${Math.round(T.bytes*1024/4).toLocaleString('en-US')} tokens × $${T.price.toFixed(2)}/M = ${full(readYear(devs))} per year reading; × ${Math.round(P.overhead*100)} % avoidable = ${full(burnYear(devs))} per year`;
 }
@@ -222,11 +247,23 @@ for (const r of D.federal_ai.top_agencies) $('#agencies').insertAdjacentHTML('be
 for (const r of D.federal_ai.top_recipients) $('#recipients').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="n">${full(r.amount)}</td></tr>`);
 // reference ticks
 const t0=Date.now(), fetchedMs=Date.parse(D.debt.date+'T00:00:00Z'); $('#debtDate').textContent=D.debt.date;
-function tick(){ const s=(Date.now()-t0)/1000; $('#debt').textContent='$'+Math.round(D.debt.total+D.debt.per_second*((Date.now()-fetchedMs)/1000)).toLocaleString('en-US'); $('#burn').textContent=fmt(burnPerSec()*s,2); $('#burnRate').textContent=fmt(burnPerSec(),2); requestAnimationFrame(tick); }
+function tick(){ const s=(Date.now()-t0)/1000; const debtNow='$'+Math.round(D.debt.total+D.debt.per_second*((Date.now()-fetchedMs)/1000)).toLocaleString('en-US'); $('#debt').textContent=debtNow; $('#tapeDebt').textContent=debtNow; $('#burn').textContent=fmt(burnPerSec()*s,2); $('#tapeBurn').textContent='$'+Math.round(burnPerSec()*s).toLocaleString('en-US'); $('#burnRate').textContent=fmt(burnPerSec(),2);
+  const m=mineYear(); const now=new Date(); const monthFrac=(now.getDate()-1+now.getHours()/24)/30.4; $('#tapeMine').textContent='$'+Math.round(m.burn/12*monthFrac + m.burn/SEC_YEAR*s).toLocaleString('en-US'); requestAnimationFrame(tick); }
 // calculator
 function calc(){ const d=+$('#cDevs').value||0, sp=+$('#cSpend').value||0, ag=(+$('#cAgent').value||0)/100; const yr=d*sp*12*ag; $('#cOut').textContent=`${full(yr*P.overhead)} per year avoidable, of ${full(yr)} spent on agents reading`; }
 document.querySelectorAll('#cDevs,#cSpend,#cAgent').forEach(i=>i.addEventListener('input',calc));
-table1(); eq(); proj(); calc(); tick();
+// your organisation
+const mineT0=Date.now();
+function mineYear(){ const d=+$('#mDevs').value||0, sp=+$('#mSpend').value||0, ag=(+$('#mAgent').value||0)/100; return {read:d*sp*12*ag, burn:d*sp*12*ag*P.overhead, d}; }
+function mine(){ const m=mineYear(); $('#mRes').innerHTML=`Your organisation: <b>${full(m.burn)}</b> a year, <b>${full(m.burn/12)}</b> a month, spent on agents reading what an index would have skipped, out of ${full(m.read)} spent on agents reading at all. That is the fully loaded cost of <b>${(m.burn/SALARY).toFixed(1)}</b> senior engineers.`;
+  const txt=`Our ${m.d} developers' AI agents burn about ${full(m.burn)} a year reading files they never needed. Source and method: aiburnclock.org`;
+  $('#mMail').href='mailto:?subject='+encodeURIComponent('AI reading bill: '+full(m.burn)+' a year avoidable')+'&body='+encodeURIComponent(txt+'\n\nFigures: '+full(m.read)+' a year on agents reading; '+full(m.burn)+' avoidable at the reference 63 % (Technical note, item B3). Every parameter is on the page.');
+  $('#mPost').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(txt); }
+document.querySelectorAll('#mDevs,#mSpend,#mAgent').forEach(i=>i.addEventListener('input',mine));
+$('#mCard').addEventListener('click',()=>{ const m=mineYear(); const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#fcfcfb"/><rect width="1200" height="120" fill="#1a4480"/><text x="60" y="76" font-family="Georgia,serif" font-weight="900" font-size="40" fill="#fff">AI Burn Clock</text><text x="60" y="104" font-family="Helvetica,Arial,sans-serif" font-size="16" letter-spacing="4" fill="#fff" opacity="0.85">INDEX OF THE COST OF RETRIEVAL BY READING · ${D.fetched_utc.slice(0,10)}</text><text x="60" y="250" font-family="Georgia,serif" font-weight="700" font-size="40" fill="#1b1b1b">${m.d} developers · AI agents reading files they never needed</text><text x="60" y="370" font-family="Menlo,monospace" font-weight="700" font-size="96" fill="#b50909">${full(m.burn)}</text><text x="60" y="420" font-family="Helvetica,Arial,sans-serif" font-size="26" fill="#565c65">a year avoidable · ${full(m.burn/12)} a month · the cost of ${(m.burn/SALARY).toFixed(1)} senior engineers</text><line x1="60" y1="470" x2="1140" y2="470" stroke="#1b1b1b" stroke-width="3"/><text x="60" y="520" font-family="Menlo,monospace" font-size="20" fill="#565c65">METHOD AND SOURCES: aiburnclock.org/methodology.html · SERIES AIB-1</text></svg>`;
+  const img=new Image(); img.onload=()=>{ const c=document.createElement('canvas'); c.width=1200; c.height=630; c.getContext('2d').drawImage(img,0,0); const a=document.createElement('a'); a.download='ai-burn-clock-'+m.d+'-developers.png'; a.href=c.toDataURL('image/png'); a.click(); };
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg); });
+table1(); eq(); proj(); calc(); mine(); tick();
 </script>
 </body>
 </html>
