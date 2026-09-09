@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Burn Clock · The remedy: retrieval-first indexing</title>
+<meta name="description" content="What stops AI agents from reading whole files: a local index that answers where before the agent reads. How it works, what it measured, how to install it in four commands, and where the code is.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://aiburnclock.org/remedy.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="The remedy: retrieval-first indexing for AI agents"><meta property="og:description" content="A local index answers where before the agent reads. Measured: 16 to 47 times less read per answer. Open source, four commands."><meta property="og:image" content="https://aiburnclock.org/og/national.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"The remedy: retrieval-first indexing for AI agents","author":{"@type":"Organization","name":"AI Burn Clock"},"publisher":{"@type":"Organization","name":"AI Burn Clock","logo":{"@type":"ImageObject","url":"https://aiburnclock.org/emblem.png"}},"about":[{"@type":"SoftwareApplication","name":"XERJ","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://xerj.org","downloadUrl":"https://github.com/xerj-org/xerj"}],"mainEntityOfPage":"https://aiburnclock.org/remedy.html"}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2;--burn:#b50909;--keep:#2e8540}
+*{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;line-height:1.6}
+a{color:var(--primary2)}.wrap{max-width:860px;margin:0 auto;padding:0 20px 60px}
+.idbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);padding:6px 0}.idbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:0}
+.mast{background:var(--primary);color:#fff;padding:20px 0 16px}.mast .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:0}
+.mast .name{font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.1;display:flex;align-items:center;gap:14px}.mast .name a{color:#fff;text-decoration:none}
+.mast .name small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:6px}
+.mast .rel{font-family:"Roboto Mono",monospace;font-size:12px;line-height:1.7;text-align:right;opacity:.92}
+h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;margin:32px 0 6px;line-height:1.2}
+h2{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:20px;margin:36px 0 6px;padding-top:12px;border-top:3px solid var(--ink)}
+h2 .no{font-family:"Roboto Mono",monospace;font-weight:400;font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
+p,li{max-width:74ch}pre{background:#fff;border:1px solid var(--line);padding:10px 12px;overflow-x:auto;font-family:"Roboto Mono",monospace;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line)}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#fafafa}td.n{text-align:right;font-family:"Roboto Mono",monospace;white-space:nowrap}
+.btn{display:inline-block;background:var(--primary2);color:#fff;padding:9px 14px;text-decoration:none;font-weight:600;font-size:14px;margin:6px 8px 0 0}
+footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-size:13px;color:var(--muted)}
+</style></head>
+<body>
+<div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · The remedy</span></div></div>
+<header class="mast"><div class="wrap"><div class="name"><img src="/emblem.svg" alt="" width="60" height="60"><span><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></span></div><div class="rel">THE REMEDY<br>Sources refreshed {{FETCHED}}<br><a href="/methodology.html" style="color:#fff">Technical note</a> · <a href="/press.html" style="color:#fff">Press</a></div></div></header>
+<div class="wrap">
+<h1>The remedy: a local index that answers "where" before the agent reads</h1>
+<p>The cost this index tracks has one cause and one cure. The cause: an AI agent that needs one function or one paragraph finds it by reading, opening whole files into a paid context window until it stumbles on the passage. The cure: an index on the agent's own machine that answers "where is it" first, so the agent reads only the passage. The word for the second habit is retrieval-first.</p>
+
+<h2><span class="no">1</span>How it works</h2>
+<table>
+<tr><th>Step</th><th>Reading whole files</th><th>Retrieval-first</th></tr>
+<tr><td>Find</td><td>grep the tree, open candidates, read them</td><td>ask the index; get file, line and symbol back in milliseconds</td></tr>
+<tr><td>Read</td><td>the whole files, 103–244 KB behind one answer in our measurement</td><td>the passage, 5–6 KB</td></tr>
+<tr><td>Pay</td><td>for every byte loaded, every time</td><td>for the passage; the index is built once and updated incrementally</td></tr>
+<tr><td>Privacy</td><td>files travel to wherever the model runs</td><td>the index lives on the machine; with a local model, nothing leaves it</td></tr>
+</table>
+
+<h2><span class="no">2</span>What was measured</h2>
+<p>Three ordinary questions on one production Next.js codebase, September 2026: 103,023, 243,640 and 241,859 bytes of whole files behind the answers against 6,405, 6,389 and 5,101 bytes read through the index, a 16×, 38× and 47× difference (Table 2 of the national release). On published coding tasks, retrieval-first reduced output tokens 2.7× end to end at the same solve rate (<a href="https://xerj.org/case-studies/reference-coding.html">reference-coding case study</a>). The index uses the conservative 63 % as its avoidable share.</p>
+
+<h2><span class="no">3</span>The implementation measured: XERJ</h2>
+<p><a href="https://xerj.org">XERJ</a> is an open-source local search engine for AI agents: one static Rust binary, Elasticsearch-compatible on port 9200, that indexes any folder with one command, returns passages and pointers, keeps agent memory across sessions, and speaks the Model Context Protocol so any agent can call it. Apache-2.0. Source and releases: <a href="https://github.com/xerj-org/xerj">github.com/xerj-org/xerj</a>. Instructions for an agent: <a href="https://xerj.org/llms.txt">xerj.org/llms.txt</a>.</p>
+<pre>curl -fsSL https://xerj.org/get | sh
+xerj --insecure --data-dir ./.xerj-data &
+xerj autoindex .
+xerj search "the question you were about to grep"</pre>
+<p>Four commands, one folder, no cloud key. The installer verifies a SHA-256 checksum before it installs anything.</p>
+
+<h2><span class="no">4</span>Measure your own figure</h2>
+<p>The <a href="https://github.com/nikolaichuk7/xerj-plugins">xerj-memory plugin for Claude Code</a> adds XERJ as local memory, teaches the agent to retrieve before it reads, and prints a score card at the end of every session: bytes read through the index against the whole files behind them, and an image you can post. Counts only; nothing leaves the machine.</p>
+<pre>/plugin marketplace add nikolaichuk7/xerj-plugins
+/plugin install xerj-memory@xerj-plugins</pre>
+<p>The <a href="https://github.com/nikolaichuk7/xerj-offline">offline agent</a> goes one step further: XERJ as memory, an open model served locally as the brain, and a 120-line loop between them. It answers questions about your code with file and line, with the network cable unplugged. That is the configuration a ship, an embassy, a hospital and a classified network need.</p>
+
+<h2><span class="no">5</span>For an office</h2>
+<p>A pilot fits on one laptop and needs no procurement: install, index a folder of non-sensitive material, ask questions for a week, read the score card. Nothing is sent anywhere. State and agency offices can request a one-page memo with their figures at <a href="mailto:hello@aiburnclock.org">hello@aiburnclock.org</a>.</p>
+<a class="btn" href="https://github.com/xerj-org/xerj">XERJ on GitHub</a><a class="btn" href="https://xerj.org">xerj.org</a><a class="btn" href="https://github.com/nikolaichuk7/xerj-plugins">Claude Code plugin</a><a class="btn" href="/">National release</a>
+<footer>The AI Burn Clock is maintained by the XERJ community and names the implementation it measured. Any index that returns passages instead of files produces the same effect; the figures on this site do not depend on which one you choose. Not affiliated with any government agency.</footer>
+</div></body></html>

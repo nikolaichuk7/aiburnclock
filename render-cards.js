@@ -40,6 +40,7 @@ function card({ kicker, line1, line2, figure, sub, foot }) {
     const yr = s.ai_fy2026 * P.inference_share * P.agent_share * P.overhead;
     jobs.push([`state-${s.code.toLowerCase()}.png`, card({ kicker: `STATE RELEASE ${date} · ${s.name.toUpperCase()}`, line1: `Federal contracts naming AI performed in ${s.name},`, line2: 'fiscal year 2026 to date:', figure: money(s.ai_fy2026), sub: `${s.pop ? '$' + (s.ai_fy2026 / s.pop).toFixed(2) + ' per resident · ' : ''}avoidable reading on that figure at the reference factors: ${full(yr)} a year, a scenario computed from a published floor`, foot: `aiburnclock.org/state/${s.code.toLowerCase()}/ · USAspending.gov · Census Bureau` })]);
   }
+  { const e = fs.readFileSync(path.join(__dirname,'templates','emblem.svg'),'utf8'); await page.setViewportSize({width:512,height:512}); await page.setContent(`<body style="margin:0;background:#fff">${e.replace(/width="200" height="200"/,'width="512" height="512"')}</body>`); await page.screenshot({path: path.join(SITE,'emblem.png'), type:'png'}); await page.setViewportSize({width:1200,height:630}); }
   for (const [name, html] of jobs) { await page.setContent(html, { waitUntil: 'load' }); await page.screenshot({ path: path.join(OUT, name), type: 'png' }); }
   await browser.close(); console.log(`rendered ${jobs.length} cards to site/og/`);
 })();

@@ -9,6 +9,8 @@
 <meta property="og:image" content="https://aiburnclock.org/og/state-{{STATE_LOWER}}.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="canonical" href="https://aiburnclock.org/state/{{STATE_CODE}}/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"AI Burn Clock state release: {{STATE_NAME}}","description":"Federal contract obligations naming AI performed in {{STATE_NAME}}, population, state debt, and the index's reference estimate.","url":"https://aiburnclock.org/state/{{STATE_CODE}}/","creator":{"@type":"Organization","name":"AI Burn Clock","url":"https://aiburnclock.org/"},"license":"https://creativecommons.org/licenses/by/4.0/","spatialCoverage":"{{STATE_NAME}}, United States","isAccessibleForFree":true}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
 :root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--rule:#a9aeb1;--primary:#1a4480;--primary2:#005ea2;--burn:#b50909;--keep:#2e8540}
@@ -52,7 +54,7 @@ footer{margin:56px 0 40px;padding-top:14px;border-top:3px solid var(--ink);font-
 <p><a class="btn" id="askCio" href="#">Send this release to your state CIO</a> <span style="font-size:13px;color:var(--muted)">Opens a prefilled email with the figures and the sources; add the address.</span></p>
 <h2><span class="no">Embed</span>This state's live figure</h2>
 <pre>&lt;script src="https://aiburnclock.org/embed.js" data-state="{{STATE_CODE}}"&gt;&lt;/script&gt;</pre>
-<a class="btn" href="/">National release</a>
+<a class="btn" href="/">National release</a> <a class="btn" href="/press/{{FETCHED}}-{{STATE_LOWER}}/" style="background:#1a4480">Press release for {{STATE_NAME}}</a> <a class="btn" href="/remedy.html" style="background:#2e8540">The remedy</a>
 <footer>Sources: <a href="https://www.usaspending.gov/">USAspending.gov</a> · <a href="https://www.census.gov/programs-surveys/popest.html">Census Bureau</a> · method and factors on the <a href="/methodology.html">methodology page</a>. An independent statistical observatory maintained by the XERJ community. Not affiliated with any government agency.</footer>
 </div>
 <script id="data" type="application/json">{{DATA_JSON}}</script>

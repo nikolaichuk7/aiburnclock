@@ -3,6 +3,7 @@
 <title>AI Burn Clock · Press</title>
 <meta name="description" content="Press page for the AI Burn Clock index: what it measures, figures that may be quoted with attribution, embed code, data access, and contact.">
 <link rel="canonical" href="https://aiburnclock.org/press.html">
+<link rel="alternate" type="application/rss+xml" title="AI Burn Clock releases" href="https://aiburnclock.org/feed.xml">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:image" content="https://aiburnclock.org/og/national.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
@@ -12,6 +13,9 @@
 <header class="mast"><div class="wrap"><div class="name"><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></div><div class="rel">PRESS<br>Sources refreshed {{FETCHED}}<br><a href="/methodology.html" style="color:#fff">Technical note</a> · <a href="/data.json" style="color:#fff">data.json</a></div></div></header>
 <div class="wrap">
 <h1>Press</h1>
+<p style="font-family:'Roboto Mono',monospace;font-size:13px;color:var(--muted)">Daily releases, paste-ready, with plain text and a share image on each page. Subscribe: <a href="/feed.xml">feed.xml</a>.</p>
+<h2>Releases</h2>
+<ul style="list-style:none;padding:0;max-width:80ch">{{RELEASES}}</ul>
 <p><b>What the index measures.</b> The estimated cost of AI agents finding information by reading whole files rather than retrieving the passage they need, priced from public model prices and measured ratios, with every parameter on the page. Official series from the Treasury, USAspending and the Census Bureau are reproduced for scale and are not attributed to that cost.</p>
 <p><b>Why it matters.</b> On one production codebase, an agent read 16 to 47 times less per answer when a local index answered first; on published coding tasks, 2.7 times fewer tokens end to end. Worldwide AI spending is forecast at $2.59 trillion in 2026, up 47 %. The habit scales with the spend.</p>
 <h2>Figures that may be quoted, with attribution to the AI Burn Clock and the underlying source</h2>
@@ -29,6 +33,8 @@
 <pre>&lt;script src="https://aiburnclock.org/embed.js" data-scope="world"&gt;&lt;/script&gt;
 &lt;script src="https://aiburnclock.org/embed.js" data-state="TX"&gt;&lt;/script&gt;</pre>
 <p>Machine-readable release: <a href="/data.json">/data.json</a>, refreshed daily at 00:00 UTC. Pipeline and templates: <a href="https://github.com/nikolaichuk7/aiburnclock">GitHub</a>.</p>
+<h2>Boilerplate: About XERJ</h2>
+<p>XERJ is an open-source local search engine for AI agents: one Rust binary, Elasticsearch-compatible on port 9200, that indexes any folder so an agent retrieves the passage it needs instead of reading whole files. Apache-2.0. Source: github.com/xerj-org/xerj. Documentation: xerj.org. The AI Burn Clock is maintained by the XERJ community and names XERJ as the implementation it measured; any index that returns passages instead of files produces the same effect.</p>
 <h2>Statement</h2>
 <blockquote>"An agent that reads a whole file to find one function is not thinking. It is paying. The index shows the bill, the sources, and the controls. Move a control and argue with a factor, not with us."</blockquote>
 <p>Attribution: Serhii Nikolaichuk, Austin, Texas; co-author of an IETF draft on attestation results; maintainer of the AI Burn Clock.</p>
