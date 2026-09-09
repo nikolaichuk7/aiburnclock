@@ -5,10 +5,10 @@
 <title>AI Burn Clock · The remedy: retrieval-first indexing</title>
 <meta name="description" content="What stops AI agents from reading whole files: a local index that answers where before the agent reads. How it works, what it measured, how to install it in four commands, and where the code is.">
 <meta name="robots" content="index,follow">
-<link rel="canonical" href="https://aiburnclock.org/remedy.html">
+<link rel="canonical" href="https://aiburnclock.org/remedy">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:title" content="The remedy: retrieval-first indexing for AI agents"><meta property="og:description" content="A local index answers where before the agent reads. Measured: 16 to 47 times less read per answer. Open source, four commands."><meta property="og:image" content="https://aiburnclock.org/og/national.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"The remedy: retrieval-first indexing for AI agents","author":{"@type":"Organization","name":"AI Burn Clock"},"publisher":{"@type":"Organization","name":"AI Burn Clock","logo":{"@type":"ImageObject","url":"https://aiburnclock.org/emblem.png"}},"about":[{"@type":"SoftwareApplication","name":"XERJ","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://xerj.org","downloadUrl":"https://github.com/xerj-org/xerj"}],"mainEntityOfPage":"https://aiburnclock.org/remedy.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"The remedy: retrieval-first indexing for AI agents","author":{"@type":"Organization","name":"AI Burn Clock"},"publisher":{"@type":"Organization","name":"AI Burn Clock","logo":{"@type":"ImageObject","url":"https://aiburnclock.org/emblem.png"}},"about":[{"@type":"SoftwareApplication","name":"XERJ","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://xerj.org","downloadUrl":"https://github.com/xerj-org/xerj"}],"mainEntityOfPage":"https://aiburnclock.org/remedy"}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Public+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
 :root{--paper:#fcfcfb;--panel:#f0f0f0;--ink:#1b1b1b;--muted:#565c65;--line:#dfe1e2;--primary:#1a4480;--primary2:#005ea2;--burn:#b50909;--keep:#2e8540}
@@ -29,7 +29,7 @@ footer{margin:56px 0 0;padding-top:14px;border-top:3px solid var(--ink);font-siz
 </style></head>
 <body>
 <div class="idbar"><div class="wrap"><span>An independent statistical observatory. Not affiliated with any government agency.</span><span>Series AIB-1 · The remedy</span></div></div>
-<header class="mast"><div class="wrap"><div class="name"><img src="/emblem.svg" alt="" width="60" height="60"><span><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></span></div><div class="rel">THE REMEDY<br>Sources refreshed {{FETCHED}}<br><a href="/methodology.html" style="color:#fff">Technical note</a> · <a href="/press.html" style="color:#fff">Press</a></div></div></header>
+<header class="mast"><div class="wrap"><div class="name"><img src="/emblem.svg" alt="" width="60" height="60"><span><a href="/">AI Burn Clock</a><small>Index of the cost of retrieval by reading in AI systems</small></span></div><div class="rel">THE REMEDY<br>Sources refreshed {{FETCHED}}<br><a href="/methodology" style="color:#fff">Technical note</a> · <a href="/press" style="color:#fff">Press</a></div></div></header>
 <div class="wrap">
 <h1>The remedy: a local index that answers "where" before the agent reads</h1>
 <p>The cost this index tracks has one cause and one cure. The cause: an AI agent that needs one function or one paragraph finds it by reading, opening whole files into a paid context window until it stumbles on the passage. The cure: an index on the agent's own machine that answers "where is it" first, so the agent reads only the passage. The word for the second habit is retrieval-first.</p>

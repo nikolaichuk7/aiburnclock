@@ -214,7 +214,7 @@ def feed_xml(releases, today):
         return ("<item><title>" + html.escape(r["headline"]) + "</title><link>" + r["url"] + "</link><guid>" + r["url"] + "</guid><pubDate>" + pub
                 + "</pubDate><description>" + html.escape(r["desc"]) + '</description><enclosure url="https://aiburnclock.org/' + r["image"] + '" type="image/png" length="100000"/></item>')
     items = "".join(item(r) for r in releases[:60])
-    return f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI Burn Clock releases</title><link>https://aiburnclock.org/press.html</link><description>Daily releases of the index of the cost of retrieval by reading in AI systems.</description><language>en-us</language><lastBuildDate>{datetime.datetime.fromisoformat(today).strftime("%a, %d %b %Y 00:00:00 +0000")}</lastBuildDate><atom:link href="https://aiburnclock.org/feed.xml" rel="self" type="application/rss+xml"/>{items}</channel></rss>'
+    return f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI Burn Clock releases</title><link>https://aiburnclock.org/press</link><description>Daily releases of the index of the cost of retrieval by reading in AI systems.</description><language>en-us</language><lastBuildDate>{datetime.datetime.fromisoformat(today).strftime("%a, %d %b %Y 00:00:00 +0000")}</lastBuildDate><atom:link href="https://aiburnclock.org/feed.xml" rel="self" type="application/rss+xml"/>{items}</channel></rss>'
 
 def render(data):
     SITE.mkdir(exist_ok=True); (SITE / "state").mkdir(exist_ok=True)
@@ -247,7 +247,7 @@ def render(data):
     for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg", "404.html"):
         p = HERE / "templates" / f
         if p.exists(): (SITE / f).write_text(fill(p.read_text(), common))
-    urls = ["https://aiburnclock.org/", "https://aiburnclock.org/remedy.html", "https://aiburnclock.org/methodology.html", "https://aiburnclock.org/press.html"] \
+    urls = ["https://aiburnclock.org/", "https://aiburnclock.org/remedy", "https://aiburnclock.org/methodology", "https://aiburnclock.org/press"] \
          + [f"https://aiburnclock.org/state/{s['code'].lower()}/" for s in data["states"]] + [r["url"] for r in releases]
     today = data["fetched_utc"][:10]
     (SITE / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
