@@ -244,7 +244,7 @@ def render(data):
     common["RELEASES"] = "\n".join('<li><span style="font-family:Roboto Mono,monospace;color:var(--muted)">' + r["date"] + '</span> · <a href="' + r["url"] + '">' + html.escape(r["headline"]) + '</a></li>' for r in releases[:12])
     key = (DATA / "indexnow.key").read_text().strip() if (DATA / "indexnow.key").exists() else None
     if key: (SITE / f"{key}.txt").write_text(key)
-    for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg"):
+    for f in ("widget.html", "embed.js", "methodology.html", "press.html", "remedy.html", "robots.txt", "og.svg", "emblem.svg", "favicon.svg", "404.html"):
         p = HERE / "templates" / f
         if p.exists(): (SITE / f).write_text(fill(p.read_text(), common))
     urls = ["https://aiburnclock.org/", "https://aiburnclock.org/remedy.html", "https://aiburnclock.org/methodology.html", "https://aiburnclock.org/press.html"] \
