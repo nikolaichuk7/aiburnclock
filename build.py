@@ -22,6 +22,7 @@ UA = {"User-Agent": "Mozilla/5.0 (aiburnclock.org data pipeline; contact: hello@
 KW = ["artificial intelligence", "machine learning", "large language model", "generative AI", "LLM", "AI-enabled", "natural language processing"]
 FY = {"FY2025": ("2024-10-01", "2025-09-30"), "FY2026": ("2025-10-01", "2026-09-30")}
 
+CAPITALS = {"AL":"Montgomery, Ala.","AK":"Juneau, Alaska","AZ":"Phoenix","AR":"Little Rock, Ark.","CA":"Sacramento, Calif.","CO":"Denver","CT":"Hartford, Conn.","DE":"Dover, Del.","DC":"Washington","FL":"Tallahassee, Fla.","GA":"Atlanta","HI":"Honolulu","ID":"Boise, Idaho","IL":"Springfield, Ill.","IN":"Indianapolis","IA":"Des Moines, Iowa","KS":"Topeka, Kan.","KY":"Frankfort, Ky.","LA":"Baton Rouge, La.","ME":"Augusta, Maine","MD":"Annapolis, Md.","MA":"Boston","MI":"Lansing, Mich.","MN":"St. Paul, Minn.","MS":"Jackson, Miss.","MO":"Jefferson City, Mo.","MT":"Helena, Mont.","NE":"Lincoln, Neb.","NV":"Carson City, Nev.","NH":"Concord, N.H.","NJ":"Trenton, N.J.","NM":"Santa Fe, N.M.","NY":"Albany, N.Y.","NC":"Raleigh, N.C.","ND":"Bismarck, N.D.","OH":"Columbus, Ohio","OK":"Oklahoma City","OR":"Salem, Ore.","PA":"Harrisburg, Pa.","RI":"Providence, R.I.","SC":"Columbia, S.C.","SD":"Pierre, S.D.","TN":"Nashville, Tenn.","TX":"Austin, Texas","UT":"Salt Lake City","VT":"Montpelier, Vt.","VA":"Richmond, Va.","WA":"Olympia, Wash.","WV":"Charleston, W.Va.","WI":"Madison, Wis.","WY":"Cheyenne, Wyo."}
 STATES = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","DC":"District of Columbia","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"}
 
 # ---- parameters shown on the page with their sources; every one is a slider ----
@@ -105,8 +106,14 @@ def assemble(raw):
     if prev:
         since = {"date": prev["date"], "debt_delta": latest["total"] - prev["debt"]["total"], "ai_delta": fy26 - prev["ai_fy2026"],
                  "states_up": sorted(((c, ai["by_state_FY2026"].get(c, 0) - prev["by_state"].get(c, 0)) for c in STATES), key=lambda x: -x[1])[:3]}
+    disc = json.loads((DATA / "disclosures.json").read_text())
+    P = {k: v["default"] for k, v in PARAMS.items()}
+    for d in disc:
+        f = d.get("factors", "none"); fig = d.get("figure")
+        mult = {"B1·B2·B3": P["inference_share"] * P["agent_share"] * P["overhead"], "B2·B3": P["agent_share"] * P["overhead"], "B3": P["overhead"]}.get(f, 0)
+        d["avoidable"] = fig * mult if (fig and mult) else None
     return {
-        "since": since,
+        "since": since, "disclosures": disc,
         "fetched_utc": raw["fetched_utc"],
         "debt": {"date": latest["date"], "total": latest["total"], "held_by_public": latest["public"], "per_second": per_sec},
         "federal_ai": {"fy2025": fy25, "fy2026_to_date": fy26, "fy2026_annualised": fy26_annualised, "keywords": KW,
@@ -144,9 +151,9 @@ def press_releases(data, common):
     # national
     h = "AI agents read up to 47 times more than they use, daily index finds"
     sub = f"For an agency of 2,000 developers, avoidable reading is {money(burn, 2)} a year at the index's reference parameters; official series reproduced for scale."
-    body = f"""<p class="dateline"><b>Austin, Texas, {ap}</b> — The AI Burn Clock, an independent statistical index published at aiburnclock.org, today released its daily estimate of what AI agents spend reading files they never needed. Measured on a production codebase, an agent read 16 to 47 times more than it used when it searched by reading whole files; on published coding tasks, retrieval-first indexing cut tokens 2.7 times end to end.</p>
+    body = f"""<p class="dateline"><b>AI Burn Clock, {ap}</b> — The AI Burn Clock, an independent statistical index published at aiburnclock.org, today released its daily estimate of what AI agents spend reading files they never needed. Measured on a production codebase, an agent read 16 to 47 times more than it used when it searched by reading whole files; on published coding tasks, retrieval-first indexing cut tokens 2.7 times end to end.</p>
 <p>At the index's reference parameters, a team of 50 developers whose agents search by reading spends an estimated {money(read/40,0)} a year on that reading, of which {money(burn/40,0)} would not have been read at all had a local index answered "where is it" first. For an agency of 2,000 developers the avoidable figure is {money(burn,0)} a year, or the fully loaded cost of {burn/185000:.1f} senior engineers. Every parameter is a control on the page and the method is published.</p>
-<p>The index reproduces official series as published, for scale: total public debt of {money(data['debt']['total'],3)} (U.S. Treasury, Debt to the Penny, {data['debt']['date']}); {money(fed['fy2026_to_date'],1)} in federal prime contracts naming artificial intelligence, machine learning or language models in fiscal year 2026 to date and {money(fed['fy2025'],1)} in fiscal year 2025 (USAspending.gov), led by {top['name']} with {money(top['ai_fy2026'],1)}; and state debt and population from the Census Bureau. The index does not attribute those series to the cost it estimates.</p>
+<p>The index reproduces official series as published, for scale: total public debt of {money(data['debt']['total'],3)} (U.S. Treasury, Debt to the Penny, {data['debt']['date']}); {money(fed['fy2026_to_date'],1)} in federal prime contracts naming artificial intelligence, machine learning or language models in fiscal year 2026 to date and {money(fed['fy2025'],1)} in fiscal year 2025 (USAspending.gov), led by {top['name']} with {money(top['ai_fy2026'],1)}; and state debt and population from the Census Bureau. Brookings puts total federal funds obligated for AI in 2026 at $7.2 billion, up from $355 million in 2024; the index's own filter is the labelled floor of that. The index does not attribute those series to the cost it estimates.</p>
 <blockquote>"An agent that reads a whole file to find one function is not thinking. It is paying. The index shows the bill, the sources and the controls; move a control and argue with a factor, not with us," said Serhii Nikolaichuk, the index's maintainer, who is a co-author of an IETF draft on attestation results.</blockquote>
 <p>The remedy is open source. XERJ, a local search engine for AI agents published under the Apache-2.0 license at github.com/xerj-org/xerj, indexes a folder in one command so that an agent retrieves the passage it needs instead of reading the file. A plugin for Claude Code (github.com/nikolaichuk7/xerj-plugins) adds it as local memory and prints a per-session score card. Details: aiburnclock.org/remedy.html.</p>
 <h2>Figures in this release</h2>
@@ -155,12 +162,14 @@ def press_releases(data, common):
 <tr><td>Ratio read to used, three measured questions</td><td class="n">16×, 38×, 47×</td><td>AI Burn Clock, Table 2</td></tr>
 <tr><td>Total public debt</td><td class="n">{money(data['debt']['total'],3)}</td><td>Treasury, Debt to the Penny</td></tr>
 <tr><td>Federal contracts naming AI, FY2026 to date</td><td class="n">{money(fed['fy2026_to_date'],1)}</td><td>USAspending.gov</td></tr>
-<tr><td>Worldwide AI spending, 2026 forecast</td><td class="n">$2.59T</td><td>Gartner, May 2026</td></tr></table>"""
+<tr><td>Worldwide AI spending, 2026 forecast</td><td class="n">$2.59T</td><td>Gartner, May 2026</td></tr>
+<tr><td>Federal funds obligated for AI, 2026</td><td class="n">$7.2B</td><td>Brookings</td></tr>
+<tr><td>Anthropic revenue run rate, July 2026</td><td class="n">$65B</td><td>CNBC</td></tr></table>"""
     plain = f"""FOR IMMEDIATE RELEASE
 
 {h}
 
-AUSTIN, Texas, {ap} — The AI Burn Clock, an independent statistical index published at aiburnclock.org, today released its daily estimate of what AI agents spend reading files they never needed. Measured on a production codebase, an agent read 16 to 47 times more than it used when it searched by reading whole files; on published coding tasks, retrieval-first indexing cut tokens 2.7 times end to end.
+AI BURN CLOCK, {ap} — The AI Burn Clock, an independent statistical index published at aiburnclock.org, today released its daily estimate of what AI agents spend reading files they never needed. Measured on a production codebase, an agent read 16 to 47 times more than it used when it searched by reading whole files; on published coding tasks, retrieval-first indexing cut tokens 2.7 times end to end.
 
 At the index's reference parameters, a team of 50 developers whose agents search by reading spends an estimated {money(read/40,0)} a year on that reading, of which {money(burn/40,0)} would not have been read at all had a local index answered "where is it" first. For an agency of 2,000 developers the avoidable figure is {money(burn,0)} a year, the fully loaded cost of {burn/185000:.1f} senior engineers. Every parameter is a control on the page and the method is published at aiburnclock.org/methodology.html.
 
@@ -172,7 +181,7 @@ The remedy is open source: XERJ, a local search engine for AI agents (Apache-2.0
 
 About the AI Burn Clock: an independent statistical index of the cost of retrieval by reading in AI systems, revised daily, maintained by the XERJ community, not affiliated with any government agency. Data: aiburnclock.org/data.json.
 
-Media contact: Serhii Nikolaichuk, Austin, Texas, hello@aiburnclock.org"""
+Media contact: hello@aiburnclock.org (Serhii Nikolaichuk, maintainer)"""
     page(f"{date}", h, sub, sub, body, plain, "og/national.png")
     # states
     for i, st in enumerate(data["states"]):
@@ -182,7 +191,7 @@ Media contact: Serhii Nikolaichuk, Austin, Texas, hello@aiburnclock.org"""
         hs = f"{money(st['ai_fy2026'],1)} in federal contracts naming AI performed in {st['name']} this fiscal year, index finds"
         subs = f"{st['name']} ranks {i+1} of 51 states by federal AI-labelled contract obligations, {100*st['ai_fy2026']/usa:.1f} % of the U.S. total" + (f", {pc}" if pc else "") + "."
         debt_line = f" The state's debt at the end of fiscal year 2023 was {money(st['debt']['debt_fy2023'],1)} (Census Bureau)." if st.get("debt") else ""
-        body = f"""<p class="dateline"><b>Austin, Texas, {ap}</b> — Federal prime contracts whose descriptions name artificial intelligence, machine learning or language models, performed in {st['name']}, total {money(st['ai_fy2026'],1)} for fiscal year 2026 to date, according to the AI Burn Clock's daily state release drawn from USAspending.gov. That places {st['name']} {i+1} of 51 by place of performance, {100*st['ai_fy2026']/usa:.1f} % of the U.S. total{', or ' + pc if pc else ''}.{debt_line}</p>
+        body = f"""<p class="dateline"><b>{CAPITALS.get(st["code"], st["name"]).upper()}, {ap}</b> — Federal prime contracts whose descriptions name artificial intelligence, machine learning or language models, performed in {st['name']}, total {money(st['ai_fy2026'],1)} for fiscal year 2026 to date, according to the AI Burn Clock's daily state release drawn from USAspending.gov. That places {st['name']} {i+1} of 51 by place of performance, {100*st['ai_fy2026']/usa:.1f} % of the U.S. total{', or ' + pc if pc else ''}.{debt_line}</p>
 <p>The figure is a floor: AI work inside larger contracts is usually not labelled, and grants, internal spending and cloud consumption are excluded. Applied to it, the index's reference factors put avoidable reading, the share of that spending's inference that an agent would not have needed with a local index, at {money(yr,0)} a year, a scenario computed from a published floor rather than an account of the state's spending.</p>
 <p>The remedy is open source and runs inside a state's own environment: XERJ (github.com/xerj-org/xerj, Apache-2.0) indexes a folder in one command so that an agent retrieves the passage it needs instead of reading whole files. A pilot fits on one laptop and needs no procurement. State offices can request a one-page memo with these figures and their sources at hello@aiburnclock.org.</p>
 <h2>Figures in this release</h2>
@@ -196,7 +205,7 @@ Media contact: Serhii Nikolaichuk, Austin, Texas, hello@aiburnclock.org"""
 
 {hs}
 
-AUSTIN, Texas, {ap} — Federal prime contracts naming artificial intelligence, machine learning or language models, performed in {st['name']}, total {money(st['ai_fy2026'],1)} for fiscal year 2026 to date, according to the AI Burn Clock's daily state release drawn from USAspending.gov. That places {st['name']} {i+1} of 51 by place of performance, {100*st['ai_fy2026']/usa:.1f} % of the U.S. total{', or ' + pc if pc else ''}.{debt_line}
+{CAPITALS.get(st['code'], st['name']).upper()}, {ap} — Federal prime contracts naming artificial intelligence, machine learning or language models, performed in {st['name']}, total {money(st['ai_fy2026'],1)} for fiscal year 2026 to date, according to the AI Burn Clock's daily state release drawn from USAspending.gov. That places {st['name']} {i+1} of 51 by place of performance, {100*st['ai_fy2026']/usa:.1f} % of the U.S. total{', or ' + pc if pc else ''}.{debt_line}
 
 The figure is a floor: AI work inside larger contracts is usually not labelled. Applied to it, the index's reference factors put avoidable reading at {money(yr,0)} a year, a scenario computed from a published floor, not an account of the state's spending.
 
@@ -204,7 +213,7 @@ The remedy is open source and runs inside a state's own environment: XERJ (githu
 
 About the AI Burn Clock: an independent statistical index of the cost of retrieval by reading in AI systems, revised daily, maintained by the XERJ community, not affiliated with any government agency.
 
-Media contact: Serhii Nikolaichuk, Austin, Texas, hello@aiburnclock.org"""
+Media contact: hello@aiburnclock.org (Serhii Nikolaichuk, maintainer)"""
         page(f"{date}-{st['code'].lower()}", hs, subs, subs, body, plain, f"og/state-{st['code'].lower()}.png")
     return out
 

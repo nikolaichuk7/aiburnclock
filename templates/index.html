@@ -36,6 +36,17 @@ a{color:var(--primary2)}
 .tk .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
 .tk b{font-family:"Roboto Mono",monospace;font-weight:500;font-size:19px;font-variant-numeric:tabular-nums}
 #tapeBurn{color:#ffbe2e}#tapeMine{color:#7fd39a}
+.bigs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.big{background:#fff;border:1px solid var(--line);padding:14px 16px}
+.big .k{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.big .v{font-family:"Roboto Mono",monospace;font-size:clamp(26px,3vw,38px);font-weight:600;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.big .s{font-size:12.5px;color:var(--muted)}
+.big.burn .v{color:var(--burn)}
+.cut{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;background:var(--panel);border:1px solid var(--line);padding:16px 18px;font-size:14.5px}
+.cut .n{display:inline-block;font-family:"Roboto Mono",monospace;font-size:12px;color:#fff;background:var(--primary);width:22px;height:22px;line-height:22px;text-align:center;margin-right:8px}
+.cut .cta{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.btn.ghost{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+@media (max-width:820px){.bigs,.cut{grid-template-columns:1fr}}
 .mine{background:#fff;border:1px solid var(--rule);padding:14px 18px;margin:18px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 18px;align-items:end}
 .mine label{display:block;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .mine input{width:100%;border:0;border-bottom:2px solid var(--primary);padding:6px 0;font:inherit;font-family:"Roboto Mono",monospace;font-size:22px;background:transparent}
@@ -44,7 +55,8 @@ a{color:var(--primary2)}
 .mine .acts{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
 .btn.small{padding:7px 12px;font-size:13px}
 nav.toc{border-bottom:1px solid var(--line);background:#fff}
-nav.toc .wrap{display:flex;gap:22px;overflow-x:auto;padding-top:10px;padding-bottom:10px;font-size:14px}
+nav.toc .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;padding-top:10px;padding-bottom:10px;font-size:14px;align-items:center}
+nav.toc .lbl{font-family:"Roboto Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:6px}
 nav.toc a{color:var(--ink);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px}
 nav.toc a:hover{border-color:var(--primary2)}
 h1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.2;margin:34px 0 10px;text-wrap:balance}
@@ -103,11 +115,11 @@ footer p{max-width:90ch}
   <span class="tk"><span class="k">Your organisation, this month so far</span><b id="tapeMine">$0</b></span>
   <span class="tk"><span class="k">Total public debt, Treasury</span><b id="tapeDebt">{{DEBT_TOTAL}}</b></span>
 </div></div>
-<nav class="toc"><div class="wrap"><a href="#summary">Summary</a><a href="#t1">Table 1 · By team size</a><a href="#t2">Table 2 · One answer</a><a href="#c1">Chart 1 · Ten years</a><a href="#t3">Table 3 · By state</a><a href="#t4">Tables 4–5 · Agencies, recipients</a><a href="#ref">Reference figures</a><a href="#remedy">The remedy</a><a href="#method">Technical note</a><a href="#embed">Embed and data</a><a href="/press">Press releases</a></div></nav>
+<nav class="toc"><div class="wrap"><span class="lbl">Contents</span><a href="#summary">Summary</a><a href="#big">The big picture</a><a href="#cut">How it is cut</a><a href="#t6">Table 6 · Reported spending</a><a href="#t1">Table 1 · By team size</a><a href="#t2">Table 2 · One answer</a><a href="#c1">Chart 1 · Ten years</a><a href="#t3">Table 3 · By state</a><a href="#t4">Tables 4–5 · Agencies, recipients</a><a href="#ref">Reference figures</a><a href="#remedy">The remedy</a><a href="#method">Technical note</a><a href="#embed">Embed and data</a><a href="/press">Press releases</a></div></nav>
 
 <div class="wrap">
 <h1 id="summary">AI agents read up to 47 times more than they use. This is the bill.</h1>
-<p class="summary">At the reference parameters, a team of <b id="sDevs">50</b> developers whose agents search by reading spends an estimated <b id="sRead">…</b> a year on that reading, of which <b id="sBurn">…</b> would not have been read at all had a local index answered "where is it" first. That is <b id="sMonth">…</b> a month, or the fully loaded cost of <b id="sHires">…</b> senior engineers a year, spent on reading nothing needed. Change any parameter below and this sentence is recomputed.</p>
+<p class="summary">Worldwide, at the reference factors, AI agents will spend an estimated <b id="sWorld">…</b> this year reading files they did not need, <b id="sWorldSec">…</b> every second, out of $2.59 trillion of AI spending forecast by Gartner for 2026. For a team of <b id="sDevs">50</b> developers whose agents search by reading, that is an estimated <b id="sRead">…</b> a year on reading, of which <b id="sBurn">…</b> would not have been read at all had a local index answered "where is it" first: <b id="sMonth">…</b> a month, or the fully loaded cost of <b id="sHires">…</b> senior engineers. Change any parameter below and this paragraph is recomputed.</p>
 <p class="note" style="font-family:'Roboto Mono',monospace;color:var(--primary)">{{SINCE}}</p>
 <p class="note">Estimates, not accounts. The method is four multiplications with every factor on this page; the measured factor comes from a production codebase and from a published case study. Federal and Treasury figures further down are reference values shown as published, for scale, and are not attributed to this cost.</p>
 <div class="mine" id="mine">
@@ -116,6 +128,23 @@ footer p{max-width:90ch}
   <div><label>Share that is agents reading files, %</label><input id="mAgent" type="number" value="40" min="0" max="100"></div>
   <div class="res" id="mRes"></div>
   <div class="acts"><button class="btn small" id="mCard">Download the figure as an image</button><a class="btn small" id="mMail" href="#">Send to your CTO</a><a class="btn small" id="mPost" href="#" target="_blank" rel="noopener">Post it</a></div>
+</div>
+
+<h2 id="big"><span class="no">The big picture</span>Where the money is, and what the reading habit costs at scale</h2>
+<p class="cap">Three published figures and one estimate. The estimate applies the index's reference factors to the world figure; the sector and organisation rows in Table 6 apply the same factors to what they report.</p>
+<div class="bigs">
+  <div class="big"><div class="k">Worldwide AI spending, 2026</div><div class="v">$2.59T</div><div class="s">Gartner, May 2026, +47 % year on year</div></div>
+  <div class="big"><div class="k">AI infrastructure alone, 2026</div><div class="v">$497B</div><div class="s">IDC, forecast raised after Q1 2026</div></div>
+  <div class="big"><div class="k">One vendor's tokens, annualised</div><div class="v">$65B</div><div class="s">Anthropic revenue run rate, July 2026, from $9B at the end of 2025</div></div>
+  <div class="big burn"><div class="k">Avoidable reading, world scenario</div><div class="v" id="bigBurn">…</div><div class="s">a year at the reference factors · <span id="bigSec"></span> every second</div></div>
+</div>
+
+<h2 id="cut"><span class="no">How it is cut</span>Three steps, measured</h2>
+<div class="cut">
+  <div><span class="n">1</span><b>Index once.</b> A local engine reads the folder one time and builds a card index on the agent's own machine. One command; nothing leaves the building.</div>
+  <div><span class="n">2</span><b>Ask "where" first.</b> The agent asks the index and gets the file, the line and the symbol back in milliseconds instead of opening files to look.</div>
+  <div><span class="n">3</span><b>Read only that.</b> It reads the passage the pointer names. Measured: 103 KB became 6 KB, 244 KB became 6 KB, 242 KB became 5 KB. 16 to 47 times less.</div>
+  <div class="cta"><a class="btn" href="/remedy">How the remedy works</a> <a class="btn ghost" href="https://github.com/xerj-org/xerj">The open-source engine</a> <a class="btn ghost" href="https://github.com/nikolaichuk7/xerj-plugins">Measure yours in one session</a></div>
 </div>
 
 <h2 id="t1"><span class="no">Table 1</span>Estimated annual cost of retrieval by reading, by team size</h2>
@@ -188,10 +217,13 @@ xerj search "the question you were about to grep"</pre></div>
 <div class="eqbox" id="eq"></div>
 <div class="params" id="sliders"></div>
 
-<h2 id="published"><span class="no">Table 6</span>Organisations that published their own figure</h2>
-<p class="cap">Measured with the session score card, not estimated. An organisation appears here only with its written permission and in the form it chooses: named, or described by sector and size. To be listed, send the card and the permission line to <a href="mailto:hello@aiburnclock.org?subject=Published%20figure">hello@aiburnclock.org</a>.</p>
-<div class="tablewrap"><table><thead><tr><th>Organisation</th><th>Sector</th><th class="n">Developers on agents</th><th class="n">Read via index</th><th class="n">Whole files behind it</th><th class="n">Ratio</th><th>Date</th></tr></thead>
-<tbody><tr><td colspan="7" style="color:var(--muted)">No organisation has published yet. The first entry will be dated.</td></tr></tbody></table></div>
+<h2 id="t6"><span class="no">Table 6</span>Reported AI spending and usage, by sector and organisation, with the avoidable share</h2>
+<p class="cap">Public disclosures, each linked to its source, and what the index's reference factors imply for each. Factors applied per row: B1·B2·B3 for a general AI budget (inference share × agent share × avoidable share = 6.3 %); B2·B3 for vendor revenue, which is already customer spending on tokens (25.2 %); B3 alone for a coding-agent product, where the whole figure is agents reading code (63 %); none for infrastructure and prices. Move the factors under the Technical note and the column recomputes.</p>
+<div class="tablewrap"><table id="tab6">
+<thead><tr><th>Sector</th><th>Organisation</th><th class="n">Reported figure</th><th>What it measures</th><th>Factors</th><th class="n">Avoidable reading, scenario</th><th>Source</th></tr></thead>
+<tbody></tbody>
+</table></div>
+<p class="foot">Score cards measured with the plugin and published by organisations themselves will appear as a separate row group, dated, only with written permission (<a href="mailto:hello@aiburnclock.org?subject=Published%20figure">hello@aiburnclock.org</a>). None yet.</p>
 
 <h2 id="embed"><span class="no">Embed, data, and memos</span>For newsrooms, offices and teams</h2>
 <div class="two">
@@ -240,7 +272,7 @@ function eq(){ $('#eq').textContent=`Item B · world scenario: ${fmt(base(),2)} 
 const sl=$('#sliders'); const labels={inference_share:'B1',agent_share:'B2',overhead:'B3',growth_y1:'B4',growth_taper:'B5'};
 for (const k in D.params){ const p=D.params[k]; const div=document.createElement('div'); div.className='p';
   div.innerHTML=`<label>${labels[k]||''}. ${p.label}<output id="o_${k}">${Math.round(P[k]*100)} %</output></label><input type="range" min="${p.min*100}" max="${p.max*100}" value="${P[k]*100}" data-k="${k}"><small>${p.note}</small>`; sl.appendChild(div); }
-sl.addEventListener('input',e=>{ if(e.target.dataset.k){ P[e.target.dataset.k]=e.target.value/100; $('#o_'+e.target.dataset.k).textContent=Math.round(e.target.value)+' %'; eq(); table1(); proj(); calc(); }});
+sl.addEventListener('input',e=>{ if(e.target.dataset.k){ P[e.target.dataset.k]=e.target.value/100; $('#o_'+e.target.dataset.k).textContent=Math.round(e.target.value)+' %'; eq(); table1(); table6(); proj(); calc(); }});
 $('#k_req').addEventListener('input',e=>{T.req=+e.target.value;$('#o_req').textContent=T.req;table1();proj();});
 $('#k_bytes').addEventListener('input',e=>{T.bytes=+e.target.value;$('#o_bytes').textContent=T.bytes+' KB';table1();proj();});
 $('#k_price').addEventListener('input',e=>{T.price=+e.target.value;$('#o_price').textContent='$'+T.price.toFixed(2);table1();proj();});
@@ -261,6 +293,10 @@ function proj(){
   s+=`<text x="${L+10}" y="${T0+14}" font-family="Public Sans,sans-serif" font-size="12" fill="#b50909">— reading whole files</text><text x="${L+10}" y="${T0+32}" font-family="Public Sans,sans-serif" font-size="12" fill="#1a4480">— retrieval-first</text>`;
   $('#proj').innerHTML=s;
 }
+// table 6: disclosures
+function table6(){ const tb=$('#tab6 tbody'); tb.innerHTML='';
+  for (const d of D.disclosures){ const mult={'B1·B2·B3':P.inference_share*P.agent_share*P.overhead,'B2·B3':P.agent_share*P.overhead,'B3':P.overhead}[d.factors]||0; const av=(d.figure&&mult)?d.figure*mult:null;
+    tb.insertAdjacentHTML('beforeend',`<tr><td>${d.sector}</td><td><b>${d.org}</b></td><td class="n">${d.figure?fmt(d.figure,1):'—'}</td><td style="max-width:34ch">${d.what}${d.note?'<br><span style="color:var(--muted);font-size:12.5px">'+d.note+'</span>':''}</td><td style="white-space:nowrap;font-family:'Roboto Mono',monospace;font-size:12.5px">${d.factors}</td><td class="n ${av?'burn':''}">${av?fmt(av,1)+' / yr':'—'}</td><td><a href="${d.url}" rel="noopener">${d.source}</a>, ${d.date}</td></tr>`); } }
 // table 3
 const usTotal=D.states.reduce((a,s)=>a+s.ai_fy2026,0); const tb3=$('#tab3 tbody');
 D.states.forEach((st,i)=>{ tb3.insertAdjacentHTML('beforeend',`<tr><td class="n">${i+1}</td><td>${st.name}</td><td class="n">${full(st.ai_fy2026)}</td><td class="n">${st.pop?'$'+(st.ai_fy2026/st.pop).toFixed(2):'—'}</td><td class="n">${(100*st.ai_fy2026/usTotal).toFixed(1)} %</td><td class="n">${st.debt?fmt(st.debt.debt_fy2023,1):'—'}</td><td><a href="/state/${st.code.toLowerCase()}/">Release</a></td></tr>`); });
@@ -268,7 +304,7 @@ for (const r of D.federal_ai.top_agencies) $('#agencies').insertAdjacentHTML('be
 for (const r of D.federal_ai.top_recipients) $('#recipients').insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td class="n">${full(r.amount)}</td></tr>`);
 // reference ticks
 const t0=Date.now(), fetchedMs=Date.parse(D.debt.date+'T00:00:00Z'); $('#debtDate').textContent=D.debt.date;
-function tick(){ const s=(Date.now()-t0)/1000; const debtNow='$'+Math.round(D.debt.total+D.debt.per_second*((Date.now()-fetchedMs)/1000)).toLocaleString('en-US'); $('#debt').textContent=debtNow; $('#tapeDebt').textContent=debtNow; $('#burn').textContent=fmt(burnPerSec()*s,2); $('#tapeBurn').textContent='$'+Math.round(burnPerSec()*s).toLocaleString('en-US'); $('#burnRate').textContent=fmt(burnPerSec(),2);
+function tick(){ const s=(Date.now()-t0)/1000; const debtNow='$'+Math.round(D.debt.total+D.debt.per_second*((Date.now()-fetchedMs)/1000)).toLocaleString('en-US'); $('#debt').textContent=debtNow; $('#tapeDebt').textContent=debtNow; $('#burn').textContent=fmt(burnPerSec()*s,2); $('#tapeBurn').textContent='$'+Math.round(burnPerSec()*s).toLocaleString('en-US'); $('#burnRate').textContent=fmt(burnPerSec(),2); $('#bigBurn').textContent=fmt(burnPerSec()*SEC_YEAR,0); $('#bigSec').textContent=fmt(burnPerSec(),0); $('#sWorld').textContent=fmt(burnPerSec()*SEC_YEAR,0); $('#sWorldSec').textContent=fmt(burnPerSec(),0);
   const m=mineYear(); const now=new Date(); const monthFrac=(now.getDate()-1+now.getHours()/24)/30.4; $('#tapeMine').textContent='$'+Math.round(m.burn/12*monthFrac + m.burn/SEC_YEAR*s).toLocaleString('en-US'); requestAnimationFrame(tick); }
 // calculator
 function calc(){ const d=+$('#cDevs').value||0, sp=+$('#cSpend').value||0, ag=(+$('#cAgent').value||0)/100; const yr=d*sp*12*ag; $('#cOut').textContent=`${full(yr*P.overhead)} per year avoidable, of ${full(yr)} spent on agents reading`; }
@@ -284,7 +320,7 @@ document.querySelectorAll('#mDevs,#mSpend,#mAgent').forEach(i=>i.addEventListene
 $('#mCard').addEventListener('click',()=>{ const m=mineYear(); const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#fcfcfb"/><rect width="1200" height="120" fill="#1a4480"/><text x="60" y="76" font-family="Georgia,serif" font-weight="900" font-size="40" fill="#fff">AI Burn Clock</text><text x="60" y="104" font-family="Helvetica,Arial,sans-serif" font-size="16" letter-spacing="4" fill="#fff" opacity="0.85">INDEX OF THE COST OF RETRIEVAL BY READING · ${D.fetched_utc.slice(0,10)}</text><text x="60" y="250" font-family="Georgia,serif" font-weight="700" font-size="40" fill="#1b1b1b">${m.d} developers · AI agents reading files they never needed</text><text x="60" y="370" font-family="Menlo,monospace" font-weight="700" font-size="96" fill="#b50909">${full(m.burn)}</text><text x="60" y="420" font-family="Helvetica,Arial,sans-serif" font-size="26" fill="#565c65">a year avoidable · ${full(m.burn/12)} a month · the cost of ${(m.burn/SALARY).toFixed(1)} senior engineers</text><line x1="60" y1="470" x2="1140" y2="470" stroke="#1b1b1b" stroke-width="3"/><text x="60" y="520" font-family="Menlo,monospace" font-size="20" fill="#565c65">METHOD AND SOURCES: aiburnclock.org/methodology · SERIES AIB-1</text></svg>`;
   const img=new Image(); img.onload=()=>{ const c=document.createElement('canvas'); c.width=1200; c.height=630; c.getContext('2d').drawImage(img,0,0); const a=document.createElement('a'); a.download='ai-burn-clock-'+m.d+'-developers.png'; a.href=c.toDataURL('image/png'); a.click(); };
   img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg); });
-table1(); eq(); proj(); calc(); mine(); tick();
+table1(); table6(); eq(); proj(); calc(); mine(); tick();
 </script>
 </body>
 </html>
