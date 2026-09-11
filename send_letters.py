@@ -13,8 +13,16 @@ def sent_before(to, subject):
         if e.get("to") == to and e.get("subject") == subject and e.get("ok"): return True
     return False
 def send(m):
-    html_body = "<div style='font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;color:#1b1b1b;max-width:680px'>" + "".join(f"<p>{H.escape(p)}</p>" for p in m["body"].split("\n\n")) + "</div>"
-    body = json.dumps({"from": "Serhii Nikolaichuk, AI Burn Clock <hello@aiburnclock.org>", "to": [m["to"]], "reply_to": "hello@aiburnclock.org", "subject": m["subject"], "text": m["body"], "html": html_body, "tags": [{"name": "kind", "value": "letter"}]}).encode()
+    text_body = m["body"]; quote = m.get("quote")  # optional: the message we are replying to, appended as a quoted trail
+    html_body = "<div style='font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;color:#1b1b1b;max-width:680px'>" + "".join(f"<p>{H.escape(p)}</p>" for p in m["body"].split("\n\n"))
+    if quote:
+        text_body += "\n\n" + "\n".join("> " + l for l in quote.splitlines())
+        html_body += "<blockquote style='margin:16px 0 0;padding:0 0 0 12px;border-left:2px solid #c9c9c9;color:#555'>" + "".join(f"<p>{H.escape(p)}</p>" for p in quote.split("\n\n")) + "</blockquote>"
+    html_body += "</div>"
+    payload = {"from": "Serhii Nikolaichuk, AI Burn Clock <hello@aiburnclock.org>", "to": [m["to"]], "reply_to": "hello@aiburnclock.org", "subject": m["subject"], "text": text_body, "html": html_body, "tags": [{"name": "kind", "value": m.get("kind", "letter")}]}
+    if m.get("cc"): payload["cc"] = m["cc"]
+    if m.get("headers"): payload["headers"] = m["headers"]  # e.g. In-Reply-To / References so the reply lands in the recipient's thread
+    body = json.dumps(payload).encode()
     req = urllib.request.Request("https://api.resend.com/emails", data=body, headers={"Authorization": f"Bearer {KEY}", "Content-Type": "application/json", "User-Agent": "aiburnclock-press/1.0 (+https://aiburnclock.org)"})
     try:
         with urllib.request.urlopen(req, timeout=30) as r: return True, json.load(r)
